@@ -1,91 +1,233 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react';
 
-const links = [
-  { label: 'HOME', href: '#home' },
-  { label: 'SKILLS', href: '#skills' },
-  { label: 'PROJECTS', href: '#projects' },
-  { label: 'EXPERIENCE', href: '#experience' },
-  { label: 'CONTACT', href: '#contact' },
-]
+const LINKS = [
+  { label: 'HOME', index: 0 },
+  { label: 'SKILLS', index: 1 },
+  { label: 'PROJECTS', index: 2 },
+  { label: 'EXPERIENCE', index: 3 },
+  { label: 'CONTACT', index: 4 },
+];
 
-export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false)
-  const [menuOpen, setMenuOpen] = useState(false)
+export default function Navbar({ current, goTo, menuOpen, setMenuOpen }) {
+  const handleNav = (index) => {
+    setMenuOpen(false);
+    goTo(index);
+  };
 
+  // Block pull-to-refresh and swipe-page when overlay is open
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40)
-    window.addEventListener('scroll', onScroll)
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
-
-  const handleNav = (e, href) => {
-    e.preventDefault()
-    setMenuOpen(false)
-    document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' })
-  }
+    if (!menuOpen) return
+    const prevent = (e) => e.preventDefault()
+    document.addEventListener('touchmove', prevent, { passive: false })
+    return () => document.removeEventListener('touchmove', prevent)
+  }, [menuOpen])
 
   return (
-    <nav
-      className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
-      style={{
-        background: scrolled
-          ? 'rgba(10, 10, 26, 0.85)'
-          : 'rgba(10, 10, 26, 0.4)',
-        backdropFilter: 'blur(12px)',
-        borderBottom: scrolled ? '1px solid rgba(0,245,255,0.15)' : 'none',
-      }}
-    >
-      <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-        <span
-          className="text-lg font-bold tracking-widest"
-          style={{ fontFamily: 'Orbitron, monospace', color: '#00f5ff' }}
-        >
-          HN.
-        </span>
+    <>
+      <nav
+        style={{
+          background: 'rgba(10, 10, 26, 0.55)',
+          backdropFilter: 'blur(14px)',
+          borderBottom: '1px solid rgba(0,245,255,0.1)',
+          position: 'relative',
+          zIndex: 200,
+        }}
+      >
+        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+          {/* Logo */}
+          <span
+            style={{
+              fontFamily: 'Orbitron, monospace',
+              color: '#00f5ff',
+              fontSize: 16,
+              fontWeight: 700,
+              letterSpacing: '0.12em',
+              cursor: 'pointer',
+            }}
+            onClick={() => handleNav(0)}
+          >
+            <span style={{ color: 'rgba(0,245,255,0.4)' }}></span>
+          </span>
+          {/* Desktop links */}
+          <ul className="hidden md:flex gap-8">
+            {LINKS.map((l) => (
+              <li key={l.index}>
+                <button
+                  onClick={() => handleNav(l.index)}
+                  className="nav-link"
+                  style={{
+                    fontFamily: 'Orbitron, monospace',
+                    fontSize: 11,
+                    color:
+                      current === l.index ? '#00F5FF' : 'rgba(255,255,255,0.6)',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    transition: 'color 0.25s',
+                    letterSpacing: '0.18em',
+                    textShadow:
+                      current === l.index
+                        ? '0 0 10px rgba(0,245,255,0.5)'
+                        : 'none',
+                  }}
+                  onMouseEnter={(e) => {
+                    if (current !== l.index)
+                      e.currentTarget.style.color = '#fff';
+                  }}
+                  onMouseLeave={(e) => {
+                    if (current !== l.index)
+                      e.currentTarget.style.color = 'rgba(255,255,255,0.6)';
+                  }}
+                >
+                  {l.label}
+                </button>
+              </li>
+            ))}
+          </ul>
 
-        {/* Desktop */}
-        <ul className="hidden md:flex gap-8">
-          {links.map((l) => (
-            <li key={l.href}>
-              <a
-                href={l.href}
-                onClick={(e) => handleNav(e, l.href)}
-                className="nav-link text-sm font-semibold tracking-widest text-gray-300"
-                style={{ fontFamily: 'Orbitron, monospace', fontSize: '11px' }}
-              >
-                {l.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-
-        {/* Mobile hamburger */}
-        <button
-          className="md:hidden flex flex-col gap-1.5 p-2"
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          <span className="block w-6 h-0.5 bg-white transition-all" style={{ background: menuOpen ? '#00f5ff' : 'white' }} />
-          <span className="block w-6 h-0.5 bg-white transition-all" style={{ background: menuOpen ? '#00f5ff' : 'white' }} />
-          <span className="block w-4 h-0.5 bg-white transition-all" />
-        </button>
-      </div>
-
-      {/* Mobile menu */}
-      {menuOpen && (
-        <div className="md:hidden px-6 pb-4 flex flex-col gap-4" style={{ background: 'rgba(10,10,26,0.95)' }}>
-          {links.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              onClick={(e) => handleNav(e, l.href)}
-              className="nav-link text-sm font-semibold tracking-widest text-gray-300 py-2 border-b border-white/10"
-              style={{ fontFamily: 'Orbitron, monospace', fontSize: '11px' }}
-            >
-              {l.label}
-            </a>
-          ))}
+          {/* Hamburger — mobile only */}
+          <button
+            className="md:hidden flex flex-col justify-center items-end gap-1.5 p-2"
+            style={{
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              zIndex: 300,
+            }}
+            onClick={() => setMenuOpen((o) => !o)}
+            aria-label="Toggle menu"
+          >
+            <span
+              style={{
+                display: 'block',
+                height: 2,
+                width: 26,
+                background: menuOpen ? '#00f5ff' : 'white',
+                borderRadius: 2,
+                transform: menuOpen
+                  ? 'rotate(45deg) translate(5px, 5px)'
+                  : 'none',
+                transition: 'all 0.3s ease',
+              }}
+            />
+            <span
+              style={{
+                display: 'block',
+                height: 2,
+                width: 26,
+                background: menuOpen ? '#00f5ff' : 'white',
+                borderRadius: 2,
+                opacity: menuOpen ? 0 : 1,
+                transition: 'all 0.3s ease',
+              }}
+            />
+            <span
+              style={{
+                display: 'block',
+                height: 2,
+                width: menuOpen ? 26 : 18,
+                background: menuOpen ? '#00f5ff' : 'white',
+                borderRadius: 2,
+                transform: menuOpen
+                  ? 'rotate(-45deg) translate(5px, -5px)'
+                  : 'none',
+                transition: 'all 0.3s ease',
+              }}
+            />
+          </button>
         </div>
-      )}
-    </nav>
-  )
+      </nav>
+
+      {/* Full-screen mobile overlay */}
+      <div
+        className="md:hidden"
+        style={{
+          position: 'fixed',
+          inset: 0,
+          background: 'rgba(6,3,20,0.97)',
+          backdropFilter: 'blur(20px)',
+          zIndex: 150,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: 0,
+          opacity: menuOpen ? 1 : 0,
+          pointerEvents: menuOpen ? 'auto' : 'none',
+          transition: 'opacity 0.35s ease',
+        }}
+      >
+        {/* Decorative top line */}
+        <div
+          style={{
+            width: 1,
+            height: 60,
+            background:
+              'linear-gradient(to bottom, transparent, rgba(0,245,255,0.4))',
+            marginBottom: 40,
+          }}
+        />
+
+        {LINKS.map((l, i) => (
+          <button
+            key={l.index}
+            onClick={() => handleNav(l.index)}
+            style={{
+              fontFamily: 'Orbitron, monospace',
+              fontSize: 'clamp(1.2rem, 6vw, 2rem)',
+              fontWeight: 700,
+              letterSpacing: '0.2em',
+              color: current === l.index ? '#00F5FF' : 'rgba(255,255,255,0.55)',
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              padding: '18px 0',
+              transition: 'color 0.2s, transform 0.2s',
+              textShadow:
+                current === l.index ? '0 0 20px rgba(0,245,255,0.6)' : 'none',
+              transform: menuOpen ? 'translateY(0)' : 'translateY(20px)',
+              transitionDelay: menuOpen ? `${i * 0.06}s` : '0s',
+              display: 'block',
+              width: '100%',
+              textAlign: 'center',
+            }}
+            onTouchStart={(e) => {
+              e.currentTarget.style.color = '#00F5FF';
+            }}
+            onTouchEnd={(e) => {
+              e.currentTarget.style.color =
+                current === l.index ? '#00F5FF' : 'rgba(255,255,255,0.55)';
+            }}
+          >
+            {l.label}
+          </button>
+        ))}
+
+        {/* Decorative bottom line */}
+        <div
+          style={{
+            width: 1,
+            height: 60,
+            background:
+              'linear-gradient(to top, transparent, rgba(0,245,255,0.4))',
+            marginTop: 40,
+          }}
+        />
+
+        {/* Current page indicator */}
+        <p
+          style={{
+            fontFamily: 'Orbitron, monospace',
+            fontSize: 9,
+            letterSpacing: '0.3em',
+            color: 'rgba(0,245,255,0.35)',
+            marginTop: 20,
+          }}
+        >
+          {String(current + 1).padStart(2, '0')} /{' '}
+          {String(LINKS.length).padStart(2, '0')}
+        </p>
+      </div>
+    </>
+  );
 }

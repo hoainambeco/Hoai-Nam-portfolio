@@ -1,5 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
 import Stars from './Stars'
+import astronautCoin from '../assets/Group 28.svg'
+import { useSpaceDrift } from '../hooks/useSpaceDrift'
+import { SOCIAL } from '../data/profile'
 
 const TITLE_STYLE = {
   border: '1px solid rgba(0,245,255,0.6)', color: '#00F5FF', fontFamily: 'Orbitron, monospace',
@@ -7,11 +10,12 @@ const TITLE_STYLE = {
   display: 'inline-block', padding: '8px 32px', boxShadow: '0 0 18px rgba(0,245,255,0.08)',
 }
 
-export default function Contact() {
+export default function Contact({ goTo }) {
   const [form, setForm] = useState({ email: '', subject: '', content: '' })
   const [sending, setSending] = useState(false)
   const [sent, setSent] = useState(false)
   const ref = useRef(null)
+  const astronautRef = useSpaceDrift({ initX: 65, initY: 45 })
 
   useEffect(() => {
     const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) ref.current?.classList.add('visible') }, { threshold: 0.1 })
@@ -118,13 +122,18 @@ export default function Contact() {
       <div className="absolute pointer-events-none" style={{ bottom: '8%', left: '12%', width: 280, height: 280, background: 'radial-gradient(circle, rgba(157,78,221,0.16) 0%, transparent 70%)', filter: 'blur(40px)' }} />
       <div className="absolute pointer-events-none" style={{ top: '10%', right: '8%', width: 220, height: 220, background: 'radial-gradient(circle, rgba(0,245,255,0.1) 0%, transparent 70%)', filter: 'blur(35px)' }} />
 
+      {/* Astronaut with coin — bottom right */}
+      <div ref={astronautRef} className="absolute pointer-events-none" style={{ left: '65%', top: '45%', zIndex: 8, width: 'min(120px, 14vw)' }}>
+        <img src={astronautCoin} alt="astronaut" style={{ width: '100%', filter: 'drop-shadow(0 0 12px rgba(157,78,221,0.5))' }} />
+      </div>
+
       {/* GO BACK — top left */}
       <button
-        onClick={() => document.querySelector('#experience')?.scrollIntoView({ behavior: 'smooth' })}
+        onClick={() => goTo(3)}
         className="absolute z-30"
-        style={{ top: 80, left: 24, fontFamily: 'Orbitron, monospace', fontSize: 9, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.38)', background: 'none', border: 'none', cursor: 'pointer', transition: 'color 0.25s' }}
+        style={{ top: 80, left: 24, fontFamily: 'Orbitron, monospace', fontSize: 9, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.65)', background: 'none', border: 'none', cursor: 'pointer', transition: 'color 0.25s' }}
         onMouseEnter={e => e.currentTarget.style.color = '#00F5FF'}
-        onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.38)'}
+        onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.65)'}
       >
         ← GO BACK
       </button>
@@ -133,7 +142,7 @@ export default function Contact() {
       <div ref={ref} className="relative section-reveal flex flex-col items-center w-full px-6" style={{ zIndex: 10, paddingTop: 80, paddingBottom: 80 }}>
         <div style={{ ...TITLE_STYLE, marginBottom: 36 }}>CONTACT ME</div>
 
-        <p style={{ fontFamily: 'Rajdhani, sans-serif', fontSize: '0.95rem', letterSpacing: '0.15em', color: 'rgba(255,255,255,0.45)', marginBottom: 40, textAlign: 'center' }}>
+        <p style={{ fontFamily: 'Rajdhani, sans-serif', fontSize: '0.95rem', letterSpacing: '0.15em', color: 'rgba(255,255,255,0.72)', marginBottom: 40, textAlign: 'center' }}>
           HAVE A PROJECT IN MIND? LET'S BUILD SOMETHING GREAT TOGETHER.
         </p>
 
@@ -145,7 +154,7 @@ export default function Contact() {
 
         <form onSubmit={handleSubmit} style={{ width: '100%', maxWidth: 520, display: 'flex', flexDirection: 'column', gap: 18 }}>
           <div>
-            <label style={{ fontFamily: 'Orbitron, monospace', fontSize: 9, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.45)', display: 'block', marginBottom: 8 }}>EMAIL :</label>
+            <label style={{ fontFamily: 'Orbitron, monospace', fontSize: 9, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.72)', display: 'block', marginBottom: 8 }}>EMAIL :</label>
             <input
               type="email" name="email" value={form.email} onChange={handleChange} required
               placeholder="your@email.com"
@@ -153,7 +162,7 @@ export default function Contact() {
             />
           </div>
           <div>
-            <label style={{ fontFamily: 'Orbitron, monospace', fontSize: 9, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.45)', display: 'block', marginBottom: 8 }}>SUBJECT :</label>
+            <label style={{ fontFamily: 'Orbitron, monospace', fontSize: 9, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.72)', display: 'block', marginBottom: 8 }}>SUBJECT :</label>
             <input
               type="text" name="subject" value={form.subject} onChange={handleChange} required
               placeholder="What's this about?"
@@ -161,7 +170,7 @@ export default function Contact() {
             />
           </div>
           <div>
-            <label style={{ fontFamily: 'Orbitron, monospace', fontSize: 9, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.45)', display: 'block', marginBottom: 8 }}>CONTENT :</label>
+            <label style={{ fontFamily: 'Orbitron, monospace', fontSize: 9, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.72)', display: 'block', marginBottom: 8 }}>CONTENT :</label>
             <textarea
               name="content" value={form.content} onChange={handleChange} required rows={5}
               placeholder="Tell me about your project..."
@@ -175,7 +184,7 @@ export default function Contact() {
             style={{
               marginTop: 6, padding: '14px 40px', fontFamily: 'Orbitron, monospace', fontSize: 11, letterSpacing: '0.22em',
               color: '#FFFFFF', border: 'none', borderRadius: 2, cursor: sending ? 'wait' : 'pointer',
-              background: sending ? 'rgba(123,47,191,0.5)' : 'linear-gradient(135deg, #7B2FBF, #9D4EDD)',
+              background: sending ? 'rgba(123,47,191,0.5)' : 'linear-gradient(135deg, #e07b10, #FF9F43)',
               boxShadow: sending ? 'none' : '0 0 24px rgba(157,78,221,0.4)',
               transition: 'all 0.3s', opacity: sending ? 0.7 : 1,
             }}
@@ -188,23 +197,19 @@ export default function Contact() {
 
         {/* Social links */}
         <div style={{ display: 'flex', gap: 32, marginTop: 48, justifyContent: 'center', flexWrap: 'wrap' }}>
-          {[
-            { label: 'GITHUB', href: 'https://github.com/hoainambeco' },
-            { label: 'LINKEDIN', href: 'https://www.linkedin.com/in/namnguyen1024/' },
-            { label: 'EMAIL', href: 'mailto:namxg1@gmail.com' },
-          ].map((s) => (
+          {SOCIAL.map((s) => (
             <a key={s.label} href={s.href} target={s.href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer"
               className="nav-link"
-              style={{ fontFamily: 'Orbitron, monospace', fontSize: 9, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.38)', textDecoration: 'none', transition: 'color 0.25s' }}
+              style={{ fontFamily: 'Orbitron, monospace', fontSize: 9, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.65)', textDecoration: 'none', transition: 'color 0.25s' }}
               onMouseEnter={e => e.currentTarget.style.color = '#00F5FF'}
-              onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.38)'}
+              onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.65)'}
             >
               {s.label}
             </a>
           ))}
         </div>
 
-        <p style={{ fontFamily: 'Rajdhani, sans-serif', fontSize: '0.75rem', color: 'rgba(255,255,255,0.2)', marginTop: 36, letterSpacing: '0.15em', textAlign: 'center' }}>
+        <p style={{ fontFamily: 'Rajdhani, sans-serif', fontSize: '0.75rem', color: 'rgba(255,255,255,0.50)', marginTop: 36, letterSpacing: '0.15em', textAlign: 'center' }}>
           © 2025 NGUYEN HOAI NAM — BUILT WITH REACT + VITE
         </p>
       </div>
