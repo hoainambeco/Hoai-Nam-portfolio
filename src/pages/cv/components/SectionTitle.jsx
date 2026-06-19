@@ -2,7 +2,7 @@ import { TITLE_STYLE, CV_FS } from '../../../styles/shared';
 
 export default function SectionTitle({ children, accent }) {
   return (
-    <div style={{ marginBottom: 18 }}>
+    <div className="cv-section-title" style={{ marginBottom: 18 }}>
       <div
         style={{
           ...TITLE_STYLE,

@@ -5,6 +5,7 @@ export default function Card({ children, accent }) {
   return (
     <div
       ref={ref}
+      className="cv-card"
       style={{
         background: accent ? 'rgba(255,159,67,0.025)' : 'rgba(0,245,255,0.025)',
         border: `1px solid ${accent ? 'rgba(255,159,67,0.14)' : 'rgba(0,245,255,0.14)'}`,

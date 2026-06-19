@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react';
 import Stars from '../../components/Stars';
-import { DATA } from './data';
 import CVHeader from './components/CVHeader';
 import LeftColumn from './components/LeftColumn';
 import RightColumn from './components/RightColumn';
 import './cv.css';
+import { DATA } from './data';
 
 export default function CV() {
   const overlayRef = useRef(null);
@@ -53,9 +53,11 @@ export default function CV() {
 
   return (
     <div
+      className="cv-root"
       style={{
         fontFamily: "'JetBrains Mono', monospace",
-        background: 'linear-gradient(180deg,#0C0520 0%,#130A30 35%,#0D1535 100%)',
+        background:
+          'linear-gradient(180deg,#0C0520 0%,#130A30 35%,#0D1535 100%)',
         color: 'rgba(255,255,255,0.88)',
         minHeight: '100vh',
         fontSize: '14.5px',
@@ -94,7 +96,14 @@ export default function CV() {
       </div>
 
       {/* Fixed star background */}
-      <div style={{ position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none' }}>
+      <div
+        style={{
+          position: 'fixed',
+          inset: 0,
+          zIndex: 0,
+          pointerEvents: 'none',
+        }}
+      >
         <Stars count={80} />
       </div>
 
@@ -139,6 +148,7 @@ export default function CV() {
 
       {/* Main wrapper */}
       <div
+        className="MainWrapper"
         ref={wrapperRef}
         style={{
           position: 'relative',
@@ -163,6 +173,7 @@ export default function CV() {
 
         {/* Footer */}
         <div
+          className="cv-footer"
           style={{
             marginTop: 40,
             textAlign: 'center',
