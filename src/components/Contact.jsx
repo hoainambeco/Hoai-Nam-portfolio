@@ -129,7 +129,7 @@ export default function Contact({ goTo }) {
 
       {/* GO BACK — top left */}
       <button
-        onClick={() => goTo(3)}
+        onClick={() => goTo(4)}
         className="absolute z-30"
         style={{ top: 80, left: 24, fontFamily: 'Orbitron, monospace', fontSize: 9, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.65)', background: 'none', border: 'none', cursor: 'pointer', transition: 'color 0.25s' }}
         onMouseEnter={e => e.currentTarget.style.color = '#00F5FF'}

@@ -2,10 +2,11 @@ import { useEffect } from 'react';
 
 const LINKS = [
   { label: 'HOME', index: 0 },
-  { label: 'SKILLS', index: 1 },
-  { label: 'PROJECTS', index: 2 },
-  { label: 'EXPERIENCE', index: 3 },
-  { label: 'CONTACT', index: 4 },
+  { label: 'ABOUT', index: 1 },
+  { label: 'SKILLS', index: 2 },
+  { label: 'PROJECTS', index: 3 },
+  { label: 'EXPERIENCE', index: 4 },
+  { label: 'CONTACT', index: 5 },
 ];
 
 export default function Navbar({ current, goTo, menuOpen, setMenuOpen }) {

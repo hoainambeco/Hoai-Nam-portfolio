@@ -11,7 +11,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
-  "homepage": "https://hoainambeco.github.io/portfolio",
+  "homepage": "https://hoainambeco.github.io/Hoai-Nam-portfolio",
   "dependencies": {
     "gh-pages": "^6.3.0",
     "react": "^19.2.6",

@@ -1,6 +1,21 @@
 // ─── Thông tin cá nhân ───────────────────────────────────────────────────────
 export const ROLE = 'A SOFTWARE ENGINEER';
 
+export const NAME = 'NGUYEN HOAI NAM';
+export const LOCATION = 'HA NOI, VIETNAM';
+export const AVAILABLE = true;
+
+export const BIO = `I'm a Full-Stack Engineer who builds products end-to-end — from APIs and databases on the backend, to responsive interfaces on the frontend, and even Smart Contracts on the blockchain.
+Over 4 years across 4 companies, I've shipped recruitment platforms, real-time voting systems, SocialFi apps, and business tools — always focused on code that performs and products that feel good to use.
+Currently at SotaTek JSC. Always open to interesting problems.`;
+
+export const STATS = [
+  { value: '4+', label: 'YEARS EXP' },
+  { value: '4', label: 'COMPANIES' },
+  { value: '10+', label: 'PROJECTS' },
+  { value: 'WEB2 + WEB3', label: 'DOMAIN' },
+];
+
 export const SOCIAL = [
   { label: 'GITHUB', href: 'https://github.com/hoainambeco' },
   { label: 'LINKEDIN', href: 'https://www.linkedin.com/in/namnguyen1024/' },

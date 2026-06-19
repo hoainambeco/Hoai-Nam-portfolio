@@ -2,12 +2,13 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import './index.css'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
+import About from './components/About'
 import Skills from './components/Skills'
 import Projects from './components/Projects'
 import Experience from './components/Experience'
 import Contact from './components/Contact'
 
-const SECTIONS = ['home', 'skills', 'projects', 'experience', 'contact']
+const SECTIONS = ['home', 'about', 'skills', 'projects', 'experience', 'contact']
 
 export default function App() {
   const [current, setCurrent] = useState(0)
@@ -72,10 +73,11 @@ export default function App() {
   return (
     <div style={{ width: '100vw', height: '100vh', overflow: 'hidden', position: 'fixed', inset: 0 }}>
       <div style={pageStyle(0)}><Hero goTo={goTo} /></div>
-      <div style={pageStyle(1)}><Skills goTo={goTo} /></div>
-      <div style={pageStyle(2)}><Projects goTo={goTo} /></div>
-      <div style={pageStyle(3)}><Experience goTo={goTo} /></div>
-      <div style={pageStyle(4)}><Contact goTo={goTo} /></div>
+      <div style={pageStyle(1)}><About goTo={goTo} /></div>
+      <div style={pageStyle(2)}><Skills goTo={goTo} /></div>
+      <div style={pageStyle(3)}><Projects goTo={goTo} /></div>
+      <div style={pageStyle(4)}><Experience goTo={goTo} /></div>
+      <div style={pageStyle(5)}><Contact goTo={goTo} /></div>
 
       {/* Navbar always on top */}
       <div style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50 }}>
