@@ -40,15 +40,33 @@ export default function CV() {
       if (wrapperRef.current) {
         wrapperRef.current.style.opacity = '1';
         wrapperRef.current.style.transform = 'none';
+        wrapperRef.current.style.minHeight = 'unset';
       }
+      // Hide footer to avoid blank 3rd page
+      const footer = document.querySelector('.cv-footer');
+      if (footer) footer.style.display = 'none';
+      // Remove min-height from cv-root to avoid blank pages
+      const root = document.querySelector('.cv-root');
+      if (root) root.style.minHeight = 'unset';
       blocksRef.current.forEach((el) => {
         if (!el) return;
         el.style.opacity = '1';
         el.style.transform = 'none';
       });
     };
+    const restoreAfterPrint = () => {
+      const footer = document.querySelector('.cv-footer');
+      if (footer) footer.style.display = '';
+      const root = document.querySelector('.cv-root');
+      if (root) root.style.minHeight = '';
+      if (wrapperRef.current) wrapperRef.current.style.minHeight = '';
+    };
     window.addEventListener('beforeprint', forceVisible);
-    return () => window.removeEventListener('beforeprint', forceVisible);
+    window.addEventListener('afterprint', restoreAfterPrint);
+    return () => {
+      window.removeEventListener('beforeprint', forceVisible);
+      window.removeEventListener('afterprint', restoreAfterPrint);
+    };
   }, []);
 
   return (
