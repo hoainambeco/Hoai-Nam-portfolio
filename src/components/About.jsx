@@ -169,7 +169,7 @@ export default function About({ goTo }) {
           {/* CV buttons */}
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
             <a
-              href="/portfolio/cv.pdf"
+              href={`${import.meta.env.BASE_URL}cv.pdf`}
               target="_blank"
               rel="noopener noreferrer"
               style={{
@@ -184,7 +184,7 @@ export default function About({ goTo }) {
               VIEW CV →
             </a>
             <a
-              href="/portfolio/cv.pdf"
+              href={`${import.meta.env.BASE_URL}cv.pdf`}
               download="Nguyen_Hoai_Nam_CV.pdf"
               style={{
                 fontFamily: 'Orbitron, monospace', fontSize: 10, letterSpacing: '0.2em',
