@@ -1,3 +1,5 @@
+export const CV_FS = { title: 18, body: 14, tag: 12 };
+
 export const TITLE_STYLE = {
   border: '1px solid rgba(0,245,255,0.6)',
   color: '#00F5FF',

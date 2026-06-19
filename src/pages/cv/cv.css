@@ -1,0 +1,227 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+
+.cv-scan {
+  width: 220px;
+  height: 2px;
+  background: #00F5FF;
+  box-shadow: 0 0 20px #00F5FF, 0 0 40px #00F5FF88;
+  animation: cvScan 1.5s infinite ease-in-out;
+  margin-top: 18px;
+}
+
+@keyframes cvScan {
+  0%   { transform: translateY(-30px); opacity: .3; }
+  50%  { transform: translateY(30px);  opacity: 1;  }
+  100% { transform: translateY(-30px); opacity: .3; }
+}
+
+.cv-intro {
+  font-family: 'Space Mono', monospace;
+  font-size: 1rem;
+  color: #00F5FF;
+  letter-spacing: 3px;
+  animation: cvBlink .8s infinite alternate;
+}
+
+@keyframes cvBlink {
+  from { opacity: .3; }
+  to   { opacity: 1;  }
+}
+
+.cv-float {
+  animation: cvFloat 4s ease-in-out infinite;
+}
+
+@keyframes cvFloat {
+  0%, 100% { transform: translateY(0);   }
+  50%       { transform: translateY(-8px); }
+}
+
+.cv-glare::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0,245,255,0.06), transparent);
+  transform: skewX(-25deg);
+  animation: cvGlare 7s infinite ease-in-out;
+}
+
+@keyframes cvGlare {
+  0%       { left: -100%; }
+  40%, 100% { left: 150%;  }
+}
+
+.cv-timeline {
+  border-left: 1px solid rgba(0,245,255,0.2);
+  padding-left: 22px;
+}
+
+.cv-node {
+  position: relative;
+  padding-bottom: 26px;
+}
+
+.cv-node:last-child {
+  padding-bottom: 0;
+}
+
+.cv-node::before {
+  content: '';
+  position: absolute;
+  left: -27.5px;
+  top: 5px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #0C0520;
+  border: 2px solid #00F5FF;
+  box-shadow: 0 0 8px rgba(0,245,255,.6);
+}
+
+.cv-node.acc::before {
+  border-color: #FF9F43;
+  box-shadow: 0 0 8px rgba(255,159,67,.6);
+}
+
+.cv-dl-btn {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .2em;
+  color: #00F5FF;
+  border: 1px solid rgba(0,245,255,.5);
+  background: rgba(0,245,255,.05);
+  padding: 8px 20px;
+  cursor: pointer;
+  transition: all .25s;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.cv-dl-btn:hover {
+  background: rgba(0,245,255,.13);
+  box-shadow: 0 0 18px rgba(0,245,255,.25);
+}
+
+.cv-dl-btn.acc {
+  color: #FF9F43;
+  border-color: rgba(255,159,67,.5);
+  background: rgba(255,159,67,.05);
+}
+
+.cv-dl-btn.acc:hover {
+  background: rgba(255,159,67,.13);
+  box-shadow: 0 0 18px rgba(255,159,67,.25);
+}
+
+@media (max-width: 860px) {
+  .cv-hdr      { flex-direction: column !important; text-align: center !important; }
+  .cv-badges   { justify-content: center !important; }
+  .cv-contacts { justify-content: center !important; flex-wrap: wrap !important; }
+
+  /* Flatten 2-col grid thành single column, dùng order để sắp xếp lại */
+  .cv-grid {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  .cv-col-left,
+  .cv-col-right {
+    display: contents !important;
+  }
+  .cv-sec-about    { order: 1; }
+  .cv-sec-skills   { order: 2; }
+  .cv-sec-work     { order: 3; }
+  .cv-sec-projects { order: 4; }
+  .cv-sec-edu      { order: 5; }
+  .cv-sec-honors   { order: 6; }
+
+  /* Khôi phục gap giữa sections vì display:contents xóa mất gap của column */
+  .cv-sec-about,
+  .cv-sec-skills,
+  .cv-sec-work,
+  .cv-sec-projects,
+  .cv-sec-edu,
+  .cv-sec-honors {
+    margin-bottom: 28px;
+  }
+  .cv-sec-honors { margin-bottom: 0; }
+
+  /* Skill: giữ 2 hàng, căn lề trái */
+  .cv-sec-skills .cv-badges { justify-content: flex-start !important; }
+  .cv-skill-cat { text-align: left !important; }
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  /* Force color printing for all elements */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  /* Hide non-content elements */
+  .cv-intro,
+  .cv-scan,
+  [style*="position: fixed"],
+  [style*="position:fixed"] {
+    display: none !important;
+  }
+
+  /* Ensure wrapper and all sections are fully visible */
+  [style*="opacity: 0"],
+  [style*="opacity:0"] {
+    opacity: 1 !important;
+  }
+
+  [style*="transform: scale(0.97)"],
+  [style*="transform:scale(0.97)"] {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+
+  /* Remove sticky top bar from print */
+  [style*="position: sticky"],
+  [style*="position:sticky"] {
+    display: none !important;
+  }
+
+  /* Remove transitions & animations */
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* Thứ tự in theo mobile: About > Skills > Work > Projects > Edu > Honors */
+  .cv-grid {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  .cv-col-left,
+  .cv-col-right {
+    display: contents !important;
+  }
+  .cv-sec-about    { order: 1; }
+  .cv-sec-skills   { order: 2; }
+  .cv-sec-work     { order: 3; }
+  .cv-sec-projects { order: 4; }
+  .cv-sec-edu      { order: 5; }
+  .cv-sec-honors   { order: 6; }
+
+  .cv-sec-about,
+  .cv-sec-skills,
+  .cv-sec-work,
+  .cv-sec-projects,
+  .cv-sec-edu,
+  .cv-sec-honors {
+    margin-bottom: 28px;
+  }
+  .cv-sec-honors { margin-bottom: 0; }
+}
