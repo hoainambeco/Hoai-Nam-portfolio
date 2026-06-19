@@ -1,4 +1,4 @@
-const isMobile = () => window.innerWidth < 768
+import { useIsMobile } from '../hooks/useIsMobile'
 
 const CLOSE_BTN = {
   position: 'absolute', top: 12, right: 14,
@@ -8,7 +8,7 @@ const CLOSE_BTN = {
 }
 
 export default function DetailPanel({ color, onClose, children }) {
-  const mobile = isMobile()
+  const mobile = useIsMobile()
 
   const panelStyle = mobile
     ? {
@@ -35,33 +35,30 @@ export default function DetailPanel({ color, onClose, children }) {
         style={{
           position: 'absolute', inset: 0, zIndex: 19,
           background: 'rgba(0,0,0,0.45)',
-          animation: 'none',
         }}
       />
 
-      {/* Positioning wrapper — no animation so transform stays stable */}
       <div style={{ ...panelStyle }}>
-        {/* Animation wrapper — scale+opacity only, no translate */}
         <div style={{
           background: 'rgba(8,8,30,0.97)',
           border: `1px solid ${color}44`,
           backdropFilter: 'blur(16px)',
           boxShadow: `0 0 30px ${color}20`,
-          animation: 'popupIn 0.22s ease-out',
+          animation: mobile ? 'slideInCenter 0.24s ease-out' : 'slideInRight 0.26s ease-out',
           padding: '20px 24px 28px',
           borderRadius: mobile ? 12 : 0,
           position: 'relative',
         }}>
-        <button
-          onClick={onClose}
-          style={CLOSE_BTN}
-          onMouseEnter={e => e.currentTarget.style.color = '#fff'}
-          onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.55)'}
-        >
-          ✕
-        </button>
+          <button
+            onClick={onClose}
+            style={CLOSE_BTN}
+            onMouseEnter={e => e.currentTarget.style.color = '#fff'}
+            onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.55)'}
+          >
+            ✕
+          </button>
 
-        {children}
+          {children}
         </div>
       </div>
     </>

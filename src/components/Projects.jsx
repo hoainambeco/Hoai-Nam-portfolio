@@ -4,14 +4,10 @@ import asteroidBg from '../assets/MacBook Pro 16_ - 2.png'
 import earthImg from '../assets/Group 3.svg'
 import astronautImg from '../assets/Group 15.svg'
 import { useSpaceDrift } from '../hooks/useSpaceDrift'
+import { useIsMobile } from '../hooks/useIsMobile'
+import { TITLE_STYLE, CONTACT_ME_BTN } from '../styles/shared'
 import DetailPanel from './DetailPanel'
 import { PROJECTS } from '../data/profile'
-
-const TITLE_STYLE = {
-  border: '1px solid rgba(0,245,255,0.6)', color: '#00F5FF', fontFamily: 'Orbitron, monospace',
-  fontSize: 14, fontWeight: 700, letterSpacing: '0.25em', background: 'rgba(0,245,255,0.04)',
-  display: 'inline-block', padding: '8px 32px', boxShadow: '0 0 18px rgba(0,245,255,0.08)',
-}
 
 
 export default function Projects({ goTo }) {
@@ -21,6 +17,7 @@ export default function Projects({ goTo }) {
   const astronautRef = useSpaceDrift({ initX: 55, initY: 50 })
   const earthRef = useRef(null)
   const rotVel = useRef(0.03)
+  const isMobile = useIsMobile()
 
   useEffect(() => {
     const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) ref.current?.classList.add('visible') }, { threshold: 0.1 })
@@ -87,7 +84,7 @@ export default function Projects({ goTo }) {
       <Stars count={50} />
 
       {/* Earth at bottom — continuously rotates, bursts on item switch */}
-      <div ref={earthRef} className="absolute pointer-events-none" style={{ bottom: window.innerWidth < 768 ? -210 : -350, left: '50%', zIndex: 3, width: 'min(520px, 80vw)' }}>
+      <div ref={earthRef} className="absolute pointer-events-none" style={{ bottom: isMobile ? -210 : -350, left: '50%', zIndex: 3, width: 'min(520px, 80vw)' }}>
         <img src={earthImg} alt="Earth" style={{ width: '100%', filter: 'drop-shadow(0 0 50px rgba(0,130,255,0.5))' }} />
       </div>
 
@@ -97,7 +94,7 @@ export default function Projects({ goTo }) {
       </div>
 
       {/* CONTACT ME */}
-      <button onClick={() => goTo(5)} className="absolute top-20 right-6 z-30 transition-colors" style={{ fontFamily: 'Orbitron, monospace', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.72)', background: 'none', border: 'none', cursor: 'pointer' }}
+      <button onClick={() => goTo(5)} className="absolute top-20 right-6 z-30" style={CONTACT_ME_BTN}
         onMouseEnter={e => e.currentTarget.style.color = '#00F5FF'} onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.72)'}>
         CONTACT ME
       </button>

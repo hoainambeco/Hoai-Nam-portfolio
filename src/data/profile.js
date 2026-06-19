@@ -94,7 +94,10 @@ export const PROJECTS = [
       'Web3',
       'PostgreSQL',
       'OpenSearch',
-      'AWS (EC2, ECR, S3)',
+      'AWS',
+      'EC2',
+      'ECR',
+      'S3',
     ],
     link: '',
     inactive: true,
@@ -124,7 +127,7 @@ export const PROJECTS = [
     period: '10/2022 – 12/2024',
     color: '#FF9F43',
     description:
-      'Secure online General Meeting of Shareholders (GMS) platform with MERN stack. Engineered RBAC system and real-time voting with Socket.io and WebSockets for concurrent users. Runner-up at Movement Olympus Hackathon.',
+      'Secure online General Meeting of Shareholders (GMS) platform with MERN stack. Engineered RBAC system and real-time voting with Socket.io and WebSockets for concurrent users.',
     tech: [
       'MongoDB',
       'Express.js',

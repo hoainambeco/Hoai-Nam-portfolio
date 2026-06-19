@@ -2,38 +2,35 @@ import { useState, useEffect, useRef } from 'react'
 import Stars from './Stars'
 import astronautCoin from '../assets/Group 28.svg'
 import { useSpaceDrift } from '../hooks/useSpaceDrift'
+import { TITLE_STYLE } from '../styles/shared'
 import { SOCIAL } from '../data/profile'
 
-const TITLE_STYLE = {
-  border: '1px solid rgba(0,245,255,0.6)', color: '#00F5FF', fontFamily: 'Orbitron, monospace',
-  fontSize: 14, fontWeight: 700, letterSpacing: '0.25em', background: 'rgba(0,245,255,0.04)',
-  display: 'inline-block', padding: '8px 32px', boxShadow: '0 0 18px rgba(0,245,255,0.08)',
-}
+const EMAIL_TO = 'namxg1@gmail.com'
 
-export default function Contact({ goTo }) {
+export default function Contact({ goTo, isActive }) {
   const [form, setForm] = useState({ email: '', subject: '', content: '' })
-  const [sending, setSending] = useState(false)
   const [sent, setSent] = useState(false)
   const ref = useRef(null)
+  const hasRevealed = useRef(false)
   const astronautRef = useSpaceDrift({ initX: 65, initY: 45 })
 
   useEffect(() => {
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) ref.current?.classList.add('visible') }, { threshold: 0.1 })
-    if (ref.current) obs.observe(ref.current)
-    return () => obs.disconnect()
-  }, [])
+    if (isActive && !hasRevealed.current) {
+      hasRevealed.current = true
+      const t = setTimeout(() => ref.current?.classList.add('visible'), 80)
+      return () => clearTimeout(t)
+    }
+  }, [isActive])
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value })
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    setSending(true)
-    setTimeout(() => {
-      setSending(false)
-      setSent(true)
-      setForm({ email: '', subject: '', content: '' })
-      setTimeout(() => setSent(false), 5000)
-    }, 1000)
+    const body = `From: ${form.email}\n\n${form.content}`
+    window.open(`mailto:${EMAIL_TO}?subject=${encodeURIComponent(form.subject)}&body=${encodeURIComponent(body)}`)
+    setSent(true)
+    setForm({ email: '', subject: '', content: '' })
+    setTimeout(() => setSent(false), 5000)
   }
 
   return (
@@ -47,7 +44,6 @@ export default function Contact({ goTo }) {
       {/* ── CAVE STALACTITES — hanging from top ── */}
       <div className="absolute top-0 left-0 right-0 pointer-events-none" style={{ zIndex: 2 }}>
         <svg viewBox="0 0 1440 200" preserveAspectRatio="none" style={{ display: 'block', width: '100%', height: '160px' }}>
-          {/* main stalactites */}
           <polygon points="0,0 0,140 28,0" fill="#120828" />
           <polygon points="60,0 90,110 30,0" fill="#1A0A35" />
           <polygon points="130,0 155,90 105,0" fill="#140830" />
@@ -67,8 +63,6 @@ export default function Contact({ goTo }) {
           <polygon points="1250,0 1268,78 1232,0" fill="#14082E" />
           <polygon points="1330,0 1358,125 1302,0" fill="#1A0A38" />
           <polygon points="1410,0 1440,0 1440,100 1440,0" fill="#120828" />
-
-          {/* glowing crystal tips */}
           <circle cx="90" cy="110" r="3.5" fill="rgba(157,78,221,0.55)" />
           <circle cx="230" cy="130" r="4" fill="rgba(0,245,255,0.4)" />
           <circle cx="388" cy="115" r="3" fill="rgba(157,78,221,0.45)" />
@@ -78,8 +72,6 @@ export default function Contact({ goTo }) {
           <circle cx="1028" cy="129" r="4" fill="rgba(157,78,221,0.42)" />
           <circle cx="1190" cy="117" r="3.5" fill="rgba(0,245,255,0.35)" />
           <circle cx="1358" cy="124" r="4" fill="rgba(157,78,221,0.45)" />
-
-          {/* Purple glow blobs at tips */}
           <ellipse cx="230" cy="125" rx="22" ry="8" fill="rgba(157,78,221,0.12)" />
           <ellipse cx="710" cy="135" rx="28" ry="10" fill="rgba(157,78,221,0.12)" />
           <ellipse cx="1028" cy="125" rx="24" ry="9" fill="rgba(0,245,255,0.08)" />
@@ -89,11 +81,8 @@ export default function Contact({ goTo }) {
       {/* ── CAVE FLOOR / STALAGMITES — rising from bottom ── */}
       <div className="absolute bottom-0 left-0 right-0 pointer-events-none" style={{ zIndex: 2 }}>
         <svg viewBox="0 0 1440 200" preserveAspectRatio="none" style={{ display: 'block', width: '100%', height: '150px' }}>
-          {/* ground base */}
           <path d="M0,200 L0,160 Q360,120 720,145 Q1080,165 1440,135 L1440,200 Z" fill="#0D0820" />
           <path d="M0,200 L0,178 Q240,155 480,170 Q720,185 960,165 Q1200,148 1440,172 L1440,200 Z" fill="#08061A" />
-
-          {/* stalagmites */}
           <polygon points="80,200 68,140 92,200" fill="#1A0A35" />
           <polygon points="180,200 165,105 195,200" fill="#120828" />
           <polygon points="320,200 308,150 332,200" fill="#1C0B3A" />
@@ -105,14 +94,11 @@ export default function Contact({ goTo }) {
           <polygon points="1160,200 1148,152 1172,200" fill="#14082E" />
           <polygon points="1280,200 1265,120 1295,200" fill="#180A38" />
           <polygon points="1390,200 1378,148 1402,200" fill="#120828" />
-
-          {/* crystal tips glowing */}
           <circle cx="180" cy="106" r="3.5" fill="rgba(0,245,255,0.38)" />
           <circle cx="480" cy="113" r="4" fill="rgba(157,78,221,0.42)" />
           <circle cx="760" cy="99" r="4.5" fill="rgba(0,245,255,0.45)" />
           <circle cx="1020" cy="116" r="3.5" fill="rgba(157,78,221,0.38)" />
           <circle cx="1280" cy="121" r="4" fill="rgba(0,245,255,0.35)" />
-
           <ellipse cx="480" cy="113" rx="20" ry="7" fill="rgba(157,78,221,0.1)" />
           <ellipse cx="760" cy="99" rx="25" ry="9" fill="rgba(0,245,255,0.08)" />
         </svg>
@@ -122,7 +108,7 @@ export default function Contact({ goTo }) {
       <div className="absolute pointer-events-none" style={{ bottom: '8%', left: '12%', width: 280, height: 280, background: 'radial-gradient(circle, rgba(157,78,221,0.16) 0%, transparent 70%)', filter: 'blur(40px)' }} />
       <div className="absolute pointer-events-none" style={{ top: '10%', right: '8%', width: 220, height: 220, background: 'radial-gradient(circle, rgba(0,245,255,0.1) 0%, transparent 70%)', filter: 'blur(35px)' }} />
 
-      {/* Astronaut with coin — bottom right */}
+      {/* Astronaut with coin */}
       <div ref={astronautRef} className="absolute pointer-events-none" style={{ left: '65%', top: '45%', zIndex: 8, width: 'min(120px, 14vw)' }}>
         <img src={astronautCoin} alt="astronaut" style={{ width: '100%', filter: 'drop-shadow(0 0 12px rgba(157,78,221,0.5))' }} />
       </div>
@@ -148,7 +134,7 @@ export default function Contact({ goTo }) {
 
         {sent && (
           <div style={{ marginBottom: 24, padding: '12px 28px', border: '1px solid rgba(0,245,255,0.4)', background: 'rgba(0,245,255,0.08)', color: '#00F5FF', fontFamily: 'Orbitron, monospace', fontSize: 11, letterSpacing: '0.1em', borderRadius: 2, textAlign: 'center', animation: 'fadeInUp 0.3s ease' }}>
-            ✓ MESSAGE SENT! I'LL GET BACK TO YOU SOON.
+            ✓ MAIL CLIENT OPENED — SEND WHEN READY.
           </div>
         )}
 
@@ -180,18 +166,17 @@ export default function Contact({ goTo }) {
 
           <button
             type="submit"
-            disabled={sending}
             style={{
               marginTop: 6, padding: '14px 40px', fontFamily: 'Orbitron, monospace', fontSize: 11, letterSpacing: '0.22em',
-              color: '#FFFFFF', border: 'none', borderRadius: 2, cursor: sending ? 'wait' : 'pointer',
-              background: sending ? 'rgba(123,47,191,0.5)' : 'linear-gradient(135deg, #e07b10, #FF9F43)',
-              boxShadow: sending ? 'none' : '0 0 24px rgba(157,78,221,0.4)',
-              transition: 'all 0.3s', opacity: sending ? 0.7 : 1,
+              color: '#00F5FF', border: '1px solid #00F5FF', borderRadius: 2, cursor: 'pointer',
+              background: 'rgba(0,245,255,0.07)',
+              boxShadow: '0 0 18px rgba(0,245,255,0.2)',
+              transition: 'all 0.3s',
             }}
-            onMouseEnter={e => { if (!sending) e.currentTarget.style.boxShadow = '0 0 40px rgba(157,78,221,0.65)' }}
-            onMouseLeave={e => { if (!sending) e.currentTarget.style.boxShadow = '0 0 24px rgba(157,78,221,0.4)' }}
+            onMouseEnter={e => { e.currentTarget.style.background = 'rgba(0,245,255,0.15)'; e.currentTarget.style.boxShadow = '0 0 32px rgba(0,245,255,0.4)' }}
+            onMouseLeave={e => { e.currentTarget.style.background = 'rgba(0,245,255,0.07)'; e.currentTarget.style.boxShadow = '0 0 18px rgba(0,245,255,0.2)' }}
           >
-            {sending ? 'SENDING...' : 'SUBMIT →'}
+            SEND MESSAGE →
           </button>
         </form>
 

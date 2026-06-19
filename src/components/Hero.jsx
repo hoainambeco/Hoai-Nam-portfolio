@@ -3,6 +3,9 @@ import Stars from './Stars'
 import earthImg from '../assets/Group 3.svg'
 import astronautImg from '../assets/Group 12.svg'
 import { useSpaceDrift } from '../hooks/useSpaceDrift'
+import { useIsMobile } from '../hooks/useIsMobile'
+import { useEarthRotation } from '../hooks/useEarthRotation'
+import { CONTACT_ME_BTN } from '../styles/shared'
 import { ROLE, SOCIAL as SOCIAL_LINKS } from '../data/profile'
 
 const LINE1 = 'WELCOME TO\nMY UNIVERSE'
@@ -24,18 +27,8 @@ export default function Hero({ goTo }) {
   const [phase, setPhase] = useState(0)
   const [showCTA, setShowCTA] = useState(false)
   const astronautRef = useSpaceDrift({ initX: 68, initY: 15 })
-  const earthRef = useRef(null)
-
-  useEffect(() => {
-    let angle = 0, rafId
-    const tick = () => {
-      angle += 0.03
-      if (earthRef.current) earthRef.current.style.transform = `translateX(-50%) rotate(${angle}deg)`
-      rafId = requestAnimationFrame(tick)
-    }
-    rafId = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(rafId)
-  }, [])
+  const earthRef = useEarthRotation()
+  const isMobile = useIsMobile()
 
   // Show CTA once after first typing cycle — never hide again
   useEffect(() => {
@@ -65,7 +58,7 @@ export default function Hero({ goTo }) {
                 setTyped2(LINE2.slice(0, j++)); t = setTimeout(typeLine2, 65)
               } else {
                 setPhase(2)
-                t = setTimeout(run, 3500)
+                t = setTimeout(run, 7500)
               }
             }
             typeLine2()
@@ -92,8 +85,8 @@ export default function Hero({ goTo }) {
       <div className="absolute pointer-events-none" style={{ width: 400, height: 400, top: '25%', left: '-6%', background: 'radial-gradient(circle, rgba(20,60,200,0.2) 0%, transparent 70%)', filter: 'blur(25px)' }} />
 
       {/* CONTACT ME */}
-      <button onClick={() => goTo(4)} className="absolute top-20 right-6 z-30 transition-colors" style={{ fontFamily: 'Orbitron, monospace', fontSize: 13, fontWeight: 700, letterSpacing: '0.22em', color: 'rgba(255,255,255,0.82)', background: 'none', border: 'none', cursor: 'pointer' }}
-        onMouseEnter={e => e.currentTarget.style.color = '#00F5FF'} onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.82)'}>
+      <button onClick={() => goTo(5)} className="absolute top-20 right-6 z-30" style={CONTACT_ME_BTN}
+        onMouseEnter={e => e.currentTarget.style.color = '#00F5FF'} onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.72)'}>
         CONTACT ME
       </button>
 
@@ -183,7 +176,7 @@ export default function Hero({ goTo }) {
       </div>
 
       {/* EARTH PLANET — shows only top arc peeking from bottom */}
-      <div ref={earthRef} className="absolute pointer-events-none" style={{ bottom: window.innerWidth < 768 ? -220 : -400, left: '50%', zIndex: 5, width: 'min(560px, 85vw)' }}>
+      <div ref={earthRef} className="absolute pointer-events-none" style={{ bottom: isMobile ? -220 : -400, left: '50%', zIndex: 5, width: 'min(560px, 85vw)' }}>
         <img src={earthImg} alt="Earth" style={{ width: '100%', filter: 'drop-shadow(0 0 60px rgba(0,130,255,0.55))' }} />
       </div>
 

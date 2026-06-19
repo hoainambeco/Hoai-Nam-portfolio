@@ -1,31 +1,23 @@
-import { useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Stars from './Stars'
 import mushroomBg from '../assets/MacBook Pro 16_ - 3.png'
 import astronautLaptop from '../assets/Group 6.svg'
 import { useSpaceDrift } from '../hooks/useSpaceDrift'
+import { TITLE_STYLE, CONTACT_ME_BTN } from '../styles/shared'
 import { SKILLS } from '../data/profile'
 
-const TITLE_STYLE = {
-  border: '1px solid rgba(0,245,255,0.6)',
-  color: '#00F5FF',
-  fontFamily: 'Orbitron, monospace',
-  fontSize: 14,
-  fontWeight: 700,
-  letterSpacing: '0.25em',
-  background: 'rgba(0,245,255,0.04)',
-  display: 'inline-block',
-  padding: '8px 32px',
-  boxShadow: '0 0 18px rgba(0,245,255,0.08)',
-}
-
-export default function Skills({ goTo }) {
-  const ref = useRef(null)
+export default function Skills({ goTo, isActive }) {
+  const [revealed, setRevealed] = useState(false)
   const astronautRef = useSpaceDrift({ initX: 62, initY: 25 })
+  const hasRevealed = useRef(false)
+
   useEffect(() => {
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) ref.current?.classList.add('visible') }, { threshold: 0.1 })
-    if (ref.current) obs.observe(ref.current)
-    return () => obs.disconnect()
-  }, [])
+    if (isActive && !hasRevealed.current) {
+      hasRevealed.current = true
+      const t = setTimeout(() => setRevealed(true), 80)
+      return () => clearTimeout(t)
+    }
+  }, [isActive])
 
   return (
     <section
@@ -48,13 +40,13 @@ export default function Skills({ goTo }) {
       </div>
 
       {/* CONTACT ME */}
-      <button onClick={() => goTo(5)} className="absolute top-20 right-6 z-30 transition-colors" style={{ fontFamily: 'Orbitron, monospace', fontSize: 10, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.72)', background: 'none', border: 'none', cursor: 'pointer' }}
+      <button onClick={() => goTo(5)} className="absolute top-20 right-6 z-30" style={CONTACT_ME_BTN}
         onMouseEnter={e => e.currentTarget.style.color = '#00F5FF'} onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.72)'}>
         CONTACT ME
       </button>
 
       {/* Content */}
-      <div ref={ref} className="relative section-reveal text-center px-6 max-w-4xl w-full" style={{ zIndex: 10, paddingBottom: '5rem' }}>
+      <div className="relative text-center px-6 max-w-4xl w-full" style={{ zIndex: 10, paddingBottom: '5rem' }}>
         <div style={TITLE_STYLE}>MY SKILLS</div>
 
         <p style={{ fontFamily: 'Rajdhani, sans-serif', fontSize: '0.95rem', letterSpacing: '0.2em', color: 'rgba(255,255,255,0.5)', margin: '20px 0 32px', textTransform: 'uppercase' }}>
@@ -71,6 +63,9 @@ export default function Skills({ goTo }) {
                 color: even ? '#00F5FF' : '#FF9F43',
                 borderColor: even ? 'rgba(0,245,255,0.35)' : 'rgba(255,159,67,0.35)',
                 background: even ? 'rgba(0,245,255,0.05)' : 'rgba(255,159,67,0.05)',
+                opacity: revealed ? 1 : 0,
+                transform: revealed ? 'translateY(0)' : 'translateY(18px)',
+                transition: `opacity 0.4s ease ${i * 0.028}s, transform 0.4s ease ${i * 0.028}s`,
               }}>
                 {s}
               </div>

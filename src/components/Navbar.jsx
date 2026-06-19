@@ -17,11 +17,11 @@ export default function Navbar({ current, goTo, menuOpen, setMenuOpen }) {
 
   // Block pull-to-refresh and swipe-page when overlay is open
   useEffect(() => {
-    if (!menuOpen) return
-    const prevent = (e) => e.preventDefault()
-    document.addEventListener('touchmove', prevent, { passive: false })
-    return () => document.removeEventListener('touchmove', prevent)
-  }, [menuOpen])
+    if (!menuOpen) return;
+    const prevent = (e) => e.preventDefault();
+    document.addEventListener('touchmove', prevent, { passive: false });
+    return () => document.removeEventListener('touchmove', prevent);
+  }, [menuOpen]);
 
   return (
     <>
@@ -40,15 +40,14 @@ export default function Navbar({ current, goTo, menuOpen, setMenuOpen }) {
             style={{
               fontFamily: 'Orbitron, monospace',
               color: '#00f5ff',
-              fontSize: 16,
+              fontSize: 15,
               fontWeight: 700,
-              letterSpacing: '0.12em',
+              letterSpacing: '0.1em',
               cursor: 'pointer',
+              userSelect: 'none',
             }}
             onClick={() => handleNav(0)}
-          >
-            <span style={{ color: 'rgba(0,245,255,0.4)' }}></span>
-          </span>
+          ></span>
           {/* Desktop links */}
           <ul className="hidden md:flex gap-8">
             {LINKS.map((l) => (

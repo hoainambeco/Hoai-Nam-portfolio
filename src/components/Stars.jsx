@@ -9,6 +9,7 @@ export default function Stars({ count = 90 }) {
       size: Math.random() * 2 + 1,
       delay: Math.random() * 4,
       duration: Math.random() * 3 + 2,
+      opacity: Math.random() * 0.6 + 0.4,
     }));
   }, [count]);
 
@@ -33,7 +34,7 @@ export default function Stars({ count = 90 }) {
             width: `${s.size}px`,
             height: `${s.size}px`,
             animation: `twinkle ${s.duration}s ease-in-out ${s.delay}s infinite`,
-            opacity: Math.random() * 0.6 + 0.4,
+            opacity: s.opacity,
           }}
         />
       ))}

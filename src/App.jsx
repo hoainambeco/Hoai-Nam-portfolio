@@ -28,7 +28,7 @@ export default function App() {
       const next = Math.max(0, Math.min(SECTIONS.length - 1, c + dir))
       return next
     })
-    setTimeout(() => { transitioning.current = false }, 700)
+    setTimeout(() => { transitioning.current = false }, 520)
   }, [])
 
   useEffect(() => {
@@ -65,8 +65,9 @@ export default function App() {
   const pageStyle = (i) => ({
     position: 'fixed', inset: 0, overflow: 'hidden',
     opacity: current === i ? 1 : 0,
+    filter: current === i ? 'blur(0px)' : 'blur(3px)',
     pointerEvents: current === i ? 'auto' : 'none',
-    transition: 'opacity 0.5s ease',
+    transition: 'opacity 0.5s ease, filter 0.5s ease',
     zIndex: current === i ? 2 : 1,
   })
 
@@ -74,10 +75,10 @@ export default function App() {
     <div style={{ width: '100vw', height: '100vh', overflow: 'hidden', position: 'fixed', inset: 0 }}>
       <div style={pageStyle(0)}><Hero goTo={goTo} /></div>
       <div style={pageStyle(1)}><About goTo={goTo} /></div>
-      <div style={pageStyle(2)}><Skills goTo={goTo} /></div>
+      <div style={pageStyle(2)}><Skills goTo={goTo} isActive={current === 2} /></div>
       <div style={pageStyle(3)}><Projects goTo={goTo} /></div>
       <div style={pageStyle(4)}><Experience goTo={goTo} /></div>
-      <div style={pageStyle(5)}><Contact goTo={goTo} /></div>
+      <div style={pageStyle(5)}><Contact goTo={goTo} isActive={current === 5} /></div>
 
       {/* Navbar always on top */}
       <div style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50 }}>
