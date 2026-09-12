@@ -1,290 +1,368 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+/* ═══════════════════════════════════════════════════════════════════════════
+   CV — a printable document. The page chrome follows the app theme; the sheet
+   itself is always paper, so what you see is what comes out of the printer.
+   ═══════════════════════════════════════════════════════════════════════════ */
 
-.cv-scan {
-  width: 220px;
-  height: 2px;
-  background: #00f5ff;
-  box-shadow:
-    0 0 20px #00f5ff,
-    0 0 40px #00f5ff88;
-  animation: cvScan 1.5s infinite ease-in-out;
+.cv-page {
+  --paper: #ffffff;
+  --ink: #14181f;
+  --ink-soft: #454f5e;
+  --ink-mute: #6f7a8a;
+  --line: #dfe3ea;
+  --mark: #0a6e8f;
+
+  min-height: 100dvh;
+  padding: 0 0 60px;
+  background: var(--bg-side);
+}
+
+/* ── toolbar ─────────────────────────────────────────────────────────────── */
+.cv-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 16px;
+  background: var(--bg-chrome);
+  border-bottom: 1px solid var(--border);
+}
+
+.cv-toolbar__title {
+  flex: 1;
+  min-width: 0;
+  font-size: 11.5px;
+  color: var(--fg-muted);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cv-toolbar__actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* ── the sheet ───────────────────────────────────────────────────────────── */
+.sheet {
+  max-width: 900px;
+  margin: 26px auto 0;
+  padding: 44px 48px 36px;
+  background: var(--paper);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: 0 24px 60px -28px rgba(8, 12, 20, 0.55);
+}
+
+.sheet__head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px 32px;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding-bottom: 20px;
+  border-bottom: 2px solid var(--ink);
+}
+
+.sheet__name {
+  font-size: 27px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1.15;
+  color: var(--ink);
+}
+
+.sheet__role {
+  margin-top: 4px;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+.sheet__contacts {
+  list-style: none;
+  display: grid;
+  gap: 2px;
+  font-size: 12px;
+}
+.sheet__contacts li {
+  display: flex;
+  gap: 10px;
+}
+.sheet__contacts a {
+  color: var(--mark);
+}
+.sheet__contact-key {
+  width: 62px;
+  flex-shrink: 0;
+  color: var(--ink-mute);
+}
+
+.sheet__section {
+  margin-top: 26px;
+}
+
+.sheet__section-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--mark);
+  padding-bottom: 5px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.sheet__prose {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  line-height: 1.72;
+  color: var(--ink-soft);
+  max-width: 78ch;
+}
+.sheet__prose + .sheet__prose {
+  margin-top: 8px;
+}
+
+.sheet__grid {
+  display: grid;
+  grid-template-columns: 1.85fr 1fr;
+  gap: 12px 34px;
+  align-items: start;
+}
+
+.sheet__block + .sheet__block {
+  margin-top: 14px;
+}
+
+.sheet__label {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 5px;
+}
+
+.sheet__period {
+  font-size: 11px;
+  color: var(--ink-mute);
+}
+
+.sheet__entry-title {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--ink);
+  text-decoration: none;
+}
+a.sheet__entry-title:hover {
+  color: var(--mark);
+}
+
+.sheet__muted {
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+.sheet__foot {
+  margin-top: 30px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  font-size: 10.5px;
+  color: var(--ink-mute);
+  text-align: center;
+}
+
+/* ── entries ─────────────────────────────────────────────────────────────── */
+.entry {
+  padding-left: 14px;
+  border-left: 2px solid var(--line);
+  break-inside: avoid;
+}
+.entry + .entry {
   margin-top: 18px;
 }
 
-@keyframes cvScan {
-  0% {
-    transform: translateY(-30px);
-    opacity: 0.3;
-  }
-  50% {
-    transform: translateY(30px);
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(-30px);
-    opacity: 0.3;
-  }
+.entry__head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  align-items: baseline;
+  justify-content: space-between;
 }
 
-.cv-intro {
-  font-family: 'Space Mono', monospace;
-  font-size: 1rem;
-  color: #00f5ff;
-  letter-spacing: 3px;
-  animation: cvBlink 0.8s infinite alternate;
-}
-
-@keyframes cvBlink {
-  from {
-    opacity: 0.3;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.cv-float {
-  animation: cvFloat 4s ease-in-out infinite;
-}
-
-@keyframes cvFloat {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-8px);
-  }
-}
-
-.cv-glare::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 50%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(0, 245, 255, 0.06),
-    transparent
-  );
-  transform: skewX(-25deg);
-  animation: cvGlare 7s infinite ease-in-out;
-}
-
-@keyframes cvGlare {
-  0% {
-    left: -100%;
-  }
-  40%,
-  100% {
-    left: 150%;
-  }
-}
-
-.cv-timeline {
-  border-left: 1px solid rgba(0, 245, 255, 0.2);
-  padding-left: 22px;
-}
-
-.cv-node {
-  position: relative;
-  padding-bottom: 26px;
-}
-
-.cv-node:last-child {
-  padding-bottom: 0;
-}
-
-.cv-node::before {
-  content: '';
-  position: absolute;
-  left: -27.5px;
-  top: 5px;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: #0c0520;
-  border: 2px solid #00f5ff;
-  box-shadow: 0 0 8px rgba(0, 245, 255, 0.6);
-}
-
-.cv-node.acc::before {
-  border-color: #ff9f43;
-  box-shadow: 0 0 8px rgba(255, 159, 67, 0.6);
-}
-
-.cv-dl-btn {
-  font-family: 'Space Mono', monospace;
-  font-size: 10px;
+.entry__title {
+  font-size: 13.5px;
   font-weight: 700;
-  letter-spacing: 0.2em;
-  color: #00f5ff;
-  border: 1px solid rgba(0, 245, 255, 0.5);
-  background: rgba(0, 245, 255, 0.05);
-  padding: 8px 20px;
-  cursor: pointer;
-  transition: all 0.25s;
-  text-decoration: none;
+  color: var(--ink);
+}
+
+.entry__org {
+  font-weight: 400;
+  color: var(--mark);
+}
+
+.entry__period {
+  font-size: 11px;
+  color: var(--ink-mute);
+  white-space: nowrap;
+}
+
+.entry__link {
   display: inline-block;
+  margin-top: 2px;
+  font-size: 11.5px;
+  color: var(--mark);
 }
 
-.cv-dl-btn:hover {
-  background: rgba(0, 245, 255, 0.13);
-  box-shadow: 0 0 18px rgba(0, 245, 255, 0.25);
+.entry__note {
+  margin-top: 4px;
+  font-size: 11.5px;
+  color: #9a6700;
 }
 
-.cv-dl-btn.acc {
-  color: #ff9f43;
-  border-color: rgba(255, 159, 67, 0.5);
-  background: rgba(255, 159, 67, 0.05);
+.entry__bullets {
+  list-style: none;
+  margin: 8px 0 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.entry__bullets li {
+  position: relative;
+  padding-left: 14px;
+  font-family: var(--font-ui);
+  font-size: 12.5px;
+  line-height: 1.62;
+  color: var(--ink-soft);
+}
+.entry__bullets li::before {
+  content: '–';
+  position: absolute;
+  left: 0;
+  color: var(--ink-mute);
 }
 
-.cv-dl-btn.acc:hover {
-  background: rgba(255, 159, 67, 0.13);
-  box-shadow: 0 0 18px rgba(255, 159, 67, 0.25);
+.chips {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
 }
 
+.chip {
+  padding: 1px 7px;
+  font-size: 10.5px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: #f7f8fa;
+}
+
+/* ── responsive ──────────────────────────────────────────────────────────── */
 @media (max-width: 860px) {
-  .cv-hdr {
-    flex-direction: column !important;
-    text-align: center !important;
+  .sheet {
+    margin: 14px 12px 0;
+    padding: 28px 22px 26px;
+    border-radius: 6px;
   }
-  .cv-badges {
-    justify-content: center !important;
+  .sheet__grid {
+    grid-template-columns: 1fr;
+    gap: 0;
   }
-  .cv-contacts {
-    justify-content: center !important;
-    flex-wrap: wrap !important;
+  .cv-toolbar__title {
+    display: none;
   }
+}
 
-  /* Flatten 2-col grid thành single column, dùng order để sắp xếp lại */
-  .cv-grid {
-    display: flex !important;
-    flex-direction: column !important;
-  }
-  .cv-col-left,
-  .cv-col-right {
-    display: contents !important;
-  }
-  .cv-sec-about {
-    order: 1;
-  }
-  .cv-sec-skills {
-    order: 2;
-  }
-  .cv-sec-work {
-    order: 3;
-  }
-  .cv-sec-projects {
-    order: 4;
-  }
-  .cv-sec-edu {
-    order: 5;
-  }
-  .cv-sec-honors {
-    order: 6;
-  }
-
-  /* Khôi phục gap giữa sections vì display:contents xóa mất gap của column */
-  .cv-sec-about,
-  .cv-sec-skills,
-  .cv-sec-work,
-  .cv-sec-projects,
-  .cv-sec-edu,
-  .cv-sec-honors {
-    margin-bottom: 28px;
-  }
-  .cv-sec-honors {
-    margin-bottom: 0;
-  }
-
-  /* Skill: giữ 2 hàng, căn lề trái */
-  .cv-sec-skills .cv-badges {
-    justify-content: flex-start !important;
-  }
-  .cv-skill-cat {
-    text-align: left !important;
-  }
+/* ── print: the sheet is the page ────────────────────────────────────────── */
+@page {
+  size: A4;
+  margin: 10mm 12mm;
 }
 
 @media print {
-  @page {
-    size: 1120px auto;
-    margin: 0;
+  .cv-page {
+    background: #fff;
+    padding: 0;
+    min-height: 0;
   }
-
-  /* Force color printing */
-  * {
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
-    color-adjust: exact !important;
-  }
-
-  /* Remove transitions & animations */
-  *,
-  *::before,
-  *::after {
-    animation: none !important;
-    transition: none !important;
-  }
-
-  /* Hide everything in cv-root except MainWrapper */
-  .cv-root > *:not(.MainWrapper) {
+  .cv-toolbar {
     display: none !important;
   }
-
-  /* MainWrapper takes full width at 1120px */
-  .MainWrapper {
-    width: 1120px !important;
-    max-width: 1120px !important;
-    margin: 0 !important;
-    padding: 28px 24px 60px !important;
-    opacity: 1 !important;
-    transform: none !important;
+  .sheet {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
   }
-
-  /* Keep 2-column grid layout */
-  .cv-grid {
-    display: grid !important;
-    grid-template-columns: 1fr 1.9fr !important;
-    flex-direction: unset !important;
-  }
-
-  .cv-col-left,
-  .cv-col-right {
-    display: block !important;
-  }
-
-  /* Prevent awkward page breaks, add breathing room at top */
-  .cv-node {
-    break-inside: avoid;
-    page-break-inside: avoid;
-  }
-
-  .cv-card {
-    break-inside: avoid;
-    page-break-inside: avoid;
-  }
-
-  /* Keep section title with its first content */
-  .cv-section-title {
-    break-after: avoid;
-    page-break-after: avoid;
-  }
-
-  /* Small left-column sections stay whole */
-  .cv-sec-about,
-  .cv-sec-edu,
-  .cv-sec-honors {
-    break-inside: avoid;
-    page-break-inside: avoid;
-  }
-
-  /* Prevent orphaned timeline dots */
-  .cv-timeline {
+  .sheet__section {
     break-inside: auto;
+  }
+  .sheet__section-title,
+  .sheet__head,
+  .sheet__block,
+  .entry__head {
+    break-after: avoid;
+  }
+  .entry,
+  .sheet__block {
+    break-inside: avoid;
+  }
+  .sheet__foot {
+    display: none;
+  }
+
+  /* tighten the type so the document lands on two pages */
+  .sheet__name {
+    font-size: 22px;
+  }
+  .sheet__role,
+  .sheet__contacts {
+    font-size: 11px;
+  }
+  .sheet__section {
+    margin-top: 14px;
+  }
+  .sheet__section-title {
+    margin-bottom: 10px;
+  }
+  .sheet__head {
+    padding-bottom: 14px;
+  }
+  .sheet__prose {
+    font-size: 11px;
+    line-height: 1.55;
+  }
+  .entry + .entry,
+  .sheet__block + .sheet__block {
+    margin-top: 9px;
+  }
+  .entry__title {
+    font-size: 12px;
+  }
+  .entry__bullets {
+    margin: 5px 0 6px;
+    gap: 2px;
+  }
+  .entry__bullets li {
+    font-size: 10.5px;
+    line-height: 1.5;
+  }
+  .chip {
+    font-size: 9px;
+    padding: 0 5px;
+  }
+  /* one column on paper: full-width bullets, skills after the projects */
+  .sheet__grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  a {
+    text-decoration: none;
   }
 }

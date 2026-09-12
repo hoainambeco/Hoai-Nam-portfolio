@@ -1,216 +1,214 @@
-import { useEffect, useRef } from 'react';
-import Stars from '../../components/Stars';
-import CVHeader from './components/CVHeader';
-import LeftColumn from './components/LeftColumn';
-import RightColumn from './components/RightColumn';
+import '../../index.css';
 import './cv.css';
-import { DATA } from './data';
+import {
+  AWARDS,
+  EDUCATION,
+  EXPERIENCE,
+  PROFILE,
+  PROJECTS,
+  SKILL_GROUPS,
+  SOCIALS,
+} from '../../data/profile';
+
+const PDF = `${import.meta.env.BASE_URL}cv.pdf`;
+const HOME = import.meta.env.BASE_URL;
+
+const CONTACTS = [
+  { label: 'phone', value: PROFILE.phone, href: `tel:${PROFILE.phone}` },
+  { label: 'email', value: PROFILE.email, href: `mailto:${PROFILE.email}` },
+  ...SOCIALS.filter((s) => s.id !== 'email').map((s) => ({
+    label: s.id,
+    value: s.handle,
+    href: s.href,
+  })),
+  { label: 'location', value: PROFILE.location },
+];
 
 export default function CV() {
-  const overlayRef = useRef(null);
-  const wrapperRef = useRef(null);
-  const blocksRef = useRef([]);
-
-  useEffect(() => {
-    const t = setTimeout(() => {
-      if (overlayRef.current) {
-        overlayRef.current.style.opacity = '0';
-        overlayRef.current.style.visibility = 'hidden';
-      }
-      if (wrapperRef.current) {
-        wrapperRef.current.style.opacity = '1';
-        wrapperRef.current.style.transform = 'scale(1)';
-      }
-      blocksRef.current.forEach((el, i) => {
-        if (!el) return;
-        setTimeout(() => {
-          el.style.opacity = '1';
-          el.style.transform = 'translateY(0)';
-        }, i * 110);
-      });
-    }, 1800);
-    return () => clearTimeout(t);
-  }, []);
-
-  useEffect(() => {
-    const forceVisible = () => {
-      if (overlayRef.current) {
-        overlayRef.current.style.display = 'none';
-      }
-      if (wrapperRef.current) {
-        wrapperRef.current.style.opacity = '1';
-        wrapperRef.current.style.transform = 'none';
-        wrapperRef.current.style.minHeight = 'unset';
-      }
-      // Hide footer to avoid blank 3rd page
-      const footer = document.querySelector('.cv-footer');
-      if (footer) footer.style.display = 'none';
-      // Remove min-height from cv-root to avoid blank pages
-      const root = document.querySelector('.cv-root');
-      if (root) root.style.minHeight = 'unset';
-      blocksRef.current.forEach((el) => {
-        if (!el) return;
-        el.style.opacity = '1';
-        el.style.transform = 'none';
-      });
-    };
-    const restoreAfterPrint = () => {
-      const footer = document.querySelector('.cv-footer');
-      if (footer) footer.style.display = '';
-      const root = document.querySelector('.cv-root');
-      if (root) root.style.minHeight = '';
-      if (wrapperRef.current) wrapperRef.current.style.minHeight = '';
-    };
-    window.addEventListener('beforeprint', forceVisible);
-    window.addEventListener('afterprint', restoreAfterPrint);
-    return () => {
-      window.removeEventListener('beforeprint', forceVisible);
-      window.removeEventListener('afterprint', restoreAfterPrint);
-    };
-  }, []);
-
   return (
-    <div
-      className="cv-root"
-      style={{
-        fontFamily: "'JetBrains Mono', monospace",
-        background:
-          'linear-gradient(180deg,#0C0520 0%,#130A30 35%,#0D1535 100%)',
-        color: 'rgba(255,255,255,0.88)',
-        minHeight: '100vh',
-        fontSize: '14.5px',
-        lineHeight: 1.75,
-      }}
-    >
-      {/* Intro overlay */}
-      <div
-        ref={overlayRef}
-        style={{
-          position: 'fixed',
-          inset: 0,
-          background: '#030008',
-          zIndex: 9999,
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          transition: 'opacity 1s ease, visibility 1s',
-        }}
-      >
-        <Stars count={60} />
-        <div className="cv-intro">LOADING CV...</div>
-        <div className="cv-scan" />
-        <div
-          style={{
-            fontFamily: "'Space Mono', monospace",
-            fontSize: 9,
-            letterSpacing: '.3em',
-            color: 'rgba(0,245,255,.4)',
-            marginTop: 22,
-          }}
-        >
-          NGUYEN HOAI NAM ✦ FULL-STACK DEVELOPER
-        </div>
-      </div>
-
-      {/* Fixed star background */}
-      <div
-        style={{
-          position: 'fixed',
-          inset: 0,
-          zIndex: 0,
-          pointerEvents: 'none',
-        }}
-      >
-        <Stars count={80} />
-      </div>
-
-      {/* Top bar */}
-      <div
-        style={{
-          position: 'sticky',
-          top: 0,
-          zIndex: 50,
-          background: 'rgba(12,5,32,.88)',
-          backdropFilter: 'blur(12px)',
-          borderBottom: '1px solid rgba(0,245,255,.1)',
-          padding: '10px 32px',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}
-      >
-        <span
-          style={{
-            fontFamily: "'Space Mono', monospace",
-            fontSize: 10,
-            letterSpacing: '.25em',
-            color: 'rgba(0,245,255,.45)',
-          }}
-        >
-          ✦ CURRICULUM VITAE
+    <div className="cv-page">
+      <header className="cv-toolbar">
+        <a className="btn" href={HOME}>
+          ← Portfolio
+        </a>
+        <span className="cv-toolbar__title">
+          curriculum vitae — {PROFILE.name.toLowerCase().replace(/\s+/g, '-')}.pdf
         </span>
-        <div style={{ display: 'flex', gap: 10 }}>
-          <a
-            href="src/assets/CV/CV_Full-stack_Developer_Nguyen_Hoai_Nam.pdf"
-            download
-            className="cv-dl-btn"
-          >
-            ↓ DOWNLOAD PDF
+        <span className="cv-toolbar__actions">
+          <a className="btn" href={PDF} download="Nguyen-Hoai-Nam-CV.pdf">
+            ↓ Download PDF
           </a>
-          <button className="cv-dl-btn acc" onClick={() => window.print()}>
-            ⎙ PRINT
+          <button className="btn btn--primary" onClick={() => window.print()}>
+            ⎙ Print
           </button>
-        </div>
-      </div>
+        </span>
+      </header>
 
-      {/* Main wrapper */}
-      <div
-        className="MainWrapper"
-        ref={wrapperRef}
-        style={{
-          position: 'relative',
-          zIndex: 1,
-          maxWidth: 1120,
-          margin: '0 auto',
-          padding: '28px 24px 60px',
-          opacity: 0,
-          transform: 'scale(0.97)',
-          transition: 'all 1.1s cubic-bezier(.1,1,.1,1)',
-        }}
-      >
-        <CVHeader data={DATA} />
-
-        <div
-          className="cv-grid"
-          style={{ display: 'grid', gridTemplateColumns: '1fr 1.9fr', gap: 22 }}
-        >
-          <LeftColumn data={DATA} blocksRef={blocksRef} />
-          <RightColumn data={DATA} blocksRef={blocksRef} />
-        </div>
-
-        {/* Footer */}
-        <div
-          className="cv-footer"
-          style={{
-            marginTop: 40,
-            textAlign: 'center',
-            borderTop: '1px solid rgba(0,245,255,.1)',
-            paddingTop: 22,
-          }}
-        >
-          <div
-            style={{
-              fontFamily: "'Space Mono', monospace",
-              fontSize: 9,
-              letterSpacing: '.3em',
-              color: 'rgba(0,245,255,.3)',
-            }}
-          >
-            ✦ NGUYEN HOAI NAM ✦ FULL-STACK DEVELOPER ✦ HA NOI, VIETNAM ✦
+      <article className="sheet">
+        <header className="sheet__head">
+          <div>
+            <h1 className="sheet__name">{PROFILE.name}</h1>
+            <p className="sheet__role">
+              {PROFILE.role} · {PROFILE.location}
+            </p>
           </div>
+          <ul className="sheet__contacts">
+            {CONTACTS.map((c) => (
+              <li key={c.label}>
+                <span className="sheet__contact-key">{c.label}</span>
+                {c.href ? (
+                  <a
+                    href={c.href}
+                    target={c.href.startsWith('http') ? '_blank' : undefined}
+                    rel="noreferrer"
+                  >
+                    {c.value}
+                  </a>
+                ) : (
+                  <span>{c.value}</span>
+                )}
+              </li>
+            ))}
+          </ul>
+        </header>
+
+        <Section title="Profile">
+          {PROFILE.bio.map((p) => (
+            <p className="sheet__prose" key={p.slice(0, 24)}>
+              {p}
+            </p>
+          ))}
+        </Section>
+
+        <div className="sheet__grid">
+          <div className="sheet__main">
+            <Section title="Experience">
+              {EXPERIENCE.map((e) => (
+                <Entry
+                  key={e.id}
+                  title={e.role}
+                  org={e.company}
+                  period={e.period}
+                  bullets={e.bullets}
+                  tech={e.tech}
+                />
+              ))}
+            </Section>
+
+            <Section title="Projects">
+              {PROJECTS.map((p) => (
+                <Entry
+                  key={p.id}
+                  title={p.name}
+                  org={p.sub}
+                  period={p.period}
+                  link={p.link}
+                  note={p.award}
+                  bullets={p.bullets}
+                  tech={p.tech}
+                />
+              ))}
+            </Section>
+          </div>
+
+          <aside className="sheet__aside">
+            <Section title="Skills">
+              {SKILL_GROUPS.map((g) => (
+                <div className="sheet__block" key={g.key}>
+                  <h4 className="sheet__label">{g.label}</h4>
+                  <ul className="chips">
+                    {g.items.map((i) => (
+                      <li className="chip" key={i}>
+                        {i}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </Section>
+
+            <Section title="Education">
+              {EDUCATION.map((e) => (
+                <div className="sheet__block" key={e.school}>
+                  <div className="sheet__period">{e.period}</div>
+                  <h4 className="sheet__entry-title">{e.school}</h4>
+                  <div className="sheet__muted">{e.degree}</div>
+                  <div className="sheet__muted">{e.note}</div>
+                </div>
+              ))}
+            </Section>
+
+            <Section title="Awards">
+              {AWARDS.map((a) => (
+                <div className="sheet__block" key={a.title}>
+                  <div className="sheet__period">{a.year}</div>
+                  {a.href ? (
+                    <a
+                      className="sheet__entry-title"
+                      href={a.href}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {a.title}
+                    </a>
+                  ) : (
+                    <h4 className="sheet__entry-title">{a.title}</h4>
+                  )}
+                </div>
+              ))}
+            </Section>
+          </aside>
         </div>
+
+        <footer className="sheet__foot">
+          {PROFILE.name} · {PROFILE.email} · {PROFILE.phone} ·{' '}
+          {SOCIALS[0].href.replace('https://', '')}
+        </footer>
+      </article>
+    </div>
+  );
+}
+
+function Section({ title, children }) {
+  return (
+    <section className="sheet__section">
+      <h2 className="sheet__section-title">{title}</h2>
+      {children}
+    </section>
+  );
+}
+
+function Entry({ title, org, period, link, note, bullets, tech }) {
+  return (
+    <div className="entry">
+      <div className="entry__head">
+        <h3 className="entry__title">
+          {title}
+          {org && <span className="entry__org"> · {org}</span>}
+        </h3>
+        <span className="entry__period">{period}</span>
       </div>
+
+      {link && (
+        <a className="entry__link" href={link} target="_blank" rel="noreferrer">
+          {link.replace(/^https?:\/\//, '').replace(/\/$/, '')}
+        </a>
+      )}
+      {note && <div className="entry__note">🏆 {note}</div>}
+
+      <ul className="entry__bullets">
+        {bullets.map((b) => (
+          <li key={b.slice(0, 28)}>{b}</li>
+        ))}
+      </ul>
+
+      <ul className="chips">
+        {tech.map((t) => (
+          <li className="chip" key={t}>
+            {t}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
