@@ -1,6 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@400;500;600;700&family=Chakra+Petch:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
 
 @import "tailwindcss";
+
+@theme {
+  --font-display: 'Orbitron', sans-serif;
+  --font-accent: 'Rajdhani', sans-serif;
+}
+
+/* Orbitron and Rajdhani have no Vietnamese glyphs — swap to Chakra Petch, which does.
+   Its files only download once an element actually uses it. */
+:root[lang="vi"] {
+  --font-display: 'Chakra Petch', sans-serif;
+  --font-accent: 'Chakra Petch', sans-serif;
+}
 
 /* Tailwind's preflight already resets margin/padding/box-sizing. Base styles must live in
    @layer base — unlayered rules would override every Tailwind utility (p-*, m-*, gap...). */

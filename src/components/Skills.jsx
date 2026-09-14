@@ -1,18 +1,21 @@
 import { useRef, useMemo, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { SKILLS } from '../data/profile'
+import { UI } from '../data/ui'
+import { useLang } from '../i18n'
 
 const COLORS = ['#00F5FF', '#8B5CF6', '#FF9F43', '#06D6A0', '#FF6B6B']
 const CATEGORIES = [
-  { name: 'Backend', icon: '⚙️', keywords: ['NestJS', 'Node.js', 'Express', 'Microservices', 'GraphQL', 'REST API'] },
-  { name: 'Blockchain', icon: '⛓️', keywords: ['Ethers.js', 'Web3.js', 'Solidity', 'Aptos', 'BNB Chain'] },
-  { name: 'Frontend', icon: '🎨', keywords: ['React.js', 'Next.js', 'TypeScript'] },
-  { name: 'Database', icon: '🗄️', keywords: ['PostgreSQL', 'MySQL', 'MongoDB', 'Redis', 'Oracle', 'Elasticsearch', 'OpenSearch'] },
-  { name: 'DevOps', icon: '🚀', keywords: ['Docker', 'GitHub Actions', 'AWS', 'Linux', 'Nginx', 'CI/CD'] },
-  { name: 'Infra', icon: '🌐', keywords: ['Kafka', 'WebSockets', 'S3', 'Redis Cluster'] },
+  { id: 'backend', name: 'Backend', icon: '⚙️', keywords: ['NestJS', 'Node.js', 'Express', 'Microservices', 'GraphQL', 'REST API'] },
+  { id: 'blockchain', name: 'Blockchain', icon: '⛓️', keywords: ['Ethers.js', 'Web3.js', 'Solidity', 'Aptos', 'BNB Chain'] },
+  { id: 'frontend', name: 'Frontend', icon: '🎨', keywords: ['React.js', 'Next.js', 'TypeScript'] },
+  { id: 'database', name: { en: 'Database', vi: 'Cơ sở dữ liệu' }, icon: '🗄️', keywords: ['PostgreSQL', 'MySQL', 'MongoDB', 'Redis', 'Oracle', 'Elasticsearch', 'OpenSearch'] },
+  { id: 'devops', name: 'DevOps', icon: '🚀', keywords: ['Docker', 'GitHub Actions', 'AWS', 'Linux', 'Nginx', 'CI/CD'] },
+  { id: 'infra', name: { en: 'Infra', vi: 'Hạ tầng' }, icon: '🌐', keywords: ['Kafka', 'WebSockets', 'S3', 'Redis Cluster'] },
 ]
 
 export default function Skills() {
+  const { t } = useLang()
   const containerRef = useRef(null)
   const isInView = useInView(containerRef, { once: true, amount: 0.1 })
   const [activeCat, setActiveCat] = useState(null)
@@ -30,12 +33,12 @@ export default function Skills() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
         >
-          <p className="text-[#00F5FF]/60 font-['Orbitron'] text-[10px] tracking-[0.4em] mb-1">
-            ● SKILL MATRIX
+          <p className="text-[#00F5FF]/60 font-display text-[10px] tracking-[0.4em] mb-1">
+            {t(UI.skills.tag)}
           </p>
           <h2 className="text-2xl md:text-3xl font-bold mb-5">
             <span className="text-white/50">&lt;</span>
-            <span className="text-gradient">Toolbox</span>
+            <span className="text-gradient">{t(UI.skills.title)}</span>
             <span className="text-white/50"> /&gt;</span>
           </h2>
         </motion.div>
@@ -44,18 +47,18 @@ export default function Skills() {
         <div className="flex flex-wrap gap-1.5 mb-5">
           {CATEGORIES.map((cat, i) => (
             <motion.button
-              key={cat.name}
+              key={cat.id}
               initial={{ opacity: 0, y: 10 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.3, delay: i * 0.05 }}
               onClick={() => setActiveCat(activeCat === i ? null : i)}
-              className={`px-3 py-1.5 rounded text-[10px] font-['Orbitron'] tracking-wider transition-all duration-300 border ${
+              className={`px-3 py-1.5 rounded text-[10px] font-display tracking-wider transition-all duration-300 border ${
                 activeCat === i
                   ? 'bg-[#00F5FF]/10 border-[#00F5FF]/40 text-[#00F5FF]'
                   : 'border-white/5 text-gray-500 hover:text-gray-300 hover:border-white/10'
               }`}
             >
-              {cat.icon} {cat.name}
+              {cat.icon} {t(cat.name)}
             </motion.button>
           ))}
         </div>

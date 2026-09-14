@@ -1,8 +1,11 @@
 import { useState, useRef } from 'react'
 import { motion, useInView, AnimatePresence } from 'framer-motion'
-import { PROJECTS } from '../data/profile'
+import { PROJECTS, PROJECT_COUNT } from '../data/profile'
+import { UI } from '../data/ui'
+import { useLang } from '../i18n'
 
 export default function Projects() {
+  const { t } = useLang()
   const [expanded, setExpanded] = useState(null)
   const containerRef = useRef(null)
   const isInView = useInView(containerRef, { once: true, amount: 0.1 })
@@ -15,14 +18,19 @@ export default function Projects() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
         >
-          <p className="text-[#00F5FF]/60 font-['Orbitron'] text-[10px] tracking-[0.4em] mb-1">
-            ● MISSION LOG
+          <p className="text-[#00F5FF]/60 font-display text-[10px] tracking-[0.4em] mb-1">
+            {t(UI.projects.tag)}
           </p>
-          <h2 className="text-2xl md:text-3xl font-bold mb-5">
+          <h2 className="text-2xl md:text-3xl font-bold mb-1">
             <span className="text-white/50">&lt;</span>
-            <span className="text-gradient">Missions</span>
+            <span className="text-gradient">{t(UI.projects.title)}</span>
             <span className="text-white/50"> /&gt;</span>
           </h2>
+          <p className="text-xs text-gray-500 mb-5">
+            {t(UI.projects.note)
+              .replace('{shown}', PROJECTS.length)
+              .replace('{total}', PROJECT_COUNT)}
+          </p>
         </motion.div>
 
         <div className="grid gap-3">
@@ -43,17 +51,17 @@ export default function Projects() {
                       <span className="w-1.5 h-1.5 rounded-full" style={{ background: project.color }} />
                       <h3 className="text-sm font-bold text-white truncate">{project.name}</h3>
                     </div>
-                    <p className="text-[10px] text-gray-500 font-['Orbitron'] tracking-wider">
-                      {project.sub}
+                    <p className="text-[10px] text-gray-500 font-display tracking-wider">
+                      {t(project.sub)}
                     </p>
                   </div>
-                  <span className="shrink-0 text-[9px] text-gray-600 font-['Orbitron'] tracking-wider">
+                  <span className="shrink-0 text-[9px] text-gray-600 font-display tracking-wider">
                     {project.period}
                   </span>
                 </div>
 
                 {project.award && (
-                  <p className="text-[10px] text-yellow-500/80 mt-2">{project.award}</p>
+                  <p className="text-[10px] text-yellow-500/80 mt-2">{t(project.award)}</p>
                 )}
 
                 <AnimatePresence>
@@ -66,12 +74,12 @@ export default function Projects() {
                       className="overflow-hidden"
                     >
                       <p className="text-gray-400 text-xs leading-relaxed my-3">
-                        {project.description}
+                        {t(project.description)}
                       </p>
                       <div className="flex flex-wrap gap-1.5 mb-3">
-                        {project.tech.map((t) => (
+                        {project.tech.map((tech) => (
                           <span
-                            key={t}
+                            key={tech}
                             className="px-2 py-0.5 rounded text-[9px] font-medium"
                             style={{
                               background: `${project.color}11`,
@@ -79,7 +87,7 @@ export default function Projects() {
                               border: `1px solid ${project.color}22`,
                             }}
                           >
-                            {t}
+                            {tech}
                           </span>
                         ))}
                       </div>
@@ -88,10 +96,10 @@ export default function Projects() {
                           href={project.link}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 text-[10px] font-['Orbitron'] tracking-wider uppercase hover:underline"
+                          className="inline-flex items-center gap-1 text-[10px] font-display tracking-wider uppercase hover:underline"
                           style={{ color: project.color }}
                         >
-                          &gt;&gt; VIEW MISSION
+                          {t(UI.projects.view)}
                         </a>
                       )}
                     </motion.div>
@@ -99,7 +107,7 @@ export default function Projects() {
                 </AnimatePresence>
 
                 {expanded !== i && (
-                  <p className="text-[9px] text-gray-700 mt-2 font-['Orbitron']">[ CLICK TO EXPAND ]</p>
+                  <p className="text-[9px] text-gray-700 mt-2 font-display">{t(UI.projects.expand)}</p>
                 )}
               </div>
             </motion.div>

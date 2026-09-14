@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef, lazy, Suspense } from 'react'
+import { useState, useEffect, useCallback, useMemo, useRef, lazy, Suspense } from 'react'
 import './index.css'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
@@ -7,6 +7,8 @@ import Skills from './components/Skills'
 import Projects from './components/Projects'
 import Experience from './components/Experience'
 import Contact from './components/Contact'
+import { LangContext, detectInitialLang, saveLang, translate } from './i18n'
+import { UI } from './data/ui'
 
 // three.js is ~1MB — load it after the text content has painted
 const Scene3D = lazy(() => import('./components/Scene3D'))
@@ -28,8 +30,22 @@ export default function App() {
   const [current, setCurrent] = useState(0)
   const [visited, setVisited] = useState(() => new Set([0]))
   const [menuOpen, setMenuOpen] = useState(false)
+  const [lang, setLangState] = useState(detectInitialLang)
   const lockRef = useRef(false)
   const touchStart = useRef({ x: 0, y: 0, target: null })
+
+  const setLang = useCallback((next) => {
+    setLangState(next)
+    saveLang(next)
+  }, [])
+
+  const i18n = useMemo(() => ({ lang, setLang, t: (value) => translate(value, lang) }), [lang, setLang])
+
+  useEffect(() => {
+    // Drives the Vietnamese font swap in index.css and screen-reader pronunciation
+    document.documentElement.lang = lang
+    document.title = translate(UI.meta.title, lang)
+  }, [lang])
 
   const goTo = useCallback((index) => {
     if (index < 0 || index >= SECTIONS.length || lockRef.current) return
@@ -92,22 +108,24 @@ export default function App() {
   })
 
   return (
-    <div className="w-screen h-screen overflow-hidden fixed inset-0">
-      <Suspense fallback={null}>
-        <Scene3D />
-      </Suspense>
+    <LangContext value={i18n}>
+      <div className="w-screen h-screen overflow-hidden fixed inset-0">
+        <Suspense fallback={null}>
+          <Scene3D />
+        </Suspense>
 
-      {SECTIONS.map((Section, i) => (
-        <div key={i} style={pageStyle(i)} aria-hidden={current !== i}>
-          {/* Mount on first visit so each section's entrance animation plays when it is reached */}
-          {visited.has(i) && <Section goTo={goTo} />}
-        </div>
-      ))}
+        {SECTIONS.map((Section, i) => (
+          <div key={i} style={pageStyle(i)} aria-hidden={current !== i}>
+            {/* Mount on first visit so each section's entrance animation plays when it is reached */}
+            {visited.has(i) && <Section goTo={goTo} />}
+          </div>
+        ))}
 
-      <Navbar current={current} goTo={goTo} menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+        <Navbar current={current} goTo={goTo} menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
 
-      <div className="retro-scanline" />
-      <div className="noise-overlay" />
-    </div>
+        <div className="retro-scanline" />
+        <div className="noise-overlay" />
+      </div>
+    </LangContext>
   )
 }
