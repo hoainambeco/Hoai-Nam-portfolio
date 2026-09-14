@@ -1,14 +1,15 @@
 name: Deploy to GitHub Pages
 
-# Publishes two versions side by side:
-#   v1 (master)                   → https://hoainambeco.github.io/Hoai-Nam-portfolio/
-#   v2 (feature/new-portfolio-3d) → https://hoainambeco.github.io/Hoai-Nam-portfolio/v2/
-# Both are rebuilt on every push, so this file must be identical on both branches —
-# otherwise a push to the branch holding the old workflow wipes the other version.
+# Publishes three versions side by side:
+#   v1 (master)                         → https://hoainambeco.github.io/Hoai-Nam-portfolio/
+#   v2 (feature/new-portfolio-3d)       → https://hoainambeco.github.io/Hoai-Nam-portfolio/v2/
+#   v3 (feature/professional-portfolio) → https://hoainambeco.github.io/Hoai-Nam-portfolio/v3/
+# All three are rebuilt on every push, so this file must be identical on all three
+# branches — otherwise a push to a branch holding an older copy wipes a version.
 
 on:
   push:
-    branches: [master, feature/new-portfolio-3d]
+    branches: [master, feature/new-portfolio-3d, feature/professional-portfolio]
   workflow_dispatch:
 
 permissions:
@@ -21,6 +22,7 @@ concurrency:
 env:
   V1_REF: master
   V2_REF: feature/new-portfolio-3d
+  V3_REF: feature/professional-portfolio
   BASE: /Hoai-Nam-portfolio/
 
 jobs:
@@ -39,6 +41,12 @@ jobs:
           ref: ${{ env.V2_REF }}
           path: v2
 
+      - name: Checkout v3
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.V3_REF }}
+          path: v3
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -47,6 +55,7 @@ jobs:
           cache-dependency-path: |
             v1/package-lock.json
             v2/package-lock.json
+            v3/package-lock.json
 
       - name: Build v1 → /
         working-directory: v1
@@ -59,6 +68,12 @@ jobs:
         run: |
           npm ci
           npx vite build --base="${BASE}v2/" --outDir ../site/v2 --emptyOutDir
+
+      - name: Build v3 → /v3/
+        working-directory: v3
+        run: |
+          npm ci
+          npx vite build --base="${BASE}v3/" --outDir ../site/v3 --emptyOutDir
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
