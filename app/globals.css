@@ -1,0 +1,179 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens. Dark only, one accent.
+ * Contrast on --color-bg: fg 16.4:1 · muted 7.2:1 · subtle 5.0:1 · accent 8.0:1
+ */
+@theme inline {
+  --font-sans: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-martian), ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+
+@theme {
+  --color-bg: #0e1013;
+  --color-raised: #15181c;
+  --color-line: #262a30;
+  --color-line-strong: #3a3f47;
+  --color-fg: #eceef1;
+  --color-muted: #9aa0a9;
+  --color-subtle: #7d838c;
+  --color-accent: #7aa7ff;
+  --color-danger: #ff9486;
+
+  /* Type scale: 12 · 17 · 18–21 · 22–28 · 36–60 · 40–80 · 42–84 */
+  --text-meta: 0.75rem;
+  --text-meta--line-height: 1.5;
+  --text-body: 1.0625rem;
+  --text-body--line-height: 1.65;
+  --text-lead: clamp(1.125rem, 1.04rem + 0.36vw, 1.3125rem);
+  --text-lead--line-height: 1.5;
+  --text-title: clamp(1.375rem, 1.2rem + 0.75vw, 1.75rem);
+  --text-title--line-height: 1.2;
+  --text-title--letter-spacing: -0.015em;
+  --text-heading: clamp(2.25rem, 1.45rem + 3.2vw, 3.75rem);
+  --text-heading--line-height: 1.04;
+  --text-heading--letter-spacing: -0.032em;
+  --text-project: clamp(2.5rem, 1.5rem + 4.2vw, 5rem);
+  --text-project--line-height: 1;
+  --text-project--letter-spacing: -0.038em;
+  --text-display: clamp(2.625rem, 1.2rem + 5.2vw, 5.25rem);
+  --text-display--line-height: 1;
+  --text-display--letter-spacing: -0.042em;
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+    background: var(--color-bg);
+    scroll-padding-top: 4.5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--color-bg);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p,
+  li,
+  dd {
+    text-wrap: pretty;
+  }
+
+  /* Martian Mono is wide; its width axis narrows it for dense labels. */
+  .font-mono {
+    font-variation-settings: "wdth" 87.5;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--color-accent) 32%, transparent);
+    color: var(--color-fg);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+}
+
+/* Small monospace metadata: dates, tier labels, stack names. */
+@utility meta {
+  font-family: var(--font-mono);
+  font-size: var(--text-meta);
+  line-height: var(--text-meta--line-height);
+  font-variation-settings: "wdth" 87.5;
+  letter-spacing: 0;
+}
+
+@utility link {
+  color: var(--color-fg);
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: var(--color-line-strong);
+  text-underline-offset: 0.28em;
+  transition:
+    text-decoration-color 150ms ease,
+    color 150ms ease;
+
+  &:hover {
+    text-decoration-color: var(--color-accent);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /*
+   * Scroll-driven reveal for a few large blocks. Pure CSS: browsers without
+   * view timelines, and visitors who prefer reduced motion, see content as-is.
+   */
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 45%;
+    }
+  }
+
+  /* One pass of a request down the hero diagram, on load. */
+  .arch-signal {
+    transform-origin: top;
+    animation: arch-signal 620ms cubic-bezier(0.4, 0, 0.2, 1) both;
+    animation-delay: calc(var(--tier) * 340ms + 600ms);
+  }
+
+  .arch-tick {
+    animation: arch-tick 1000ms ease-out both;
+    animation-delay: calc(var(--tier) * 340ms + 560ms);
+  }
+}
+
+.arch-signal {
+  opacity: 0;
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(1.25rem);
+  }
+}
+
+@keyframes arch-signal {
+  0% {
+    transform: scaleY(0);
+    opacity: 1;
+  }
+  60% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleY(1);
+    opacity: 0;
+  }
+}
+
+@keyframes arch-tick {
+  0%,
+  100% {
+    background-color: var(--color-line-strong);
+  }
+  30% {
+    background-color: var(--color-accent);
+  }
+}

@@ -1,15 +1,16 @@
 name: Deploy to GitHub Pages
 
-# Publishes three versions side by side:
+# Publishes four versions side by side:
 #   v1 (master)                         → https://hoainambeco.github.io/Hoai-Nam-portfolio/
 #   v2 (feature/new-portfolio-3d)       → https://hoainambeco.github.io/Hoai-Nam-portfolio/v2/
 #   v3 (feature/professional-portfolio) → https://hoainambeco.github.io/Hoai-Nam-portfolio/v3/
-# All three are rebuilt on every push, so this file must be identical on all three
+#   v4 (feature/portfolio-v4)           → https://hoainambeco.github.io/Hoai-Nam-portfolio/v4/
+# All four are rebuilt on every push, so this file must be identical on all four
 # branches — otherwise a push to a branch holding an older copy wipes a version.
 
 on:
   push:
-    branches: [master, feature/new-portfolio-3d, feature/professional-portfolio]
+    branches: [master, feature/new-portfolio-3d, feature/professional-portfolio, feature/portfolio-v4]
   workflow_dispatch:
 
 permissions:
@@ -23,6 +24,7 @@ env:
   V1_REF: master
   V2_REF: feature/new-portfolio-3d
   V3_REF: feature/professional-portfolio
+  V4_REF: feature/portfolio-v4
   BASE: /Hoai-Nam-portfolio/
 
 jobs:
@@ -47,6 +49,12 @@ jobs:
           ref: ${{ env.V3_REF }}
           path: v3
 
+      - name: Checkout v4
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.V4_REF }}
+          path: v4
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -56,6 +64,7 @@ jobs:
             v1/package-lock.json
             v2/package-lock.json
             v3/package-lock.json
+            v4/package-lock.json
 
       - name: Build v1 → /
         working-directory: v1
@@ -74,6 +83,17 @@ jobs:
         run: |
           npm ci
           npx vite build --base="${BASE}v3/" --outDir ../site/v3 --emptyOutDir
+
+      # v4 is Next.js (static export to out/). BASE_PATH has no trailing slash.
+      - name: Build v4 → /v4/
+        working-directory: v4
+        env:
+          BASE_PATH: ${{ env.BASE }}v4
+          NEXT_TELEMETRY_DISABLED: '1'
+        run: |
+          npm ci
+          npx next build
+          rm -rf ../site/v4 && mkdir -p ../site/v4 && cp -r out/. ../site/v4/
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
