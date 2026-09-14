@@ -1,0 +1,5 @@
+:HL["/Hoai-Nam-portfolio/v4/_next/static/chunks/1vf9hw43mz9n-.css","style"]
+:HL["/Hoai-Nam-portfolio/v4/_next/static/media/9721f9d4df761ffd-s.p.1dxjg4ufbxory.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/Hoai-Nam-portfolio/v4/_next/static/media/a63431c4ac64ea8b-s.p.386o_ri1vb0yv.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/Hoai-Nam-portfolio/v4/_next/static/media/c47649aa31f9e140-s.p.3lxpqujs87tck.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+0:{"tree":{"name":"","param":null,"prefetchHints":4176,"slots":{"children":{"name":"work","param":null,"prefetchHints":4192,"slots":{"children":{"name":"slug","param":{"type":"d","key":"boffice","siblings":[]},"prefetchHints":4192,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}}}},"staleTime":300,"buildId":"sHLGrYWrFBdmgM0DOut2V"}
