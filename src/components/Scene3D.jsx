@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { MeshDistortMaterial, Sphere } from '@react-three/drei'
 import * as THREE from 'three'
@@ -29,6 +29,41 @@ const ORBITALS = Array.from({ length: 8 }, () => ({
   size: 0.02 + Math.random() * 0.03,
   color: Math.random() > 0.5 ? '#00F5FF' : '#8B5CF6',
 }))
+
+// ─── Cursor attraction ───────────────────────────────────────────────────────
+// Stars near the cursor are pulled part of the way toward it, in screen space on the GPU.
+const ATTRACT_RADIUS = 0.55 // reach, in units of half the viewport height
+const ATTRACT_PULL = 0.6 // share of the distance a star right under the cursor travels
+const CURSOR_FOLLOW_RATE = 3 // how quickly the pull point chases the cursor
+const STRENGTH_RATE = 1.2 // how quickly stars gather (and drift back once the cursor leaves)
+
+const STAR_UNIFORMS = {
+  uMouse: { value: new THREE.Vector2() },
+  uAspect: { value: 1 },
+  uStrength: { value: 0 },
+  uRadius: { value: ATTRACT_RADIUS },
+  uPull: { value: ATTRACT_PULL },
+}
+
+// Patches the built-in PointsMaterial so size attenuation, vertex colors and blending stay intact
+function injectAttraction(shader) {
+  Object.assign(shader.uniforms, STAR_UNIFORMS)
+  shader.vertexShader = shader.vertexShader
+    .replace('#include <common>', `#include <common>
+uniform vec2 uMouse;
+uniform float uAspect;
+uniform float uStrength;
+uniform float uRadius;
+uniform float uPull;`)
+    .replace('#include <project_vertex>', `#include <project_vertex>
+if (gl_Position.w > 0.0) {
+  vec2 ndc = gl_Position.xy / gl_Position.w;
+  vec2 toMouse = uMouse - ndc;
+  float dist = length(vec2(toMouse.x * uAspect, toMouse.y));
+  float pull = uStrength * uPull * (1.0 - smoothstep(0.0, uRadius, dist));
+  gl_Position.xy = (ndc + toMouse * pull) * gl_Position.w;
+}`)
+}
 
 function Planet() {
   const groupRef = useRef()
@@ -86,11 +121,31 @@ function Planet() {
 
 function Stars() {
   const ref = useRef()
+  const cursorActive = useRef(false)
 
-  useFrame(({ clock }) => {
+  useEffect(() => {
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const handleMove = () => { cursorActive.current = !reducedMotion.matches }
+    // relatedTarget is null when the pointer leaves the window (or a touch ends)
+    const handleOut = (e) => { if (!e.relatedTarget) cursorActive.current = false }
+    window.addEventListener('pointermove', handleMove)
+    window.addEventListener('pointerout', handleOut)
+    return () => {
+      window.removeEventListener('pointermove', handleMove)
+      window.removeEventListener('pointerout', handleOut)
+    }
+  }, [])
+
+  useFrame(({ clock, pointer, size }, delta) => {
     const t = clock.getElapsedTime()
     ref.current.rotation.y = t * 0.008
     ref.current.rotation.x = Math.sin(t * 0.003) * 0.02
+
+    // Frame-rate independent easing, so the gathering feels the same at 60Hz and 144Hz
+    const { uMouse, uAspect, uStrength } = STAR_UNIFORMS
+    uMouse.value.lerp(pointer, 1 - Math.exp(-delta * CURSOR_FOLLOW_RATE))
+    uStrength.value += ((cursorActive.current ? 1 : 0) - uStrength.value) * (1 - Math.exp(-delta * STRENGTH_RATE))
+    uAspect.value = size.width / size.height
   })
 
   return (
@@ -107,6 +162,7 @@ function Stars() {
         sizeAttenuation
         blending={THREE.AdditiveBlending}
         depthWrite={false}
+        onBeforeCompile={injectAttraction}
       />
     </points>
   )
