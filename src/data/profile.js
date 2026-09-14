@@ -1,10 +1,14 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// Single source of truth for every view (editor, terminal, command palette).
+// Single source of truth — the portfolio and the CV page both read from here.
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const PROFILE = {
   name: 'Nguyen Hoai Nam',
+  nameNative: 'Nguyễn Hoài Nam',
   handle: 'hoainambeco',
+  intro:
+    'Full-stack engineer in Ha Noi. I spend most of my time on backend architecture: service boundaries, event-driven flows with Kafka, caching and search. I also build the React interfaces and smart contracts that sit on top.',
+  focus: 'Backend, microservices, Web3',
   role: 'Full-Stack Engineer',
   headline: 'Backend-heavy full-stack engineer — Node.js, microservices, Web3.',
   roles: [
@@ -27,13 +31,6 @@ export const PROFILE = {
     'Currently at SotaTek JSC, delivering outsourcing projects for Japanese enterprises.',
   ],
 };
-
-export const STATS = [
-  { value: '4+', label: 'years experience' },
-  { value: '4', label: 'companies' },
-  { value: '10+', label: 'projects shipped' },
-  { value: 'Web2 + Web3', label: 'domains' },
-];
 
 export const SOCIALS = [
   { id: 'github', label: 'GitHub', handle: '@hoainambeco', href: 'https://github.com/hoainambeco' },
@@ -242,5 +239,3 @@ export const AWARDS = [
     href: 'https://movementlabs.notion.site/Olympus-Hackathon-Finalists-588d4533f53a4a32b0a67f7cb9846452',
   },
 ];
-
-export const ALL_SKILLS = SKILL_GROUPS.flatMap((g) => g.items);

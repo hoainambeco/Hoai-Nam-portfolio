@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState, useSyncExternalStore } from 'react';
 
-const THEME_KEY = 'portfolio:theme';
+// Not `portfolio:theme` — v1 shares the origin and writes its dark default there.
+const THEME_KEY = 'portfolio-pro:theme';
 
 function readStoredTheme() {
   try {
@@ -9,9 +10,9 @@ function readStoredTheme() {
   } catch {
     /* storage blocked — fall through to the system preference */
   }
-  return window.matchMedia('(prefers-color-scheme: light)').matches
-    ? 'light'
-    : 'dark';
+  return window.matchMedia('(prefers-color-scheme: dark)').matches
+    ? 'dark'
+    : 'light';
 }
 
 /** Theme persisted per visitor, applied as `data-theme` on <html>. */
@@ -35,48 +36,42 @@ export function useTheme() {
   return { theme, setTheme, toggleTheme };
 }
 
-export function useMediaQuery(query) {
-  const subscribe = useCallback(
-    (onChange) => {
-      const mql = window.matchMedia(query);
-      mql.addEventListener('change', onChange);
-      return () => mql.removeEventListener('change', onChange);
-    },
-    [query],
-  );
+const subscribeScroll = (onChange) => {
+  window.addEventListener('scroll', onChange, { passive: true });
+  return () => window.removeEventListener('scroll', onChange);
+};
 
+/** `true` once the page has scrolled more than `px` pixels. */
+export function useScrolledPast(px) {
   return useSyncExternalStore(
-    subscribe,
-    () => window.matchMedia(query).matches,
+    subscribeScroll,
+    () => window.scrollY > px,
     () => false,
   );
 }
 
-const nextFrame = (state, words) => {
-  const word = words[state.index % words.length];
-  if (!state.erasing) {
-    return state.text === word
-      ? { ...state, erasing: true }
-      : { ...state, text: word.slice(0, state.text.length + 1) };
-  }
-  return state.text === ''
-    ? { index: (state.index + 1) % words.length, text: '', erasing: false }
-    : { ...state, text: word.slice(0, state.text.length - 1) };
-};
-
-/** Types each word out, holds, erases it, then moves to the next one. */
-export function useTypewriter(words, { type = 70, erase = 34, hold = 1700 } = {}) {
-  const [state, setState] = useState({ index: 0, text: '', erasing: false });
+/**
+ * Id of the element (from `ids`) crossing the middle of the viewport.
+ * `ids` must be a stable array — define it at module level.
+ */
+export function useActiveSection(ids) {
+  const [active, setActive] = useState(null);
 
   useEffect(() => {
-    const word = words[state.index % words.length];
-    const settled = !state.erasing && state.text === word;
-    const delay = settled ? hold : state.erasing ? erase : type;
-    const timer = setTimeout(() => setState((s) => nextFrame(s, words)), delay);
-    return () => clearTimeout(timer);
-  }, [state, words, type, erase, hold]);
+    const elements = ids.map((id) => document.getElementById(id)).filter(Boolean);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) setActive(entry.target.id);
+        }
+      },
+      { rootMargin: '-45% 0px -50% 0px' },
+    );
+    elements.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, [ids]);
 
-  return state.text;
+  return active;
 }
 
 /** `true` for a short moment after `fire()` — used for copy confirmations. */

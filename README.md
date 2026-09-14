@@ -1,14 +1,21 @@
 # Hoai Nam — portfolio
 
-A personal portfolio that presents itself as a code editor: file explorer,
-tabs, a working terminal, a command palette, and a printable CV page.
+A single-page portfolio in a plain, professional style: about, experience
+timeline, selected work with an architecture diagram of the CareerViet
+migration, skills, education and contact — plus a printable CV page.
 
-Live: <https://hoainambeco.github.io/Hoai-Nam-portfolio/>
+This is the `feature/professional-portfolio` branch, published as **v3**.
+
+| Version | Branch                           | URL                                                   |
+| ------- | -------------------------------- | ----------------------------------------------------- |
+| v1      | `master` (code editor)           | <https://hoainambeco.github.io/Hoai-Nam-portfolio/>    |
+| v2      | `feature/new-portfolio-3d`       | <https://hoainambeco.github.io/Hoai-Nam-portfolio/v2/> |
+| v3      | `feature/professional-portfolio` | <https://hoainambeco.github.io/Hoai-Nam-portfolio/v3/> |
 
 ## Stack
 
-React 19 · Vite · plain CSS (custom properties, no UI framework) · deployed to
-GitHub Pages.
+React 19 · Vite · plain CSS (custom properties, no UI framework) · Be Vietnam
+Pro from Google Fonts · deployed to GitHub Pages.
 
 ## Run it
 
@@ -24,36 +31,42 @@ npm run lint
 
 ```
 src/
-  App.jsx               editor shell — tabs, panels, shortcuts, deep links
-  index.css             design tokens, layout, syntax colours, light/dark theme
-  data/profile.js       single source of truth (portfolio *and* CV read from it)
-  lib/
-    files.js            the "files" shown in the explorer → their views
-    commands.js         terminal commands (help, ls, cat, skills, neofetch…)
-    hooks.js            theme, media queries, typewriter, clipboard
-  components/ide/       title bar, activity bar, explorer, tabs, terminal, palette
-  components/views/     the content of each file (readme, about, skills, …)
-  pages/cv/             the standalone, print-first CV at /cv.html
+  App.jsx                    page order
+  index.css                  tokens (light + dark), layout, every section's styles
+  data/profile.js            single source of truth (portfolio *and* CV read from it)
+  lib/hooks.js               theme, active-section tracking, scroll state, clipboard
+  components/
+    Header.jsx               sticky header, section nav, theme toggle, CV download
+    Hero.jsx                 name, intro, actions, quick facts
+    Section.jsx              title-in-the-rail section layout
+    About.jsx · Experience.jsx · Work.jsx · Skills.jsx · Education.jsx · Contact.jsx
+    ArchitectureDiagram.jsx  SVG of CareerViet after the migration
+    Icons.jsx                inline stroke icons
+  pages/cv/                  the standalone, print-first CV at /cv.html (own stylesheet)
 ```
 
-Edit `src/data/profile.js` to change any content — every view, the terminal
-output and the CV update from it.
+Edit `src/data/profile.js` to change any content.
 
 ## Things worth knowing
 
-- **Keyboard**: `⌘K` / `⌃K` command palette · `⌘B` explorer · `` ⌃` `` terminal ·
-  `⌘1…⌘6` open the nth file.
-- **Deep links**: `#projects`, `#experience`, `#terminal`… open that file (or the
-  terminal) directly.
-- **Terminal**: `help` lists every command; `cat projects.json`, `skills backend`
-  and `theme light` all do what they look like.
-- **Theme**: follows the OS by default, remembered per visitor in `localStorage`,
-  applied before first paint from a small inline script in `index.html`.
+- **Deep links**: `#about`, `#experience`, `#work`, `#skills`, `#contact`.
+- **Theme**: light by default, dark when the OS prefers it; the toggle is
+  remembered per visitor in `localStorage` under `portfolio-pro:theme` (not
+  the key v1 uses, since all versions share one origin) and applied before
+  first paint from a small inline script in `index.html`.
+- **Motion**: the only animation is one pass of events through the Kafka bus
+  in the architecture diagram, played when it scrolls into view. It is skipped
+  when the visitor prefers reduced motion.
 - **CV**: `/cv.html` is styled as paper and tuned to print on two A4 pages;
   `public/cv.pdf` is the downloadable copy.
 
 ## Deploy
 
-Pushing to `master` runs `.github/workflows/deploy.yml`, which builds and
-publishes `dist/` to GitHub Pages. `npm run deploy` does the same by hand via
-`gh-pages`.
+A push to `master`, `feature/new-portfolio-3d` or
+`feature/professional-portfolio` runs `.github/workflows/deploy.yml`, which
+checks out all three branches, builds each under its own base path (`/`,
+`/v2/`, `/v3/`) and publishes the combined site to the `gh-pages` branch.
+
+Keep that workflow file identical on all three branches: the copy on the
+branch that was pushed is the one that runs, and an older copy would wipe the
+versions it does not know about.

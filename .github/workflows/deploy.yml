@@ -1,33 +1,82 @@
 name: Deploy to GitHub Pages
 
+# Publishes three versions side by side:
+#   v1 (master)                         → https://hoainambeco.github.io/Hoai-Nam-portfolio/
+#   v2 (feature/new-portfolio-3d)       → https://hoainambeco.github.io/Hoai-Nam-portfolio/v2/
+#   v3 (feature/professional-portfolio) → https://hoainambeco.github.io/Hoai-Nam-portfolio/v3/
+# All three are rebuilt on every push, so this file must be identical on all three
+# branches — otherwise a push to a branch holding an older copy wipes a version.
+
 on:
   push:
-    branches: [main, master]
+    branches: [master, feature/new-portfolio-3d, feature/professional-portfolio]
   workflow_dispatch:
 
 permissions:
   contents: write
 
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: false
+
+env:
+  V1_REF: master
+  V2_REF: feature/new-portfolio-3d
+  V3_REF: feature/professional-portfolio
+  BASE: /Hoai-Nam-portfolio/
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout v1
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.V1_REF }}
+          path: v1
+
+      - name: Checkout v2
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.V2_REF }}
+          path: v2
+
+      - name: Checkout v3
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.V3_REF }}
+          path: v3
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
+          cache-dependency-path: |
+            v1/package-lock.json
+            v2/package-lock.json
+            v3/package-lock.json
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Build v1 → /
+        working-directory: v1
+        run: |
+          npm ci
+          npx vite build --base="$BASE" --outDir ../site --emptyOutDir
 
-      - name: Build
-        run: npm run build
+      - name: Build v2 → /v2/
+        working-directory: v2
+        run: |
+          npm ci
+          npx vite build --base="${BASE}v2/" --outDir ../site/v2 --emptyOutDir
+
+      - name: Build v3 → /v3/
+        working-directory: v3
+        run: |
+          npm ci
+          npx vite build --base="${BASE}v3/" --outDir ../site/v3 --emptyOutDir
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+          publish_dir: ./site
