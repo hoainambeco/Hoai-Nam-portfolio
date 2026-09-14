@@ -16,10 +16,12 @@ export const STATS = [
   { value: 'WEB2 + WEB3', label: 'DOMAIN' },
 ];
 
+export const EMAIL = 'namxg1@gmail.com';
+
 export const SOCIAL = [
   { label: 'GITHUB', href: 'https://github.com/hoainambeco' },
   { label: 'LINKEDIN', href: 'https://www.linkedin.com/in/namnguyen1024/' },
-  { label: 'EMAIL', href: 'mailto:namxg1@gmail.com' },
+  { label: 'EMAIL', href: `mailto:${EMAIL}` },
 ];
 
 // ─── Skills ──────────────────────────────────────────────────────────────────

@@ -1,233 +1,140 @@
-import { useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion'
 
-const LINKS = [
-  { label: 'HOME', index: 0 },
-  { label: 'ABOUT', index: 1 },
-  { label: 'SKILLS', index: 2 },
-  { label: 'PROJECTS', index: 3 },
-  { label: 'EXPERIENCE', index: 4 },
-  { label: 'CONTACT', index: 5 },
-];
+const SECTIONS = [
+  { id: 'home', label: 'START', icon: '◈' },
+  { id: 'about', label: 'PROFILE', icon: '◉' },
+  { id: 'skills', label: 'SKILLS', icon: '⚡' },
+  { id: 'projects', label: 'MISSIONS', icon: '◆' },
+  { id: 'experience', label: 'HISTORY', icon: '◈' },
+  { id: 'contact', label: 'CONTACT', icon: '◉' },
+]
 
 export default function Navbar({ current, goTo, menuOpen, setMenuOpen }) {
-  const handleNav = (index) => {
-    setMenuOpen(false);
-    goTo(index);
-  };
-
-  // Block pull-to-refresh and swipe-page when overlay is open
-  useEffect(() => {
-    if (!menuOpen) return;
-    const prevent = (e) => e.preventDefault();
-    document.addEventListener('touchmove', prevent, { passive: false });
-    return () => document.removeEventListener('touchmove', prevent);
-  }, [menuOpen]);
-
   return (
     <>
-      <nav
-        style={{
-          background: 'rgba(10, 10, 26, 0.55)',
-          backdropFilter: 'blur(14px)',
-          borderBottom: '1px solid rgba(0,245,255,0.1)',
-          position: 'relative',
-          zIndex: 200,
-        }}
-      >
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          {/* Logo */}
-          <span
-            style={{
-              fontFamily: 'Orbitron, monospace',
-              color: '#00f5ff',
-              fontSize: 15,
-              fontWeight: 700,
-              letterSpacing: '0.1em',
-              cursor: 'pointer',
-              userSelect: 'none',
-            }}
-            onClick={() => handleNav(0)}
-          ></span>
-          {/* Desktop links */}
-          <ul className="hidden md:flex gap-8">
-            {LINKS.map((l) => (
-              <li key={l.index}>
-                <button
-                  onClick={() => handleNav(l.index)}
-                  className="nav-link"
-                  style={{
-                    fontFamily: 'Orbitron, monospace',
-                    fontSize: 11,
-                    color:
-                      current === l.index ? '#00F5FF' : 'rgba(255,255,255,0.6)',
-                    background: 'none',
-                    border: 'none',
-                    cursor: 'pointer',
-                    transition: 'color 0.25s',
-                    letterSpacing: '0.18em',
-                    textShadow:
-                      current === l.index
-                        ? '0 0 10px rgba(0,245,255,0.5)'
-                        : 'none',
-                  }}
-                  onMouseEnter={(e) => {
-                    if (current !== l.index)
-                      e.currentTarget.style.color = '#fff';
-                  }}
-                  onMouseLeave={(e) => {
-                    if (current !== l.index)
-                      e.currentTarget.style.color = 'rgba(255,255,255,0.6)';
-                  }}
-                >
-                  {l.label}
-                </button>
-              </li>
-            ))}
-          </ul>
+      {/* Top HUD */}
+      <div className="fixed top-0 left-0 right-0 z-50 pointer-events-none">
+        <div className="flex items-center justify-between px-4 md:px-8 py-3">
+          <div className="pointer-events-auto">
+            <button
+              onClick={() => goTo(0)}
+              className="text-[#00F5FF] font-['Orbitron'] text-sm font-bold tracking-widest hover:opacity-80 transition-opacity"
+            >
+              NAM<span className="text-white/40">.dev</span>
+            </button>
+          </div>
 
-          {/* Hamburger — mobile only */}
+          {/* Desktop nav */}
+          <div className="hidden md:flex items-center gap-1 pointer-events-auto">
+            {SECTIONS.map((s, i) => (
+              <button
+                key={s.id}
+                onClick={() => goTo(i)}
+                className={`relative group px-3 py-1.5 text-[10px] font-['Orbitron'] tracking-[0.15em] uppercase transition-all duration-300 ${
+                  current === i
+                    ? 'text-[#00F5FF]'
+                    : 'text-gray-500 hover:text-gray-300'
+                }`}
+              >
+                <span className="mr-1.5 text-xs">{s.icon}</span>
+                {s.label}
+                {current === i && (
+                  <div className="absolute -bottom-px left-2 right-2 h-[1px] bg-gradient-to-r from-transparent via-[#00F5FF] to-transparent" />
+                )}
+              </button>
+            ))}
+          </div>
+
+          {/* Menu button mobile */}
           <button
-            className="md:hidden flex flex-col justify-center items-end gap-1.5 p-2"
-            style={{
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              zIndex: 300,
-            }}
-            onClick={() => setMenuOpen((o) => !o)}
-            aria-label="Toggle menu"
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="md:hidden pointer-events-auto w-8 h-8 flex items-center justify-center"
           >
-            <span
-              style={{
-                display: 'block',
-                height: 2,
-                width: 26,
-                background: menuOpen ? '#00f5ff' : 'white',
-                borderRadius: 2,
-                transform: menuOpen
-                  ? 'rotate(45deg) translate(5px, 5px)'
-                  : 'none',
-                transition: 'all 0.3s ease',
-              }}
-            />
-            <span
-              style={{
-                display: 'block',
-                height: 2,
-                width: 26,
-                background: menuOpen ? '#00f5ff' : 'white',
-                borderRadius: 2,
-                opacity: menuOpen ? 0 : 1,
-                transition: 'all 0.3s ease',
-              }}
-            />
-            <span
-              style={{
-                display: 'block',
-                height: 2,
-                width: menuOpen ? 26 : 18,
-                background: menuOpen ? '#00f5ff' : 'white',
-                borderRadius: 2,
-                transform: menuOpen
-                  ? 'rotate(-45deg) translate(5px, -5px)'
-                  : 'none',
-                transition: 'all 0.3s ease',
-              }}
-            />
+            <div className="flex flex-col gap-1">
+              <motion.span
+                className="block w-5 h-[1.5px] bg-white/60 rounded"
+                animate={menuOpen ? { rotate: 45, y: 4 } : { rotate: 0, y: 0 }}
+              />
+              <motion.span
+                className="block w-5 h-[1.5px] bg-white/60 rounded"
+                animate={menuOpen ? { opacity: 0 } : { opacity: 1 }}
+              />
+              <motion.span
+                className="block w-5 h-[1.5px] bg-white/60 rounded"
+                animate={menuOpen ? { rotate: -45, y: -4 } : { rotate: 0, y: 0 }}
+              />
+            </div>
           </button>
         </div>
-      </nav>
+      </div>
 
-      {/* Full-screen mobile overlay */}
-      <div
-        className="md:hidden"
-        style={{
-          position: 'fixed',
-          inset: 0,
-          background: 'rgba(6,3,20,0.97)',
-          backdropFilter: 'blur(20px)',
-          zIndex: 150,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 0,
-          opacity: menuOpen ? 1 : 0,
-          pointerEvents: menuOpen ? 'auto' : 'none',
-          transition: 'opacity 0.35s ease',
-        }}
-      >
-        {/* Decorative top line */}
-        <div
-          style={{
-            width: 1,
-            height: 60,
-            background:
-              'linear-gradient(to bottom, transparent, rgba(0,245,255,0.4))',
-            marginBottom: 40,
-          }}
-        />
-
-        {LINKS.map((l, i) => (
-          <button
-            key={l.index}
-            onClick={() => handleNav(l.index)}
-            style={{
-              fontFamily: 'Orbitron, monospace',
-              fontSize: 'clamp(1.2rem, 6vw, 2rem)',
-              fontWeight: 700,
-              letterSpacing: '0.2em',
-              color: current === l.index ? '#00F5FF' : 'rgba(255,255,255,0.55)',
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              padding: '18px 0',
-              transition: 'color 0.2s, transform 0.2s',
-              textShadow:
-                current === l.index ? '0 0 20px rgba(0,245,255,0.6)' : 'none',
-              transform: menuOpen ? 'translateY(0)' : 'translateY(20px)',
-              transitionDelay: menuOpen ? `${i * 0.06}s` : '0s',
-              display: 'block',
-              width: '100%',
-              textAlign: 'center',
-            }}
-            onTouchStart={(e) => {
-              e.currentTarget.style.color = '#00F5FF';
-            }}
-            onTouchEnd={(e) => {
-              e.currentTarget.style.color =
-                current === l.index ? '#00F5FF' : 'rgba(255,255,255,0.55)';
-            }}
+      {/* Mobile menu */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-40 bg-black/80 backdrop-blur-xl flex items-center justify-center md:hidden"
           >
-            {l.label}
-          </button>
-        ))}
+            <div className="space-y-2">
+              {SECTIONS.map((s, i) => (
+                <button
+                  key={s.id}
+                  onClick={() => { goTo(i); setMenuOpen(false) }}
+                  className={`block w-full text-center px-8 py-3 text-sm font-['Orbitron'] tracking-widest uppercase transition-all ${
+                    current === i
+                      ? 'text-[#00F5FF]'
+                      : 'text-gray-500 hover:text-white'
+                  }`}
+                >
+                  <span className="mr-2">{s.icon}</span>
+                  {s.label}
+                </button>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-        {/* Decorative bottom line */}
-        <div
-          style={{
-            width: 1,
-            height: 60,
-            background:
-              'linear-gradient(to top, transparent, rgba(0,245,255,0.4))',
-            marginTop: 40,
-          }}
-        />
-
-        {/* Current page indicator */}
-        <p
-          style={{
-            fontFamily: 'Orbitron, monospace',
-            fontSize: 9,
-            letterSpacing: '0.3em',
-            color: 'rgba(0,245,255,0.35)',
-            marginTop: 20,
-          }}
+      {/* Bottom navigation arrows */}
+      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-4">
+        <button
+          onClick={() => goTo(current - 1)}
+          className={`p-2 rounded-full border border-white/10 text-white/30 hover:text-[#00F5FF] hover:border-[#00F5FF]/30 transition-all duration-300 ${current === 0 ? 'opacity-0 pointer-events-none' : ''}`}
         >
-          {String(current + 1).padStart(2, '0')} /{' '}
-          {String(LINKS.length).padStart(2, '0')}
-        </p>
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 15l7-7 7 7" />
+          </svg>
+        </button>
+        <div className="flex gap-2">
+          {SECTIONS.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => goTo(i)}
+              style={{
+                width: i === current ? 20 : 5,
+                height: 5,
+                borderRadius: 3,
+                border: 'none',
+                cursor: 'pointer',
+                transition: 'all 0.4s cubic-bezier(0.23, 1, 0.32, 1)',
+                padding: 0,
+                background: i === current ? '#00F5FF' : 'rgba(255,255,255,0.12)',
+                boxShadow: i === current ? '0 0 8px rgba(0,245,255,0.5)' : 'none',
+              }}
+            />
+          ))}
+        </div>
+        <button
+          onClick={() => goTo(current + 1)}
+          className={`p-2 rounded-full border border-white/10 text-white/30 hover:text-[#00F5FF] hover:border-[#00F5FF]/30 transition-all duration-300 ${current === SECTIONS.length - 1 ? 'opacity-0 pointer-events-none' : ''}`}
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
       </div>
     </>
-  );
+  )
 }

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useCallback, useRef, lazy, Suspense } from 'react'
 import './index.css'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
@@ -8,46 +8,66 @@ import Projects from './components/Projects'
 import Experience from './components/Experience'
 import Contact from './components/Contact'
 
-const SECTIONS = ['home', 'about', 'skills', 'projects', 'experience', 'contact']
+// three.js is ~1MB — load it after the text content has painted
+const Scene3D = lazy(() => import('./components/Scene3D'))
+
+const SECTIONS = [Hero, About, Skills, Projects, Experience, Contact]
+const TRANSITION_MS = 600
+
+// True when the event target sits inside a panel that can still scroll in that direction,
+// so the gesture should scroll the panel instead of switching sections.
+function canScrollInside(target, deltaY) {
+  const el = target?.closest?.('.content-scroll')
+  if (!el) return false
+  return deltaY > 0
+    ? el.scrollTop + el.clientHeight < el.scrollHeight - 1
+    : el.scrollTop > 0
+}
 
 export default function App() {
   const [current, setCurrent] = useState(0)
+  const [visited, setVisited] = useState(() => new Set([0]))
   const [menuOpen, setMenuOpen] = useState(false)
-  const transitioning = useRef(false)
-  const touchStartY = useRef(0)
+  const lockRef = useRef(false)
+  const touchStart = useRef({ x: 0, y: 0, target: null })
 
   const goTo = useCallback((index) => {
-    if (index < 0 || index >= SECTIONS.length) return
+    if (index < 0 || index >= SECTIONS.length || lockRef.current) return
+    lockRef.current = true
     setCurrent(index)
-  }, [])
-
-  const navigate = useCallback((dir) => {
-    if (transitioning.current) return
-    transitioning.current = true
-    setCurrent(c => {
-      const next = Math.max(0, Math.min(SECTIONS.length - 1, c + dir))
-      return next
-    })
-    setTimeout(() => { transitioning.current = false }, 520)
+    setVisited(v => (v.has(index) ? v : new Set(v).add(index)))
+    setTimeout(() => { lockRef.current = false }, TRANSITION_MS)
   }, [])
 
   useEffect(() => {
+    const navigate = (dir) => goTo(current + dir)
+
     const handleWheel = (e) => {
+      if (menuOpen || canScrollInside(e.target, e.deltaY)) return
       e.preventDefault()
-      if (menuOpen) return
+      if (Math.abs(e.deltaY) < 10) return
       navigate(e.deltaY > 0 ? 1 : -1)
     }
     const handleKey = (e) => {
       if (menuOpen) return
-      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return
-      if (['ArrowRight', 'ArrowDown'].includes(e.key)) navigate(1)
-      if (['ArrowLeft', 'ArrowUp'].includes(e.key)) navigate(-1)
+      if (['INPUT', 'TEXTAREA'].includes(e.target.tagName)) return
+      // Space activates a focused button/link — don't also switch sections
+      if (e.key === ' ' && ['BUTTON', 'A'].includes(e.target.tagName)) return
+      if (['ArrowRight', 'ArrowDown', 'PageDown', ' '].includes(e.key)) navigate(1)
+      if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(e.key)) navigate(-1)
     }
-    const handleTouchStart = (e) => { touchStartY.current = e.touches[0].clientY }
+    const handleTouchStart = (e) => {
+      touchStart.current = { x: e.touches[0].clientX, y: e.touches[0].clientY, target: e.target }
+    }
     const handleTouchEnd = (e) => {
       if (menuOpen) return
-      const delta = touchStartY.current - e.changedTouches[0].clientY
-      if (Math.abs(delta) > 50) navigate(delta > 0 ? 1 : -1)
+      const dy = touchStart.current.y - e.changedTouches[0].clientY
+      const dx = touchStart.current.x - e.changedTouches[0].clientX
+      if (Math.abs(dy) > 50) {
+        if (!canScrollInside(touchStart.current.target, dy)) navigate(dy > 0 ? 1 : -1)
+      } else if (Math.abs(dx) > 80) {
+        navigate(dx > 0 ? 1 : -1)
+      }
     }
 
     window.addEventListener('wheel', handleWheel, { passive: false })
@@ -60,58 +80,34 @@ export default function App() {
       window.removeEventListener('touchstart', handleTouchStart)
       window.removeEventListener('touchend', handleTouchEnd)
     }
-  }, [navigate, menuOpen])
+  }, [current, goTo, menuOpen])
 
   const pageStyle = (i) => ({
     position: 'fixed', inset: 0, overflow: 'hidden',
     opacity: current === i ? 1 : 0,
-    filter: current === i ? 'blur(0px)' : 'blur(3px)',
     pointerEvents: current === i ? 'auto' : 'none',
-    transition: 'opacity 0.5s ease, filter 0.5s ease',
+    transition: 'opacity 0.4s ease, transform 0.5s cubic-bezier(0.23, 1, 0.32, 1)',
+    transform: current === i ? 'scale(1) translateY(0)' : `scale(0.97) translateY(${current > i ? '-20px' : '20px'})`,
     zIndex: current === i ? 2 : 1,
   })
 
   return (
-    <div style={{ width: '100vw', height: '100vh', overflow: 'hidden', position: 'fixed', inset: 0 }}>
-      <div style={pageStyle(0)}><Hero goTo={goTo} /></div>
-      <div style={pageStyle(1)}><About goTo={goTo} /></div>
-      <div style={pageStyle(2)}><Skills goTo={goTo} isActive={current === 2} /></div>
-      <div style={pageStyle(3)}><Projects goTo={goTo} /></div>
-      <div style={pageStyle(4)}><Experience goTo={goTo} /></div>
-      <div style={pageStyle(5)}><Contact goTo={goTo} isActive={current === 5} /></div>
+    <div className="w-screen h-screen overflow-hidden fixed inset-0">
+      <Suspense fallback={null}>
+        <Scene3D />
+      </Suspense>
 
-      {/* Navbar always on top */}
-      <div style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50 }}>
-        <Navbar current={current} goTo={goTo} menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
-      </div>
+      {SECTIONS.map((Section, i) => (
+        <div key={i} style={pageStyle(i)} aria-hidden={current !== i}>
+          {/* Mount on first visit so each section's entrance animation plays when it is reached */}
+          {visited.has(i) && <Section goTo={goTo} />}
+        </div>
+      ))}
 
-      {/* Dot indicators */}
-      <div style={{
-        position: 'fixed', bottom: 22, left: '50%', transform: 'translateX(-50%)',
-        zIndex: 100, display: 'flex', gap: 10, alignItems: 'center',
-      }}>
-        {SECTIONS.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => goTo(i)}
-            style={{
-              width: i === current ? 26 : 8, height: 8, borderRadius: 4, border: 'none',
-              cursor: 'pointer', transition: 'all 0.3s', padding: 0,
-              background: i === current ? '#00F5FF' : 'rgba(255,255,255,0.22)',
-              boxShadow: i === current ? '0 0 10px rgba(0,245,255,0.6)' : 'none',
-            }}
-          />
-        ))}
-      </div>
+      <Navbar current={current} goTo={goTo} menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
 
-      {/* Keyboard hint */}
-      <div style={{
-        position: 'fixed', bottom: 24, right: 24, zIndex: 100,
-        fontFamily: 'Orbitron, monospace', fontSize: 10,
-        letterSpacing: '0.2em', color: 'rgba(255,255,255,0.5)',
-      }}>
-        SCROLL TO NAVIGATE
-      </div>
+      <div className="retro-scanline" />
+      <div className="noise-overlay" />
     </div>
   )
 }

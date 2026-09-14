@@ -1,79 +1,91 @@
-import { useState, useEffect, useRef } from 'react'
-import Stars from './Stars'
-import mushroomBg from '../assets/MacBook Pro 16_ - 3.png'
-import astronautLaptop from '../assets/Group 6.svg'
-import { useSpaceDrift } from '../hooks/useSpaceDrift'
-import { TITLE_STYLE, CONTACT_ME_BTN } from '../styles/shared'
+import { useRef, useMemo, useState } from 'react'
+import { motion, useInView } from 'framer-motion'
 import { SKILLS } from '../data/profile'
 
-export default function Skills({ goTo, isActive }) {
-  const [revealed, setRevealed] = useState(false)
-  const astronautRef = useSpaceDrift({ initX: 62, initY: 25 })
-  const hasRevealed = useRef(false)
+const COLORS = ['#00F5FF', '#8B5CF6', '#FF9F43', '#06D6A0', '#FF6B6B']
+const CATEGORIES = [
+  { name: 'Backend', icon: '⚙️', keywords: ['NestJS', 'Node.js', 'Express', 'Microservices', 'GraphQL', 'REST API'] },
+  { name: 'Blockchain', icon: '⛓️', keywords: ['Ethers.js', 'Web3.js', 'Solidity', 'Aptos', 'BNB Chain'] },
+  { name: 'Frontend', icon: '🎨', keywords: ['React.js', 'Next.js', 'TypeScript'] },
+  { name: 'Database', icon: '🗄️', keywords: ['PostgreSQL', 'MySQL', 'MongoDB', 'Redis', 'Oracle', 'Elasticsearch', 'OpenSearch'] },
+  { name: 'DevOps', icon: '🚀', keywords: ['Docker', 'GitHub Actions', 'AWS', 'Linux', 'Nginx', 'CI/CD'] },
+  { name: 'Infra', icon: '🌐', keywords: ['Kafka', 'WebSockets', 'S3', 'Redis Cluster'] },
+]
 
-  useEffect(() => {
-    if (isActive && !hasRevealed.current) {
-      hasRevealed.current = true
-      const t = setTimeout(() => setRevealed(true), 80)
-      return () => clearTimeout(t)
-    }
-  }, [isActive])
+export default function Skills() {
+  const containerRef = useRef(null)
+  const isInView = useInView(containerRef, { once: true, amount: 0.1 })
+  const [activeCat, setActiveCat] = useState(null)
+
+  const taggedSkills = useMemo(
+    () => SKILLS.map((s, i) => ({ name: s, color: COLORS[i % COLORS.length], delay: i * 0.02 })),
+    []
+  )
 
   return (
-    <section
-      id="skills"
-      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden"
-      style={{
-        backgroundImage: `url(${mushroomBg})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'bottom center',
-        backgroundColor: '#1A0A30',
-      }}
-    >
-      {/* Dark overlay so text stays readable at top */}
-      <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(180deg, rgba(18,6,30,0.82) 0%, rgba(10,18,5,0.45) 55%, rgba(0,0,0,0) 100%)', zIndex: 0 }} />
-      <Stars count={40} />
+    <div className="w-full h-full flex items-center justify-center p-4" ref={containerRef}>
+      <div className="glass-strong rounded-2xl p-6 md:p-8 max-w-2xl w-full max-h-[85vh] content-scroll">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5 }}
+        >
+          <p className="text-[#00F5FF]/60 font-['Orbitron'] text-[10px] tracking-[0.4em] mb-1">
+            ● SKILL MATRIX
+          </p>
+          <h2 className="text-2xl md:text-3xl font-bold mb-5">
+            <span className="text-white/50">&lt;</span>
+            <span className="text-gradient">Toolbox</span>
+            <span className="text-white/50"> /&gt;</span>
+          </h2>
+        </motion.div>
 
-      {/* Floating astronaut with laptop */}
-      <div ref={astronautRef} className="absolute pointer-events-none" style={{ left: '62%', top: '25%', zIndex: 8, width: 'min(160px, 18vw)' }}>
-        <img src={astronautLaptop} alt="astronaut" style={{ width: '100%', filter: 'drop-shadow(0 0 14px rgba(0,245,255,0.4))' }} />
-      </div>
+        {/* Category pills */}
+        <div className="flex flex-wrap gap-1.5 mb-5">
+          {CATEGORIES.map((cat, i) => (
+            <motion.button
+              key={cat.name}
+              initial={{ opacity: 0, y: 10 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.3, delay: i * 0.05 }}
+              onClick={() => setActiveCat(activeCat === i ? null : i)}
+              className={`px-3 py-1.5 rounded text-[10px] font-['Orbitron'] tracking-wider transition-all duration-300 border ${
+                activeCat === i
+                  ? 'bg-[#00F5FF]/10 border-[#00F5FF]/40 text-[#00F5FF]'
+                  : 'border-white/5 text-gray-500 hover:text-gray-300 hover:border-white/10'
+              }`}
+            >
+              {cat.icon} {cat.name}
+            </motion.button>
+          ))}
+        </div>
 
-      {/* CONTACT ME */}
-      <button onClick={() => goTo(5)} className="absolute top-20 right-6 z-30" style={CONTACT_ME_BTN}
-        onMouseEnter={e => e.currentTarget.style.color = '#00F5FF'} onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.72)'}>
-        CONTACT ME
-      </button>
-
-      {/* Content */}
-      <div className="relative text-center px-6 max-w-4xl w-full" style={{ zIndex: 10, paddingBottom: '5rem' }}>
-        <div style={TITLE_STYLE}>MY SKILLS</div>
-
-        <p style={{ fontFamily: 'Rajdhani, sans-serif', fontSize: '0.95rem', letterSpacing: '0.2em', color: 'rgba(255,255,255,0.5)', margin: '20px 0 32px', textTransform: 'uppercase' }}>
-          HERE IS A LIST OF SOME OF MY SKILLS
-        </p>
-
-        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 8 }}>
-          {SKILLS.map((s, i) => {
-            const even = i % 2 === 0
-            return (
-              <div key={s} className="skill-tag" style={{
-                fontFamily: 'Orbitron, monospace', fontSize: 10, fontWeight: 600,
-                letterSpacing: '0.08em', padding: '8px 18px', borderRadius: 2,
-                color: even ? '#00F5FF' : '#FF9F43',
-                borderColor: even ? 'rgba(0,245,255,0.35)' : 'rgba(255,159,67,0.35)',
-                background: even ? 'rgba(0,245,255,0.05)' : 'rgba(255,159,67,0.05)',
-                opacity: revealed ? 1 : 0,
-                transform: revealed ? 'translateY(0)' : 'translateY(18px)',
-                transition: `opacity 0.4s ease ${i * 0.028}s, transform 0.4s ease ${i * 0.028}s`,
-              }}>
-                {s}
-              </div>
-            )
-          })}
+        {/* Skills grid */}
+        <div className="flex flex-wrap gap-2">
+          {taggedSkills
+            .filter(s => {
+              if (activeCat === null) return true
+              return CATEGORIES[activeCat].keywords.includes(s.name)
+            })
+            .map((skill) => (
+              <motion.span
+                key={skill.name}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                transition={{ duration: 0.25, delay: skill.delay + 0.2 }}
+                whileHover={{ scale: 1.05, y: -1 }}
+                className="px-3 py-1.5 rounded text-[11px] font-medium tracking-wide cursor-default transition-all duration-300 border"
+                style={{
+                  borderColor: `${skill.color}22`,
+                  color: skill.color,
+                  background: `${skill.color}08`,
+                }}
+              >
+                {skill.name}
+              </motion.span>
+            ))}
         </div>
       </div>
-
-    </section>
+    </div>
   )
 }

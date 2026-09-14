@@ -1,33 +1,67 @@
 name: Deploy to GitHub Pages
 
+# Publishes two versions side by side:
+#   v1 (master)                   → https://hoainambeco.github.io/Hoai-Nam-portfolio/
+#   v2 (feature/new-portfolio-3d) → https://hoainambeco.github.io/Hoai-Nam-portfolio/v2/
+# Both are rebuilt on every push, so this file must be identical on both branches —
+# otherwise a push to the branch holding the old workflow wipes the other version.
+
 on:
   push:
-    branches: [main, master]
+    branches: [master, feature/new-portfolio-3d]
   workflow_dispatch:
 
 permissions:
   contents: write
 
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: false
+
+env:
+  V1_REF: master
+  V2_REF: feature/new-portfolio-3d
+  BASE: /Hoai-Nam-portfolio/
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout v1
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.V1_REF }}
+          path: v1
+
+      - name: Checkout v2
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.V2_REF }}
+          path: v2
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
+          cache-dependency-path: |
+            v1/package-lock.json
+            v2/package-lock.json
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Build v1 → /
+        working-directory: v1
+        run: |
+          npm ci
+          npx vite build --base="$BASE" --outDir ../site --emptyOutDir
 
-      - name: Build
-        run: npm run build
+      - name: Build v2 → /v2/
+        working-directory: v2
+        run: |
+          npm ci
+          npx vite build --base="${BASE}v2/" --outDir ../site/v2 --emptyOutDir
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+          publish_dir: ./site
