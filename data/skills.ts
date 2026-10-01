@@ -51,6 +51,24 @@ export const skillGroups = [
     note: "Smart contracts deployed on two chains and wired into production web apps.",
     items: ["Solidity", "Ethers.js", "Web3.js", "BNB Chain", "Aptos / Movement"],
   },
+  {
+    id: "ai",
+    title: "AI / LLM",
+    note: "LLM features wired into backend services: model APIs behind NestJS, retrieval over embeddings in a vector store, tool calling and MCP servers. AI coding agents are part of the daily workflow.",
+    items: [
+      "OpenAI API",
+      "Claude API",
+      "Prompt Engineering",
+      "RAG",
+      "Embeddings",
+      "pgvector",
+      "LangChain",
+      "Tool Calling",
+      "MCP",
+      "Claude Code",
+      "Cursor",
+    ],
+  },
 ] as const;
 
 export type Tech = (typeof skillGroups)[number]["items"][number];

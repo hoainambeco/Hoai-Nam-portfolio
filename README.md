@@ -3,7 +3,7 @@
 An editorial, engineering-focused single page — hero, selected work with an
 architecture diagram per project, how I engineer, technical expertise,
 experience timeline, education and contact — plus a static case-study page
-for each project.
+for each project and a printable CV at `/cv/`.
 
 This is the `feature/portfolio-v4` branch, published as **v4**.
 
@@ -28,7 +28,7 @@ when the visitor prefers reduced motion.
 ```bash
 npm install
 npm run dev        # http://localhost:3000
-npm run build      # static site in out/
+npm run build      # static site in out/ (+ out/cv.pdf)
 npm run lint
 npm run typecheck
 ```
@@ -43,6 +43,7 @@ app/
   layout.tsx               fonts, metadata, skip link, nav, footer
   page.tsx                 section order + Person JSON-LD
   work/[slug]/page.tsx     case studies, one static page per project
+  cv/                      the print-first CV (page.tsx + cv.css)
   sitemap.ts · robots.ts · opengraph-image.png · icon.svg
 components/
   navigation/site-nav.tsx  sticky nav, active section, mobile menu
@@ -55,6 +56,7 @@ components/
   ui/                      container, section, placeholders, links, icons
 data/                      all content — profile, projects, experience, skills…
 lib/                       types, base-path helpers, skill → project index
+scripts/cv-pdf-adapter.mjs  build adapter that prints /cv/ to out/cv.pdf
 ```
 
 Edit files in `data/` to change content. Two conventions keep it honest:
@@ -68,6 +70,20 @@ Edit files in `data/` to change content. Two conventions keep it honest:
 - **Stacks are typed.** A project's `stack` must use names from
   `data/skills.ts`; that is what builds the "used in" column of the expertise
   section, and TypeScript rejects a name that isn't there.
+
+## CV
+
+`/cv/` renders the CV from the same `data/` files and is styled as paper,
+tuned to print on two A4 pages. The downloadable `cv.pdf` is printed from it
+by headless Chrome on every `next build`, so only the data or
+`app/cv/cv.css` ever needs editing — there is no PDF in the repo.
+
+It runs as a Next.js build adapter (`adapterPath` in `next.config.ts`), not
+an npm `postbuild` script, because the deploy workflow calls `npx next build`
+directly. The adapter's `onBuildComplete` runs after the export is written:
+it serves `out/` under the base path, prints `/cv/` and writes `out/cv.pdf`.
+Set `CHROME_PATH` if Chrome/Chromium isn't in a standard location; without
+one the build warns and skips the PDF.
 
 ## Deploy
 
