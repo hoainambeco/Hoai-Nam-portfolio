@@ -1,5 +1,5 @@
 import CareerVietDiagram from './CareerVietDiagram';
-import { AwardIcon, ExternalIcon } from './Icons';
+import { AwardIcon, ExternalIcon, GithubIcon } from './Icons';
 import Section from './Section';
 import { useI18n } from '../lib/i18n';
 import SotaAgentsDiagram from './SotaAgentsDiagram';
@@ -7,13 +7,17 @@ import SotaAgentsDiagram from './SotaAgentsDiagram';
 const DIAGRAMS = { sotaagents: SotaAgentsDiagram, careerviet: CareerVietDiagram };
 
 
+const GITHUB = /^https?:\/\/github\.com\//;
 const hostOf = (url) => url.replace(/^https?:\/\//, '').replace(/\/$/, '');
 
+// GitHub links show as owner/repo with the GitHub mark — the full URL wraps.
 function SiteLink({ href }) {
   if (!href) return null;
+  const isRepo = GITHUB.test(href);
   return (
     <a className="text-link" href={href} target="_blank" rel="noreferrer">
-      {hostOf(href)}
+      {isRepo && <GithubIcon />}
+      {isRepo ? hostOf(href).replace('github.com/', '') : hostOf(href)}
       <ExternalIcon />
     </a>
   );
@@ -82,7 +86,11 @@ export default function Work() {
 
   return (
     <Section id="work" title={t.sections.work}>
-      <p className="section__intro">{t.workIntro}</p>
+      <ul className="section__intro intro-lines">
+        {t.workIntro.map((line) => (
+          <li key={line}>{line}</li>
+        ))}
+      </ul>
 
       {featured.map((p) => (
         <Feature key={p.id} project={p} />

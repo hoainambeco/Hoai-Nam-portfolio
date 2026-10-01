@@ -20,8 +20,12 @@ export const UI = {
       education: 'Education and awards',
       contact: 'Contact',
     },
-    workIntro:
-      'SotaAgents, the enterprise AI platform I build at SotaTek; the CareerViet migration I designed and led; and three other products I helped build.',
+    // One line per item, so unrelated projects don't read as one story.
+    workIntro: [
+      'SotaAgents — the enterprise AI platform I build at SotaTek.',
+      'CareerViet — the platform migration I designed and led.',
+      'Four more products below, including an open-source LLM gateway I maintain.',
+    ],
     platform: 'The platform',
     built: 'What I built',
     moreProjects: 'More projects',
@@ -78,8 +82,11 @@ export const UI = {
       education: 'Học vấn và giải thưởng',
       contact: 'Liên hệ',
     },
-    workIntro:
-      'SotaAgents — nền tảng AI doanh nghiệp tôi đang phát triển tại SotaTek; dự án chuyển đổi CareerViet do tôi thiết kế và dẫn dắt; cùng ba sản phẩm khác tôi tham gia xây dựng.',
+    workIntro: [
+      'SotaAgents — nền tảng AI doanh nghiệp tôi đang phát triển tại SotaTek.',
+      'CareerViet — dự án chuyển đổi hệ thống do tôi thiết kế và dẫn dắt.',
+      'Bốn sản phẩm khác bên dưới, trong đó có một LLM gateway mã nguồn mở do tôi phát triển.',
+    ],
     platform: 'Nền tảng',
     built: 'Phần tôi xây dựng',
     moreProjects: 'Dự án khác',

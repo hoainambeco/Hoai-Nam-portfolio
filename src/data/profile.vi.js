@@ -122,6 +122,19 @@ export const VI = {
         'Thiết lập Redis Cluster cho cache sẵn sàng cao và Kong Gateway để quản lý tập trung lưu lượng API.',
       ],
     },
+    'llm-gateway': {
+      sub: 'LLM gateway mã nguồn mở',
+      role: 'Dự án cá nhân',
+      summary:
+        'Gateway tự host: một endpoint tương thích OpenAI, Anthropic và Gemini đứng trước nhiều nhà cung cấp LLM, có định tuyến, failover và xoay vòng nhiều tài khoản.',
+      bullets: [
+        'Tách một lõi proxy mã nguồn mở có sẵn thành service NestJS + Fastify độc lập, triển khai được trên VPS hoặc Docker.',
+        'Bổ sung upstream GitHub Copilot, OpenAI, Claude và ChatGPT, quy tắc định tuyến bằng regex để đặt chuỗi failover cho từng model, và tự phát hiện model từ các nhà cung cấp.',
+        'Xây dựng quản lý API key trên SQLite và TypeORM: key được hash, phân quyền theo vai trò, cache xác thực trong bộ nhớ và migration tự chạy khi khởi động.',
+        'Xây dựng dashboard quản trị tích hợp (React, Vite, Tailwind, EN/VI) cho tài khoản và quota, định tuyến, danh mục model, API key và log lưu lượng.',
+        'Tăng cường bảo mật xác thực, OAuth và request ra ngoài; CI kiểm tra type, build, kiểm tra migration và đẩy Docker image lên GHCR.',
+      ],
+    },
     acanet: {
       role: 'Lập trình viên Fullstack & Blockchain',
       award: 'Á quân — Movement Olympus Hackathon',

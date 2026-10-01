@@ -191,6 +191,25 @@ export const PROJECTS = [
     tech: ['NestJS', 'Microservices', 'Kafka (Saga)', 'Redis Cluster', 'Elasticsearch', 'PostgreSQL', 'MongoDB', 'Oracle PL/SQL', 'Kong Gateway', 'Docker'],
   },
   {
+    id: 'llm-gateway',
+    name: 'LLM Gateway Proxy',
+    sub: 'Open-source LLM gateway',
+    period: '09/2026 – Present',
+    role: 'Personal project',
+    status: 'live',
+    link: 'https://github.com/hoainambeco/llm-gateway-proxy',
+    summary:
+      'Self-hosted gateway: one OpenAI-, Anthropic- and Gemini-compatible endpoint in front of several LLM providers, with routing, failover and multi-account rotation.',
+    bullets: [
+      'Turned an existing open-source proxy core into a standalone NestJS + Fastify service, deployable on a VPS or in Docker.',
+      'Added GitHub Copilot, OpenAI, Claude and ChatGPT upstreams, regex routing rules that set a failover pipeline per model, and model discovery across providers.',
+      'Built API key management on SQLite and TypeORM: hashed keys, roles, an in-memory validation cache and migrations that run on boot.',
+      'Built the embedded admin dashboard (React, Vite, Tailwind, EN/VI) for accounts and quota, routing, the model catalog, API keys and traffic logs.',
+      'Hardened auth, OAuth and outbound requests; CI type-checks, builds, validates migrations and publishes a Docker image to GHCR.',
+    ],
+    tech: ['NestJS', 'Fastify', 'TypeScript', 'TypeORM', 'SQLite', 'WebSockets', 'Zod', 'React', 'Vite', 'TailwindCSS', 'Docker', 'GitHub Actions'],
+  },
+  {
     id: 'acanet',
     name: 'Acanet',
     sub: 'SocialFi & Telegram MiniApp',
