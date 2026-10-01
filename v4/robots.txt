@@ -1,0 +1,4 @@
+User-Agent: *
+Allow: /
+
+Sitemap: https://hoainambeco.github.io/Hoai-Nam-portfolio/v4/sitemap.xml
