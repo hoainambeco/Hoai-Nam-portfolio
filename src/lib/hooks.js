@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, useSyncExternalStore } from 'react';
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from 'react';
 
 // Not `portfolio:theme` — v1 shares the origin and writes its dark default there.
 const THEME_KEY = 'portfolio-pro:theme';
@@ -94,4 +94,31 @@ export async function copyText(value) {
   } catch {
     return false;
   }
+}
+
+// Starts the animation whose id is `startId` the first time the figure is in
+// view. Observe the figure, not the svg: on phones the svg is wider than its
+// scroll box, so its visible ratio never reaches the threshold.
+export function useFlowOnView(startId) {
+  const figureRef = useRef(null);
+
+  useEffect(() => {
+    const figure = figureRef.current;
+    const start = figure?.querySelector(`#${startId}`);
+    if (!start?.beginElement) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        observer.disconnect();
+        start.beginElement();
+      },
+      { threshold: 0.6 },
+    );
+    observer.observe(figure);
+    return () => observer.disconnect();
+  }, [startId]);
+
+  return figureRef;
 }

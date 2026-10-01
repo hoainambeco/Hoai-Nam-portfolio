@@ -28,7 +28,7 @@ export const PROFILE = {
   bio: [
     "I'm a Full-Stack Engineer who builds products end-to-end — APIs and databases on the backend, responsive interfaces on the frontend, and smart contracts on-chain.",
     "Over 4 years across 4 companies I've shipped recruitment platforms, real-time voting systems, SocialFi apps and internal business tools. Most of my time goes to backend architecture: service boundaries, event-driven flows with Kafka, caching, and search.",
-    'Currently at SotaTek JSC, delivering outsourcing projects for Japanese enterprises.',
+    'Currently at SotaTek JSC, building the SotaAgents AI platform and delivering outsourcing projects for Japanese enterprises.',
   ],
 };
 
@@ -116,12 +116,68 @@ export const SKILL_GROUPS = [
 
 export const PROJECTS = [
   {
+    id: 'sotaagents',
+    name: 'SotaAgents',
+    sub: 'Enterprise AI workspace',
+    period: '2026 – Present',
+    role: 'Full-Stack Engineer',
+    status: 'live',
+    featured: true,
+    link: 'https://sotaagents.ai/',
+    summary:
+      'Multi-tenant AI workspace: chat across Claude, GPT and Gemini, grounded in company documents, extended by installable apps and MCP tools.',
+    // What the platform does — taken from the public manual at app.sotaagents.ai/manual.
+    highlights: [
+      {
+        title: 'Multi-model chat',
+        text: 'Claude, GPT and Gemini in one workspace. Admins choose which models the organization can use and set the default.',
+      },
+      {
+        title: 'Grounded answers',
+        text: 'Knowledge Base search mixes vector and full-text retrieval and cites its sources. Drive, OneDrive and SharePoint sync in.',
+      },
+      {
+        title: 'App platform',
+        text: 'Versioned apps add tools, skills and native UI through a manifest, run on their own backends, and ship Staging → Production → App Store.',
+      },
+      {
+        title: 'MCP both ways',
+        text: 'Workspaces plug in MCP servers such as Linear, Notion, Slack and GitHub, and external agents can call the platform’s own tools over MCP.',
+      },
+      {
+        title: 'Guardrails',
+        text: 'Blocks prompt injection and jailbreaks, masks personal data, and screens tool and document output before the model uses it.',
+      },
+      {
+        title: 'Embed anywhere',
+        text: 'A public chat widget, or an Embed SDK that runs inside a partner portal on HMAC-signed, single-use 60-second tickets.',
+      },
+      {
+        title: 'Office output',
+        text: 'Generates Word, Excel, PDF and PowerPoint files, diagrams, images and small sites straight from a chat message.',
+      },
+      {
+        title: 'Enterprise controls',
+        text: 'Organizations and workspaces with role-based access, per-turn credit accounting and audit logs.',
+      },
+    ],
+    bullets: [
+      'Built an MCP server exposing Knowledge Base and core tool packs to external agents, with per-tool pricing, credit metering and admin price overrides.',
+      'Extended the credit ledger to record the answering model, workspace and document stats per turn, with backfill, CSV export and a detail drawer in the console.',
+      'Hardened the app platform: actor identity claims gated behind explicit manifest grants, and manifest validation against the Core tool catalog.',
+      'Implemented organization deletion as a cascading purge across workspaces, conversations, MCP servers and billing, with audit logging and an inventory completeness test.',
+      'Added role-based access to the Knowledge Base app UI: admins write, members read, with 403 handling on every write surface.',
+    ],
+    tech: ['NestJS (Fastify)', 'MongoDB', 'Redis', 'BullMQ', 'Qdrant', 'Vercel AI SDK', 'MCP', 'React', 'TanStack Query', 'Zustand', 'Zod', 'AWS S3'],
+  },
+  {
     id: 'careerviet',
     name: 'CareerViet',
     sub: 'Recruitment platform',
     period: '04/2025 – 04/2026',
     role: 'Backend Engineer',
     status: 'live',
+    featured: true,
     link: 'https://careerviet.vn/',
     summary:
       'Migration of a large-scale legacy PHP monolith to a NestJS microservices platform.',
@@ -199,10 +255,11 @@ export const EXPERIENCE = [
     period: '04/2026 – Present',
     current: true,
     bullets: [
+      'Building SotaAgents, the company\'s enterprise AI workspace: MCP server, credit metering, app-platform permissions and admin console features.',
       'Delivering software outsourcing solutions for Japanese enterprises.',
       'Developing and managing outsourcing projects against strict client quality standards.',
     ],
-    tech: ['NestJS', 'PostgreSQL', 'Kafka', 'Redis Cluster', 'Elasticsearch', 'Docker', 'Solidity', 'AWS', 'React.js', 'Next.js'],
+    tech: ['NestJS', 'MongoDB', 'PostgreSQL', 'Redis', 'BullMQ', 'MCP', 'Vercel AI SDK', 'Docker', 'AWS', 'React.js', 'Next.js'],
   },
   {
     id: 'igbsoft',

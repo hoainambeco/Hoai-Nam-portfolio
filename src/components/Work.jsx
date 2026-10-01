@@ -1,10 +1,13 @@
 import { PROJECTS } from '../data/profile';
-import ArchitectureDiagram from './ArchitectureDiagram';
+import CareerVietDiagram from './CareerVietDiagram';
 import { AwardIcon, ExternalIcon } from './Icons';
 import Section from './Section';
+import SotaAgentsDiagram from './SotaAgentsDiagram';
 
-const featured = PROJECTS.find((p) => p.id === 'careerviet');
-const others = PROJECTS.filter((p) => p !== featured);
+const DIAGRAMS = { sotaagents: SotaAgentsDiagram, careerviet: CareerVietDiagram };
+
+const featured = PROJECTS.filter((p) => p.featured);
+const others = PROJECTS.filter((p) => !p.featured);
 
 const hostOf = (url) => url.replace(/^https?:\/\//, '').replace(/\/$/, '');
 
@@ -28,35 +31,62 @@ function List({ items, className, label }) {
   );
 }
 
+function Feature({ project: p }) {
+  const Diagram = DIAGRAMS[p.id];
+  const headingId = `project-${p.id}`;
+
+  return (
+    <article className="feature" aria-labelledby={headingId}>
+      <header className="feature__head">
+        <h3 id={headingId} className="feature__name">
+          {p.name}
+        </h3>
+        <p className="feature__sub">{p.sub}</p>
+        <p className="feature__meta">
+          <span>{p.role}</span>
+          <span>{p.period}</span>
+        </p>
+        <SiteLink href={p.link} />
+      </header>
+
+      <p className="feature__summary">{p.summary}</p>
+
+      {Diagram && <Diagram />}
+
+      {p.highlights && (
+        <>
+          <h4 className="feature__label">The platform</h4>
+          <ul className="highlights">
+            {p.highlights.map((h) => (
+              <li key={h.title}>
+                <h5 className="highlights__title">{h.title}</h5>
+                <p>{h.text}</p>
+              </li>
+            ))}
+          </ul>
+          <h4 className="feature__label">What I built</h4>
+        </>
+      )}
+
+      <div className="feature__detail">
+        <List className="bullets" items={p.bullets} />
+        <List className="tags" items={p.tech} label="Technologies" />
+      </div>
+    </article>
+  );
+}
+
 export default function Work() {
   return (
     <Section id="work" title="Selected work">
       <p className="section__intro">
-        The migration I designed and led at CareerViet, and three other products I helped build.
+        SotaAgents, the enterprise AI platform I build at SotaTek; the CareerViet migration I
+        designed and led; and three other products I helped build.
       </p>
 
-      <article className="feature" aria-labelledby="project-careerviet">
-        <header className="feature__head">
-          <h3 id="project-careerviet" className="feature__name">
-            {featured.name}
-          </h3>
-          <p className="feature__sub">{featured.sub}</p>
-          <p className="feature__meta">
-            <span>{featured.role}</span>
-            <span>{featured.period}</span>
-          </p>
-          <SiteLink href={featured.link} />
-        </header>
-
-        <p className="feature__summary">{featured.summary}</p>
-
-        <ArchitectureDiagram />
-
-        <div className="feature__detail">
-          <List className="bullets" items={featured.bullets} />
-          <List className="tags" items={featured.tech} label="Technologies" />
-        </div>
-      </article>
+      {featured.map((p) => (
+        <Feature key={p.id} project={p} />
+      ))}
 
       <div className="more">
         <h3 className="more__title">More projects</h3>
