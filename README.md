@@ -58,7 +58,8 @@ Edit `src/data/profile.js` to change any content.
   in the architecture diagram, played when it scrolls into view. It is skipped
   when the visitor prefers reduced motion.
 - **CV**: `/cv.html` is styled as paper and tuned to print on two A4 pages;
-  `public/cv.pdf` is the downloadable copy.
+  the downloadable `cv.pdf` is printed from it by headless Chrome on every
+  `vite build` (`cv-pdf-plugin.js`), so only the HTML/data ever needs editing.
 
 ## Deploy
 

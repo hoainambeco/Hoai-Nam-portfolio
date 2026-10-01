@@ -82,6 +82,16 @@ export const SKILL_GROUPS = [
     items: ['Solidity', 'Ethers.js', 'Web3.js', 'BNB Chain', 'Aptos / Movement', 'Smart Contracts'],
   },
   {
+    key: 'ai',
+    label: 'AI / LLM',
+    summary:
+      'LLM features wired into backend services: model APIs behind NestJS, retrieval over embeddings in a vector store, tool calling and MCP servers. AI coding agents are part of the daily workflow.',
+    items: [
+      'OpenAI API', 'Claude API', 'Prompt Engineering', 'RAG', 'Embeddings',
+      'pgvector', 'LangChain', 'Tool Calling', 'MCP', 'Claude Code', 'Cursor',
+    ],
+  },
+  {
     key: 'data',
     label: 'Data & Storage',
     summary:

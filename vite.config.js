@@ -1,9 +1,10 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { fileURLToPath } from 'node:url'
+import cvPdf from './cv-pdf-plugin.js'
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), cvPdf()],
   base: '/Hoai-Nam-portfolio/',
   build: {
     rollupOptions: {

@@ -370,6 +370,14 @@ a.sheet__entry-title:hover {
 }
 
 @media print {
+  /* the dark color-scheme would paint the @page margins dark */
+  :root {
+    color-scheme: light;
+  }
+  html,
+  body {
+    background: #fff;
+  }
   .cv-page {
     background: #fff;
     padding: 0;
