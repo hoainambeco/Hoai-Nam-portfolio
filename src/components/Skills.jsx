@@ -8,6 +8,7 @@ const COLORS = ['#00F5FF', '#8B5CF6', '#FF9F43', '#06D6A0', '#FF6B6B']
 const CATEGORIES = [
   { id: 'backend', name: 'Backend', icon: '⚙️', keywords: ['NestJS', 'Node.js', 'Express', 'Microservices', 'GraphQL', 'REST API'] },
   { id: 'blockchain', name: 'Blockchain', icon: '⛓️', keywords: ['Ethers.js', 'Web3.js', 'Solidity', 'Aptos', 'BNB Chain'] },
+  { id: 'ai', name: 'AI / LLM', icon: '🤖', keywords: ['OpenAI API', 'Claude API', 'Prompt Engineering', 'RAG', 'Embeddings', 'pgvector', 'LangChain', 'Tool Calling', 'MCP', 'Claude Code', 'Cursor'] },
   { id: 'frontend', name: 'Frontend', icon: '🎨', keywords: ['React.js', 'Next.js', 'TypeScript'] },
   { id: 'database', name: { en: 'Database', vi: 'Cơ sở dữ liệu' }, icon: '🗄️', keywords: ['PostgreSQL', 'MySQL', 'MongoDB', 'Redis', 'Oracle', 'Elasticsearch', 'OpenSearch'] },
   { id: 'devops', name: 'DevOps', icon: '🚀', keywords: ['Docker', 'GitHub Actions', 'AWS', 'Linux', 'Nginx', 'CI/CD'] },
