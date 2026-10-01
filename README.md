@@ -15,7 +15,7 @@ GitHub Pages.
 ```bash
 npm install
 npm run dev      # http://localhost:5173/Hoai-Nam-portfolio/
-npm run build    # builds index.html + cv.html into dist/
+npm run build    # builds index.html + cv.html (+ cv.pdf) into dist/
 npm run preview
 npm run lint
 ```
@@ -50,7 +50,10 @@ output and the CV update from it.
 - **Theme**: follows the OS by default, remembered per visitor in `localStorage`,
   applied before first paint from a small inline script in `index.html`.
 - **CV**: `/cv.html` is styled as paper and tuned to print on two A4 pages;
-  `public/cv.pdf` is the downloadable copy.
+  the downloadable `cv.pdf` is printed from it by headless Chrome on every
+  `vite build` (`cv-pdf-plugin.js`), so only the HTML/data ever needs editing.
+  Set `CHROME_PATH` if Chrome/Chromium isn't in a standard location; without
+  one the build warns and skips the PDF.
 
 ## Deploy
 
