@@ -25,7 +25,7 @@ const APPS = [
 const BUS = { y: 196, h: 44 };
 const TAP = { x: 441, y: 120 }; // where the gateway meets the app bus
 
-export default function SotaAgentsDiagram() {
+export default function SotaAgentsDiagram({ caption }) {
   const figureRef = useFlowOnView(START);
 
   return (
@@ -107,11 +107,7 @@ export default function SotaAgentsDiagram() {
           />
         </svg>
       </div>
-      <figcaption>
-        Simplified view of SotaAgents. The gateway owns identity, guardrails, credits and audit;
-        each app owns its domain logic behind its own backend, reached only through signed,
-        manifest-declared tool calls.
-      </figcaption>
+      <figcaption>{caption}</figcaption>
     </figure>
   );
 }

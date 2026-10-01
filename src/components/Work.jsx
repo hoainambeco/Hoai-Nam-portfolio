@@ -1,13 +1,11 @@
-import { PROJECTS } from '../data/profile';
 import CareerVietDiagram from './CareerVietDiagram';
 import { AwardIcon, ExternalIcon } from './Icons';
 import Section from './Section';
+import { useI18n } from '../lib/i18n';
 import SotaAgentsDiagram from './SotaAgentsDiagram';
 
 const DIAGRAMS = { sotaagents: SotaAgentsDiagram, careerviet: CareerVietDiagram };
 
-const featured = PROJECTS.filter((p) => p.featured);
-const others = PROJECTS.filter((p) => !p.featured);
 
 const hostOf = (url) => url.replace(/^https?:\/\//, '').replace(/\/$/, '');
 
@@ -32,6 +30,7 @@ function List({ items, className, label }) {
 }
 
 function Feature({ project: p }) {
+  const { t } = useI18n();
   const Diagram = DIAGRAMS[p.id];
   const headingId = `project-${p.id}`;
 
@@ -51,11 +50,11 @@ function Feature({ project: p }) {
 
       <p className="feature__summary">{p.summary}</p>
 
-      {Diagram && <Diagram />}
+      {Diagram && <Diagram caption={t.captions[p.id]} />}
 
       {p.highlights && (
         <>
-          <h4 className="feature__label">The platform</h4>
+          <h4 className="feature__label">{t.platform}</h4>
           <ul className="highlights">
             {p.highlights.map((h) => (
               <li key={h.title}>
@@ -64,32 +63,33 @@ function Feature({ project: p }) {
               </li>
             ))}
           </ul>
-          <h4 className="feature__label">What I built</h4>
+          <h4 className="feature__label">{t.built}</h4>
         </>
       )}
 
       <div className="feature__detail">
         <List className="bullets" items={p.bullets} />
-        <List className="tags" items={p.tech} label="Technologies" />
+        <List className="tags" items={p.tech} label={t.technologies} />
       </div>
     </article>
   );
 }
 
 export default function Work() {
+  const { t, data } = useI18n();
+  const featured = data.PROJECTS.filter((p) => p.featured);
+  const others = data.PROJECTS.filter((p) => !p.featured);
+
   return (
-    <Section id="work" title="Selected work">
-      <p className="section__intro">
-        SotaAgents, the enterprise AI platform I build at SotaTek; the CareerViet migration I
-        designed and led; and three other products I helped build.
-      </p>
+    <Section id="work" title={t.sections.work}>
+      <p className="section__intro">{t.workIntro}</p>
 
       {featured.map((p) => (
         <Feature key={p.id} project={p} />
       ))}
 
       <div className="more">
-        <h3 className="more__title">More projects</h3>
+        <h3 className="more__title">{t.moreProjects}</h3>
         <ul className="more__grid">
           {others.map((p) => (
             <li key={p.id} className="project">
@@ -112,7 +112,7 @@ export default function Work() {
                 </a>
               )}
               <List className="bullets" items={p.bullets} />
-              <List className="tags" items={p.tech} label="Technologies" />
+              <List className="tags" items={p.tech} label={t.technologies} />
               <SiteLink href={p.link} />
             </li>
           ))}

@@ -209,6 +209,11 @@ button {
   background: var(--rule);
   color: var(--ink);
 }
+.lang-btn {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
 
 .text-link {
   display: inline-flex;

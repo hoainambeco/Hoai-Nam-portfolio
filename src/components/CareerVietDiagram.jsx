@@ -25,7 +25,7 @@ const STORES = [
 const BUS = { y: 196, h: 44 };
 const TAP = { x: 601, y: 120 }; // where the services meet the bus
 
-export default function CareerVietDiagram() {
+export default function CareerVietDiagram({ caption }) {
   const figureRef = useFlowOnView(START);
 
   return (
@@ -106,11 +106,7 @@ export default function CareerVietDiagram() {
           />
         </svg>
       </div>
-      <figcaption>
-        Simplified view of CareerViet after the migration. Requests enter through Kong, NestJS
-        services coordinate over Kafka, and Elasticsearch stays in sync with three databases in
-        real time.
-      </figcaption>
+      <figcaption>{caption}</figcaption>
     </figure>
   );
 }

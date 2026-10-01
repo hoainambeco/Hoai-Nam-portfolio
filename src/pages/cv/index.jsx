@@ -1,44 +1,44 @@
 import './cv.css';
-import {
-  AWARDS,
-  EDUCATION,
-  EXPERIENCE,
-  PROFILE,
-  PROJECTS,
-  SKILL_GROUPS,
-  SOCIALS,
-} from '../../data/profile';
+import { localize } from '../../data/localize';
+import { UI } from '../../data/ui';
 
-const PDF = `${import.meta.env.BASE_URL}cv.pdf`;
-const HOME = import.meta.env.BASE_URL;
+const BASE = import.meta.env.BASE_URL;
 
-const CONTACTS = [
-  { label: 'phone', value: PROFILE.phone, href: `tel:${PROFILE.phone}` },
-  { label: 'email', value: PROFILE.email, href: `mailto:${PROFILE.email}` },
-  ...SOCIALS.filter((s) => s.id !== 'email').map((s) => ({
-    label: s.id,
-    value: s.handle,
-    href: s.href,
-  })),
-  { label: 'location', value: PROFILE.location },
-];
+export default function CV({ lang }) {
+  const t = UI[lang].cv;
+  const { PROFILE, SOCIALS, EXPERIENCE, PROJECTS, SKILL_GROUPS, EDUCATION, AWARDS, cvPdf, cvPdfName } =
+    localize(lang);
+  // The Vietnamese CV carries the name with its diacritics.
+  const name = lang === 'vi' ? PROFILE.nameNative : PROFILE.name;
+  const home = lang === 'vi' ? `${BASE}?lang=vi` : `${BASE}?lang=en`;
 
-export default function CV() {
+  const contacts = [
+    { key: 'phone', value: PROFILE.phone, href: `tel:${PROFILE.phone}` },
+    { key: 'email', value: PROFILE.email, href: `mailto:${PROFILE.email}` },
+    ...SOCIALS.filter((s) => s.id !== 'email').map((s) => ({
+      key: s.id,
+      value: s.handle,
+      href: s.href,
+    })),
+    { key: 'location', value: PROFILE.location },
+  ];
+
   return (
     <div className="cv-page">
       <header className="cv-toolbar">
-        <a className="btn" href={HOME}>
+        <a className="btn" href={home}>
           ← Portfolio
         </a>
-        <span className="cv-toolbar__title">
-          curriculum vitae — {PROFILE.name.toLowerCase().replace(/\s+/g, '-')}.pdf
-        </span>
+        <span className="cv-toolbar__title">{t.file}</span>
         <span className="cv-toolbar__actions">
-          <a className="btn" href={PDF} download="Nguyen-Hoai-Nam-CV.pdf">
-            ↓ Download PDF
+          <a className="btn" href={`${BASE}${t.other.href}`} lang={lang === 'vi' ? 'en' : 'vi'}>
+            {t.other.label}
+          </a>
+          <a className="btn" href={cvPdf} download={cvPdfName}>
+            ↓ {t.downloadPdf}
           </a>
           <button className="btn btn--primary" onClick={() => window.print()}>
-            ⎙ Print
+            ⎙ {t.print}
           </button>
         </span>
       </header>
@@ -46,15 +46,15 @@ export default function CV() {
       <article className="sheet">
         <header className="sheet__head">
           <div>
-            <h1 className="sheet__name">{PROFILE.name}</h1>
+            <h1 className="sheet__name">{name}</h1>
             <p className="sheet__role">
               {PROFILE.role} · {PROFILE.location}
             </p>
           </div>
           <ul className="sheet__contacts">
-            {CONTACTS.map((c) => (
-              <li key={c.label}>
-                <span className="sheet__contact-key">{c.label}</span>
+            {contacts.map((c) => (
+              <li key={c.key}>
+                <span className="sheet__contact-key">{t.keys[c.key]}</span>
                 {c.href ? (
                   <a
                     href={c.href}
@@ -71,7 +71,7 @@ export default function CV() {
           </ul>
         </header>
 
-        <Section title="Profile">
+        <Section title={t.profile}>
           {PROFILE.bio.map((p) => (
             <p className="sheet__prose" key={p.slice(0, 24)}>
               {p}
@@ -81,7 +81,7 @@ export default function CV() {
 
         <div className="sheet__grid">
           <div className="sheet__main">
-            <Section title="Experience">
+            <Section title={t.experience}>
               {EXPERIENCE.map((e) => (
                 <Entry
                   key={e.id}
@@ -94,7 +94,7 @@ export default function CV() {
               ))}
             </Section>
 
-            <Section title="Projects">
+            <Section title={t.projects}>
               {PROJECTS.map((p) => (
                 <Entry
                   key={p.id}
@@ -111,7 +111,7 @@ export default function CV() {
           </div>
 
           <aside className="sheet__aside">
-            <Section title="Skills">
+            <Section title={t.skills}>
               {SKILL_GROUPS.map((g) => (
                 <div className="sheet__block" key={g.key}>
                   <h4 className="sheet__label">{g.label}</h4>
@@ -126,9 +126,9 @@ export default function CV() {
               ))}
             </Section>
 
-            <Section title="Education">
+            <Section title={t.education}>
               {EDUCATION.map((e) => (
-                <div className="sheet__block" key={e.school}>
+                <div className="sheet__block" key={e.id}>
                   <div className="sheet__period">{e.period}</div>
                   <h4 className="sheet__entry-title">{e.school}</h4>
                   <div className="sheet__muted">{e.degree}</div>
@@ -137,9 +137,9 @@ export default function CV() {
               ))}
             </Section>
 
-            <Section title="Awards">
+            <Section title={t.awards}>
               {AWARDS.map((a) => (
-                <div className="sheet__block" key={a.title}>
+                <div className="sheet__block" key={a.id}>
                   <div className="sheet__period">{a.year}</div>
                   {a.href ? (
                     <a
@@ -160,7 +160,7 @@ export default function CV() {
         </div>
 
         <footer className="sheet__foot">
-          {PROFILE.name} · {PROFILE.email} · {PROFILE.phone} ·{' '}
+          {name} · {PROFILE.email} · {PROFILE.phone} ·{' '}
           {SOCIALS[0].href.replace('https://', '')}
         </footer>
       </article>

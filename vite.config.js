@@ -11,6 +11,7 @@ export default defineConfig({
       input: {
         main: fileURLToPath(new URL('./index.html', import.meta.url)),
         cv: fileURLToPath(new URL('./cv.html', import.meta.url)),
+        cvVi: fileURLToPath(new URL('./cv-vi.html', import.meta.url)),
       },
     },
   },

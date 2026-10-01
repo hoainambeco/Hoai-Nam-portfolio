@@ -3,16 +3,15 @@ import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from '
 // Not `portfolio:theme` — v1 shares the origin and writes its dark default there.
 const THEME_KEY = 'portfolio-pro:theme';
 
+// Light first: only a visitor's own choice turns the dark theme on, never the
+// system preference.
 function readStoredTheme() {
   try {
-    const saved = localStorage.getItem(THEME_KEY);
-    if (saved === 'light' || saved === 'dark') return saved;
+    if (localStorage.getItem(THEME_KEY) === 'dark') return 'dark';
   } catch {
-    /* storage blocked — fall through to the system preference */
+    /* storage blocked — light */
   }
-  return window.matchMedia('(prefers-color-scheme: dark)').matches
-    ? 'dark'
-    : 'light';
+  return 'light';
 }
 
 /** Theme persisted per visitor, applied as `data-theme` on <html>. */

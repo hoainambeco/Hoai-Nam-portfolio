@@ -1,14 +1,8 @@
-import { CV_PDF, PROFILE } from '../data/profile';
 import { useActiveSection, useScrolledPast } from '../lib/hooks';
+import { useI18n } from '../lib/i18n';
 import { DownloadIcon, MoonIcon, SunIcon } from './Icons';
 
-const NAV = [
-  { id: 'about', label: 'About' },
-  { id: 'experience', label: 'Experience' },
-  { id: 'work', label: 'Work' },
-  { id: 'skills', label: 'Skills' },
-  { id: 'contact', label: 'Contact' },
-];
+const NAV = ['about', 'experience', 'work', 'skills', 'contact'];
 
 // Sections without a nav entry are observed too, so passing through them
 // clears the highlight instead of leaving the previous item lit.
@@ -17,23 +11,20 @@ const OBSERVED = ['top', 'about', 'experience', 'work', 'skills', 'education', '
 export default function Header({ theme, onToggleTheme }) {
   const scrolled = useScrolledPast(8);
   const active = useActiveSection(OBSERVED);
-  const nextTheme = theme === 'dark' ? 'light' : 'dark';
+  const { t, data, toggleLang } = useI18n();
+  const themeLabel = t.themeTo[theme === 'dark' ? 'light' : 'dark'];
 
   return (
     <header className="site-header" data-scrolled={scrolled}>
       <div className="wrap site-header__inner">
         <a className="brand" href="#top" lang="vi">
-          {PROFILE.nameNative}
+          {data.PROFILE.nameNative}
         </a>
 
-        <nav className="nav" aria-label="Sections">
-          {NAV.map((item) => (
-            <a
-              key={item.id}
-              href={`#${item.id}`}
-              aria-current={active === item.id ? 'location' : undefined}
-            >
-              {item.label}
+        <nav className="nav" aria-label={t.navLabel}>
+          {NAV.map((id) => (
+            <a key={id} href={`#${id}`} aria-current={active === id ? 'location' : undefined}>
+              {t.nav[id]}
             </a>
           ))}
         </nav>
@@ -41,17 +32,27 @@ export default function Header({ theme, onToggleTheme }) {
         <div className="site-header__actions">
           <button
             type="button"
+            className="icon-btn lang-btn"
+            onClick={toggleLang}
+            lang={t.langSwitch.to}
+            aria-label={t.langSwitch.title}
+            title={t.langSwitch.title}
+          >
+            {t.langSwitch.to.toUpperCase()}
+          </button>
+          <button
+            type="button"
             className="icon-btn"
             onClick={onToggleTheme}
-            aria-label={`Switch to ${nextTheme} theme`}
-            title={`Switch to ${nextTheme} theme`}
+            aria-label={themeLabel}
+            title={themeLabel}
           >
             {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
           </button>
-          <a className="btn btn--sm" href={CV_PDF} download="Nguyen-Hoai-Nam-CV.pdf">
+          <a className="btn btn--sm" href={data.cvPdf} download={data.cvPdfName}>
             <DownloadIcon />
             <span>
-              <span className="hide-xs">Download </span>CV
+              <span className="hide-xs">{t.download} </span>CV
             </span>
           </a>
         </div>

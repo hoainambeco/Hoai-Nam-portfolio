@@ -1,13 +1,15 @@
-import { AWARDS, EDUCATION } from '../data/profile';
+import { useI18n } from '../lib/i18n';
 import { ExternalIcon } from './Icons';
 import Section from './Section';
 
 export default function Education() {
+  const { t, data } = useI18n();
+
   return (
-    <Section id="education" title="Education and awards">
+    <Section id="education" title={t.sections.education}>
       <ul>
-        {EDUCATION.map((e) => (
-          <li key={e.school} className="record">
+        {data.EDUCATION.map((e) => (
+          <li key={e.id} className="record">
             <div>
               <h3 className="record__title">{e.school}</h3>
               <p className="record__detail">
@@ -17,8 +19,8 @@ export default function Education() {
             <p className="record__period">{e.period}</p>
           </li>
         ))}
-        {AWARDS.map((a) => (
-          <li key={a.title} className="record">
+        {data.AWARDS.map((a) => (
+          <li key={a.id} className="record">
             <h3 className="record__title">
               {a.href ? (
                 <a href={a.href} target="_blank" rel="noreferrer">

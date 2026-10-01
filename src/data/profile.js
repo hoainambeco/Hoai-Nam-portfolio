@@ -1,5 +1,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // Single source of truth — the portfolio and the CV page both read from here.
+// English is the source; Vietnamese overrides live in profile.vi.js, keyed by
+// id, and are merged in by localize.js.
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const PROFILE = {
@@ -38,17 +40,16 @@ export const SOCIALS = [
   { id: 'email', label: 'Email', handle: 'namxg1@gmail.com', href: 'mailto:namxg1@gmail.com' },
 ];
 
-export const CV_URL = `${import.meta.env.BASE_URL}cv.html`;
-export const CV_PDF = `${import.meta.env.BASE_URL}cv.pdf`;
-
 export const EDUCATION = [
   {
+    id: 'utc',
     period: '2020 – 2025',
     school: 'University of Transport and Communications (UTC)',
     degree: 'Bachelor of Information Technology',
     note: 'Good degree',
   },
   {
+    id: 'fpt',
     period: '2020 – 2022',
     school: 'FPT Polytechnic College',
     degree: 'Mobile Programming',
@@ -301,6 +302,7 @@ export const EXPERIENCE = [
 
 export const AWARDS = [
   {
+    id: 'olympus',
     title: 'Runner-up — Movement Olympus Hackathon',
     year: '2024',
     href: 'https://movementlabs.notion.site/Olympus-Hackathon-Finalists-588d4533f53a4a32b0a67f7cb9846452',

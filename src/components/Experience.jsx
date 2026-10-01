@@ -1,11 +1,13 @@
-import { EXPERIENCE } from '../data/profile';
+import { useI18n } from '../lib/i18n';
 import Section from './Section';
 
 export default function Experience() {
+  const { t, data } = useI18n();
+
   return (
-    <Section id="experience" title="Experience">
+    <Section id="experience" title={t.sections.experience}>
       <ol>
-        {EXPERIENCE.map((job) => (
+        {data.EXPERIENCE.map((job) => (
           <li key={job.id} className={job.current ? 'job job--current' : 'job'}>
             <div className="job__head">
               <div>
@@ -21,7 +23,7 @@ export default function Experience() {
               ))}
             </ul>
 
-            <ul className="tags" aria-label="Technologies">
+            <ul className="tags" aria-label={t.technologies}>
               {job.tech.map((t) => (
                 <li key={t}>{t}</li>
               ))}

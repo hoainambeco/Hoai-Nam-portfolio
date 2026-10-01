@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="%BASE_URL%favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="color-scheme" content="light dark" />
+    <meta name="color-scheme" content="light" />
     <title>Nguyen Hoai Nam — Full-Stack Engineer</title>
     <meta
       name="description"
@@ -25,18 +25,23 @@
     />
 
     <script>
-      // Apply the saved theme before first paint so there is no flash.
-      // Own key: v1 and v2 share this origin and store their own defaults.
-      try {
-        var saved = localStorage.getItem('portfolio-pro:theme');
-        document.documentElement.dataset.theme =
-          saved ||
-          (window.matchMedia('(prefers-color-scheme: dark)').matches
-            ? 'dark'
-            : 'light');
-      } catch (e) {
-        document.documentElement.dataset.theme = 'light';
-      }
+      // Apply the theme and language before first paint so there is no flash.
+      // Light first: only a saved choice turns dark on. Own keys: the other
+      // versions share this origin and store their own defaults.
+      (function () {
+        var d = document.documentElement;
+        var theme = 'light';
+        var lang = null;
+        try {
+          if (localStorage.getItem('portfolio-pro:theme') === 'dark') theme = 'dark';
+          lang = localStorage.getItem('portfolio-pro:lang');
+        } catch (e) {}
+        var q = new URLSearchParams(location.search).get('lang');
+        if (q === 'vi' || q === 'en') lang = q;
+        if (!lang) lang = /^vi/i.test(navigator.language || '') ? 'vi' : 'en';
+        d.dataset.theme = theme;
+        d.lang = lang;
+      })();
     </script>
   </head>
   <body>
