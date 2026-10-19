@@ -203,6 +203,7 @@ export const PROJECTS = [
     bullets: [
       'Turned an existing open-source proxy core into a standalone NestJS + Fastify service, deployable on a VPS or in Docker.',
       'Added GitHub Copilot, OpenAI, Claude and ChatGPT upstreams, regex routing rules that set a failover pipeline per model, and model discovery across providers.',
+      'Implemented the account pool behind those routes — round-robin, sticky and cache-first selection, automatic OAuth token refresh, 429 cooldown and cross-account failover — plus in-memory thought-signature recovery for reasoning models.',
       'Built API key management on SQLite and TypeORM: hashed keys, roles, an in-memory validation cache and migrations that run on boot.',
       'Built the embedded admin dashboard (React, Vite, Tailwind, EN/VI) for accounts and quota, routing, the model catalog, API keys and traffic logs.',
       'Hardened auth, OAuth and outbound requests; CI type-checks, builds, validates migrations and publishes a Docker image to GHCR.',
@@ -221,13 +222,15 @@ export const PROJECTS = [
     awardLink:
       'https://movementlabs.notion.site/Olympus-Hackathon-Finalists-588d4533f53a4a32b0a67f7cb9846452',
     summary:
-      'SocialFi network and Telegram mini-app automating high-volume airdrop campaigns.',
+      'SocialFi investment super app and Telegram mini-app that ran high-volume ACN airdrop campaigns — quests, referrals and on-chain claims across BNB Chain and Aptos/Movement.',
     bullets: [
-      'Engineered a SocialFi network and Telegram mini-app to run and manage high-volume airdrop campaigns.',
-      'Developed and deployed smart contracts on BNB Chain and Aptos/Movement using Solidity.',
-      'Built real-time features over WebSockets and moved token distribution onto Bull background queues.',
+      'Built the SocialFi layer — member profiles, posts, follow graph and an activity feed — on NestJS, Next.js and PostgreSQL, with OpenSearch powering feed search and discovery.',
+      'Shipped the Telegram Mini App end to end: initData signature verification, wallet connect, a quest engine (follow, join, daily check-in, learn-to-earn quizzes) and a multi-level referral system.',
+      'Automated airdrop distribution with Bull workers — batched payouts, idempotency keys and retries — plus anti-sybil checks and a points-to-ACN allocation ledger.',
+      'Designed and deployed Solidity contracts on BNB Chain and Move modules on Aptos/Movement for the ACN token and reward claims, using Merkle-proof claims to keep gas per recipient low.',
+      'Streamed leaderboards, notifications and claim status over WebSockets, and ran the stack on AWS (EC2, ECR, S3) with Docker and GitHub Actions.',
     ],
-    tech: ['NestJS', 'Next.js', 'Solidity', 'Web3', 'PostgreSQL', 'OpenSearch', 'AWS (EC2, ECR, S3)'],
+    tech: ['NestJS', 'Next.js', 'Solidity', 'Move (Aptos)', 'Web3', 'Telegram Mini App', 'PostgreSQL', 'OpenSearch', 'Bull / Redis', 'WebSockets', 'AWS (EC2, ECR, S3)'],
   },
   {
     id: 'boffice',
@@ -286,6 +289,7 @@ export const EXPERIENCE = [
     hash: '4d91e08',
     company: 'IGB Soft JSC',
     role: 'Backend Engineer',
+    note: 'Project-based',
     period: '04/2025 – 04/2026',
     bullets: [
       'Migrated legacy PHP systems to a microservices architecture with NestJS, Kafka and Redis.',
@@ -298,6 +302,7 @@ export const EXPERIENCE = [
     hash: 'b52a7f4',
     company: 'DATH Solutions JSC',
     role: 'Fullstack & Blockchain Developer',
+    note: 'Project-based',
     period: '07/2024 – 04/2025',
     bullets: [
       'Developed SocialFi platforms and Telegram MiniApps with real-time features.',

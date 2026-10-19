@@ -85,13 +85,17 @@ export default function Work() {
   const others = data.PROJECTS.filter((p) => !p.featured);
 
   return (
-    <Section id="work" title={t.sections.work}>
-      <ul className="section__intro intro-lines">
-        {t.workIntro.map((line) => (
-          <li key={line}>{line}</li>
-        ))}
-      </ul>
-
+    <Section
+      id="work"
+      title={t.sections.work}
+      intro={
+        <ul className="section__intro intro-lines">
+          {t.workIntro.map((line) => (
+            <li key={line}>{line}</li>
+          ))}
+        </ul>
+      }
+    >
       {featured.map((p) => (
         <Feature key={p.id} project={p} />
       ))}

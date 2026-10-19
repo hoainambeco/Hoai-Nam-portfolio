@@ -422,6 +422,15 @@ button {
   gap: 24px var(--col-gap);
 }
 
+/* Title + intro share one row, so a sticky title is bounded by the intro's
+   height instead of travelling over the content below. */
+.section__head {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: var(--cols);
+  gap: 24px var(--col-gap);
+}
+
 .section__title {
   position: sticky;
   top: calc(var(--header-h) + 28px);
@@ -462,6 +471,12 @@ button {
 }
 
 /* experience — a real sequence, so it gets a timeline */
+.experience__body {
+  min-width: 0;
+}
+.experience__body .section__intro {
+  margin-bottom: 28px;
+}
 .job {
   position: relative;
   padding: 0 0 clamp(40px, 5vw, 56px) 32px;
@@ -503,6 +518,19 @@ button {
 .job__role {
   margin-top: 2px;
   color: var(--ink-2);
+}
+.job__note {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 7px;
+  font-size: 0.75rem;
+  line-height: 1.3;
+  color: var(--ink-3);
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  vertical-align: 1px;
+  white-space: nowrap;
 }
 .job__period {
   font-size: 0.9375rem;
@@ -884,6 +912,7 @@ button {
 
 @media (max-width: 900px) {
   .section__grid,
+  .section__head,
   .feature {
     grid-template-columns: minmax(0, 1fr);
   }

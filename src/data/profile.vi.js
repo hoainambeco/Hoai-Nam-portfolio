@@ -5,13 +5,13 @@
 export const VI = {
   profile: {
     intro:
-      'Kỹ sư full-stack tại Hà Nội. Phần lớn thời gian tôi dành cho kiến trúc backend: phân tách service, luồng event-driven với Kafka, caching và tìm kiếm. Tôi cũng xây dựng giao diện React và smart contract chạy phía trên.',
+      'Tôi là Kỹ sư full-stack tại Hà Nội. Phần lớn thời gian tôi dành cho kiến trúc backend: phân tách service, luồng event-driven với Kafka, caching và tìm kiếm. Và tôi cũng xây dựng phần nằm phía trên backend: giao diện React và smart contract on-chain.',
     role: 'Kỹ sư Full-Stack',
     location: 'Hà Nội, Việt Nam',
     availability: 'Sẵn sàng cho những bài toán thú vị',
     bio: [
       'Tôi là kỹ sư Full-Stack, xây dựng sản phẩm từ đầu đến cuối — API và cơ sở dữ liệu ở backend, giao diện responsive ở frontend và smart contract on-chain.',
-      'Hơn 4 năm qua 4 công ty, tôi đã triển khai nền tảng tuyển dụng, hệ thống bỏ phiếu thời gian thực, ứng dụng SocialFi và công cụ quản trị nội bộ. Phần lớn thời gian tôi tập trung vào kiến trúc backend: phân tách service, luồng event-driven với Kafka, caching và tìm kiếm.',
+      'Trong hơn 4 năm tại 4 công ty, tôi đã xây dựng nhiều sản phẩm ở các mảng nghiệp vụ khác nhau — nền tảng tuyển dụng, hệ thống bỏ phiếu thời gian thực, ứng dụng SocialFi và công cụ quản trị nội bộ. Phần lớn thời gian tôi tập trung vào kiến trúc backend: phân tách service, luồng event-driven với Kafka, caching và tìm kiếm.',
       'Hiện tôi làm việc tại SotaTek JSC, phát triển nền tảng AI SotaAgents và các dự án outsourcing cho doanh nghiệp Nhật Bản.',
     ],
   },
@@ -114,7 +114,8 @@ export const VI = {
     careerviet: {
       sub: 'Nền tảng tuyển dụng',
       role: 'Kỹ sư Backend',
-      summary: 'Chuyển hệ thống PHP monolith quy mô lớn sang nền tảng microservices NestJS.',
+      summary:
+        'Chuyển hệ thống PHP monolith quy mô lớn sang nền tảng microservices NestJS.',
       bullets: [
         'Thiết kế và dẫn dắt việc chuyển PHP monolith sang microservices NestJS, giúp các service tách biệt và triển khai độc lập.',
         'Triển khai kiến trúc event-driven với Kafka + Saga pattern để giữ nhất quán giao dịch phân tán giữa PostgreSQL, MongoDB và Oracle PL/SQL.',
@@ -130,6 +131,7 @@ export const VI = {
       bullets: [
         'Tách một lõi proxy mã nguồn mở có sẵn thành service NestJS + Fastify độc lập, triển khai được trên VPS hoặc Docker.',
         'Bổ sung upstream GitHub Copilot, OpenAI, Claude và ChatGPT, quy tắc định tuyến bằng regex để đặt chuỗi failover cho từng model, và tự phát hiện model từ các nhà cung cấp.',
+        'Triển khai account pool phía sau các route đó — chọn round-robin, sticky và cache-first, tự động refresh OAuth token, cooldown khi bị 429 và failover giữa các tài khoản — kèm khôi phục thought-signature trong bộ nhớ cho các model reasoning.',
         'Xây dựng quản lý API key trên SQLite và TypeORM: key được hash, phân quyền theo vai trò, cache xác thực trong bộ nhớ và migration tự chạy khi khởi động.',
         'Xây dựng dashboard quản trị tích hợp (React, Vite, Tailwind, EN/VI) cho tài khoản và quota, định tuyến, danh mục model, API key và log lưu lượng.',
         'Tăng cường bảo mật xác thực, OAuth và request ra ngoài; CI kiểm tra type, build, kiểm tra migration và đẩy Docker image lên GHCR.',
@@ -138,17 +140,21 @@ export const VI = {
     acanet: {
       role: 'Lập trình viên Fullstack & Blockchain',
       award: 'Á quân — Movement Olympus Hackathon',
-      summary: 'Mạng SocialFi và Telegram mini-app tự động hoá các chiến dịch airdrop quy mô lớn.',
+      summary:
+        'Siêu ứng dụng đầu tư SocialFi và Telegram mini-app vận hành các chiến dịch airdrop ACN lưu lượng lớn — quest, referral và nhận thưởng on-chain trên BNB Chain và Aptos/Movement.',
       bullets: [
-        'Phát triển mạng SocialFi và Telegram mini-app để vận hành và quản lý các chiến dịch airdrop lưu lượng lớn.',
-        'Phát triển và triển khai smart contract trên BNB Chain và Aptos/Movement bằng Solidity.',
-        'Xây dựng tính năng realtime qua WebSocket và chuyển việc phân phối token sang hàng đợi nền Bull.',
+        'Xây dựng lớp SocialFi — hồ sơ thành viên, bài đăng, đồ thị follow và activity feed — trên NestJS, Next.js và PostgreSQL, với OpenSearch cho tìm kiếm và khám phá nội dung.',
+        'Triển khai Telegram Mini App từ đầu đến cuối: xác thực chữ ký initData, kết nối ví, quest engine (follow, join, điểm danh, quiz learn-to-earn) và hệ thống referral nhiều tầng.',
+        'Tự động hoá phân phối airdrop bằng Bull worker — chia lô payout, idempotency key và retry — kèm kiểm tra anti-sybil và sổ cái quy đổi điểm sang ACN.',
+        'Thiết kế và triển khai smart contract Solidity trên BNB Chain và module Move trên Aptos/Movement cho token ACN và nhận thưởng, dùng Merkle-proof để giảm gas cho từng người nhận.',
+        'Đẩy leaderboard, thông báo và trạng thái claim qua WebSocket; vận hành hệ thống trên AWS (EC2, ECR, S3) với Docker và GitHub Actions.',
       ],
     },
     boffice: {
       sub: 'Bộ phần mềm quản trị doanh nghiệp',
       role: 'Kỹ sư Backend',
-      summary: 'Các module tuyển dụng, chấm công và thư viện cho thị trường trong nước và quốc tế.',
+      summary:
+        'Các module tuyển dụng, chấm công và thư viện cho thị trường trong nước và quốc tế.',
       bullets: [
         'Phát triển các module lõi: tuyển dụng, chấm công và quản lý thư viện.',
         'Triển khai cập nhật realtime qua WebSocket và tài liệu hoá API bằng Swagger.',
@@ -158,7 +164,8 @@ export const VI = {
     bvote: {
       sub: 'Nền tảng bỏ phiếu trực tuyến',
       role: 'Kỹ sư Fullstack',
-      summary: 'Nền tảng Đại hội đồng cổ đông trực tuyến bảo mật, xây dựng trên MERN stack.',
+      summary:
+        'Nền tảng Đại hội đồng cổ đông trực tuyến bảo mật, xây dựng trên MERN stack.',
       bullets: [
         'Xây dựng nền tảng ĐHĐCĐ trực tuyến bảo mật trên MERN stack cho các phiên bỏ phiếu minh bạch, sẵn sàng cao.',
         'Thiết kế hệ thống phân quyền theo vai trò và các module quản trị dữ liệu cổ đông và nội dung bầu cử.',
@@ -179,6 +186,7 @@ export const VI = {
     },
     igbsoft: {
       role: 'Kỹ sư Backend',
+      note: 'Hợp đồng dự án',
       bullets: [
         'Chuyển hệ thống PHP cũ sang kiến trúc microservices với NestJS, Kafka và Redis.',
         'Tối ưu hiệu năng API và độ ổn định hệ thống cho nền tảng tuyển dụng quy mô lớn.',
@@ -186,6 +194,7 @@ export const VI = {
     },
     dath: {
       role: 'Lập trình viên Fullstack & Blockchain',
+      note: 'Hợp đồng dự án',
       bullets: [
         'Phát triển nền tảng SocialFi và Telegram MiniApp với tính năng realtime.',
         'Xây dựng và triển khai smart contract trên BNB Chain và Aptos/Movement.',

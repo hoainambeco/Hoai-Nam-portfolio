@@ -4,12 +4,23 @@ export const UI = {
   en: {
     title: 'Nguyen Hoai Nam — Full-Stack Engineer',
     skip: 'Skip to content',
-    nav: { about: 'About', experience: 'Experience', work: 'Work', skills: 'Skills', contact: 'Contact' },
+    nav: {
+      about: 'About',
+      experience: 'Experience',
+      work: 'Work',
+      skills: 'Skills',
+      contact: 'Contact',
+    },
     navLabel: 'Sections',
     themeTo: { light: 'Switch to light theme', dark: 'Switch to dark theme' },
     langSwitch: { label: 'Tiếng Việt', title: 'Xem bằng tiếng Việt', to: 'vi' },
     download: 'Download',
-    facts: { based: 'Based in', current: 'Currently', since: 'Working since', focus: 'Focus' },
+    facts: {
+      based: 'Based in',
+      current: 'Currently',
+      since: 'Working since',
+      focus: 'Focus',
+    },
     emailMe: 'Email me',
     viewCv: 'View CV',
     sections: {
@@ -26,6 +37,8 @@ export const UI = {
       'CareerViet — the platform migration I designed and led.',
       'Four more products below, including an open-source LLM gateway I maintain.',
     ],
+    experienceNote:
+      'Four years of continuous employment — two years at Bytesoft, then project-based roles that each added a domain: Web3 and SocialFi, high-scale backend, then AI.',
     platform: 'The platform',
     built: 'What I built',
     moreProjects: 'More projects',
@@ -36,7 +49,8 @@ export const UI = {
       careerviet:
         'Simplified view of CareerViet after the migration. Requests enter through Kong, NestJS services coordinate over Kafka, and Elasticsearch stays in sync with three databases in real time.',
     },
-    contactLead: (loc, tz) => `Email is the best way to reach me. I work from ${loc}, on ${tz}.`,
+    contactLead: (loc, tz) =>
+      `Email is the best way to reach me. I work from ${loc}, on ${tz}.`,
     copy: 'Copy',
     copied: 'Copied',
     copyLabel: 'Copy email address',
@@ -53,7 +67,13 @@ export const UI = {
       downloadPdf: 'Download PDF',
       print: 'Print',
       other: { label: 'Tiếng Việt', href: 'cv-vi.html' },
-      keys: { phone: 'phone', email: 'email', github: 'github', linkedin: 'linkedin', location: 'location' },
+      keys: {
+        phone: 'phone',
+        email: 'email',
+        github: 'github',
+        linkedin: 'linkedin',
+        location: 'location',
+      },
       profile: 'Profile',
       experience: 'Experience',
       projects: 'Projects',
@@ -66,12 +86,26 @@ export const UI = {
   vi: {
     title: 'Nguyễn Hoài Nam — Kỹ sư Full-Stack',
     skip: 'Bỏ qua tới nội dung',
-    nav: { about: 'Giới thiệu', experience: 'Kinh nghiệm', work: 'Dự án', skills: 'Kỹ năng', contact: 'Liên hệ' },
+    nav: {
+      about: 'Giới thiệu',
+      experience: 'Kinh nghiệm',
+      work: 'Dự án',
+      skills: 'Kỹ năng',
+      contact: 'Liên hệ',
+    },
     navLabel: 'Các mục',
-    themeTo: { light: 'Chuyển sang giao diện sáng', dark: 'Chuyển sang giao diện tối' },
+    themeTo: {
+      light: 'Chuyển sang giao diện sáng',
+      dark: 'Chuyển sang giao diện tối',
+    },
     langSwitch: { label: 'English', title: 'View in English', to: 'en' },
     download: 'Tải',
-    facts: { based: 'Nơi ở', current: 'Hiện tại', since: 'Đi làm từ', focus: 'Trọng tâm' },
+    facts: {
+      based: 'Nơi ở',
+      current: 'Hiện tại',
+      since: 'Đi làm từ',
+      focus: 'Trọng tâm',
+    },
     emailMe: 'Gửi email',
     viewCv: 'Xem CV',
     sections: {
@@ -85,8 +119,10 @@ export const UI = {
     workIntro: [
       'SotaAgents — nền tảng AI doanh nghiệp tôi đang phát triển tại SotaTek.',
       'CareerViet — dự án chuyển đổi hệ thống do tôi thiết kế và dẫn dắt.',
-      'Bốn sản phẩm khác bên dưới, trong đó có một LLM gateway mã nguồn mở do tôi phát triển.',
+      'Bốn sản phẩm khác bên dưới, trong đó có một LLM gateway mã nguồn mở do tôi duy trì và phát triển.',
     ],
+    experienceNote:
+      'Hơn bốn năm làm việc liên tục — hai năm tại Bytesoft, sau đó là các vai trò theo hợp đồng dự án, mỗi chặng đường tôi được đảm nhận một nhiệm vụ mới và một nền tảng mới: Web3/SocialFi, hệ thống microservices quy mô lớn và hiện tại đang làm việc với AI/Agent.',
     platform: 'Nền tảng',
     built: 'Phần tôi xây dựng',
     moreProjects: 'Dự án khác',
@@ -115,7 +151,13 @@ export const UI = {
       downloadPdf: 'Tải PDF',
       print: 'In',
       other: { label: 'English', href: 'cv.html' },
-      keys: { phone: 'điện thoại', email: 'email', github: 'github', linkedin: 'linkedin', location: 'địa chỉ' },
+      keys: {
+        phone: 'điện thoại',
+        email: 'email',
+        github: 'github',
+        linkedin: 'linkedin',
+        location: 'địa chỉ',
+      },
       profile: 'Giới thiệu',
       experience: 'Kinh nghiệm làm việc',
       projects: 'Dự án',
