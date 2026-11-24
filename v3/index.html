@@ -5,17 +5,29 @@
     <link rel="icon" type="image/svg+xml" href="/Hoai-Nam-portfolio/v3/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="color-scheme" content="light" />
-    <title>Nguyen Hoai Nam — Full-Stack Engineer</title>
+    <link rel="canonical" href="https://hoainambeco.github.io/Hoai-Nam-portfolio/" />
+    <title>Nguyen Hoai Nam — Software &amp; AI Platform Engineer</title>
     <meta
       name="description"
-      content="Nguyen Hoai Nam is a full-stack engineer in Ha Noi working on NestJS microservices, Kafka, PostgreSQL, Elasticsearch, React and smart contracts."
+      content="Nguyen Hoai Nam is a Software &amp; AI Platform Engineer in Ha Noi architecting NestJS microservices, Kafka (Saga), Redis Cluster, Elasticsearch, MCP servers, and multi-provider LLM gateways."
     />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Nguyen Hoai Nam — Full-Stack Engineer" />
+    <meta property="og:url" content="https://hoainambeco.github.io/Hoai-Nam-portfolio/" />
+    <meta property="og:title" content="Nguyen Hoai Nam — Software &amp; AI Platform Engineer" />
     <meta
       property="og:description"
-      content="Backend-heavy full-stack engineer. NestJS microservices, Kafka, PostgreSQL, React, Solidity."
+      content="Software &amp; AI Platform Engineer — Distributed Systems, NestJS Microservices, Kafka, Redis Cluster, Elasticsearch, MCP &amp; LLM Gateways."
     />
+    <meta property="og:image" content="https://hoainambeco.github.io/Hoai-Nam-portfolio/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Nguyen Hoai Nam — Software &amp; AI Platform Engineer" />
+    <meta
+      name="twitter:description"
+      content="Software &amp; AI Platform Engineer — Distributed Systems, NestJS Microservices, Kafka, Redis Cluster, Elasticsearch, MCP &amp; LLM Gateways."
+    />
+    <meta name="twitter:image" content="https://hoainambeco.github.io/Hoai-Nam-portfolio/og.png" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -38,14 +50,16 @@
         } catch (e) {}
         var q = new URLSearchParams(location.search).get('lang');
         if (q === 'vi' || q === 'en') lang = q;
-        if (!lang) lang = /^vi/i.test(navigator.language || '') ? 'vi' : 'en';
+        if (!lang) lang = 'en';
         d.dataset.theme = theme;
         d.lang = lang;
+        var cs = document.querySelector('meta[name="color-scheme"]');
+        if (cs) cs.setAttribute('content', theme);
       })();
     </script>
-    <script type="module" crossorigin src="/Hoai-Nam-portfolio/v3/assets/main-Bz_rQ52R.js"></script>
-    <link rel="modulepreload" crossorigin href="/Hoai-Nam-portfolio/v3/assets/jsx-runtime-YG8QLdI6.js">
-    <link rel="stylesheet" crossorigin href="/Hoai-Nam-portfolio/v3/assets/main-CbgZF8Rw.css">
+    <script type="module" crossorigin src="/Hoai-Nam-portfolio/v3/assets/main-VO8kMtlU.js"></script>
+    <link rel="modulepreload" crossorigin href="/Hoai-Nam-portfolio/v3/assets/jsx-runtime-KvReTOH4.js">
+    <link rel="stylesheet" crossorigin href="/Hoai-Nam-portfolio/v3/assets/main-EaTN5WB_.css">
   </head>
   <body>
     <div id="root"></div>
