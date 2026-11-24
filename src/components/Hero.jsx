@@ -4,9 +4,10 @@ import { GithubIcon, LinkedinIcon, MailIcon } from './Icons';
 const SOCIAL_ICONS = { github: GithubIcon, linkedin: LinkedinIcon };
 
 export default function Hero() {
-  const { t, data } = useI18n();
+  const { lang, t, data } = useI18n();
   const { PROFILE, EXPERIENCE, SOCIALS } = data;
   const current = EXPERIENCE.find((job) => job.current);
+  const name = lang === 'vi' ? PROFILE.nameNative : PROFILE.name;
 
   const facts = [
     { term: t.facts.based, detail: PROFILE.location },
@@ -17,8 +18,8 @@ export default function Hero() {
 
   return (
     <section id="top" className="hero wrap" aria-labelledby="hero-name">
-      <h1 id="hero-name" className="hero__name" lang="vi">
-        {PROFILE.nameNative}
+      <h1 id="hero-name" className="hero__name" lang={lang === 'vi' ? 'vi' : undefined}>
+        {name}
       </h1>
 
       <p className="hero__lead">{PROFILE.intro}</p>

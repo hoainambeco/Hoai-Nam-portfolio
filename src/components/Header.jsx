@@ -11,14 +11,15 @@ const OBSERVED = ['top', 'about', 'experience', 'work', 'skills', 'education', '
 export default function Header({ theme, onToggleTheme }) {
   const scrolled = useScrolledPast(8);
   const active = useActiveSection(OBSERVED);
-  const { t, data, toggleLang } = useI18n();
+  const { lang, t, data, toggleLang } = useI18n();
   const themeLabel = t.themeTo[theme === 'dark' ? 'light' : 'dark'];
+  const name = lang === 'vi' ? data.PROFILE.nameNative : data.PROFILE.name;
 
   return (
     <header className="site-header" data-scrolled={scrolled}>
       <div className="wrap site-header__inner">
-        <a className="brand" href="#top" lang="vi">
-          {data.PROFILE.nameNative}
+        <a className="brand" href="#top" lang={lang === 'vi' ? 'vi' : undefined}>
+          {name}
         </a>
 
         <nav className="nav" aria-label={t.navLabel}>
@@ -32,13 +33,16 @@ export default function Header({ theme, onToggleTheme }) {
         <div className="site-header__actions">
           <button
             type="button"
-            className="icon-btn lang-btn"
+            className="lang-switch"
             onClick={toggleLang}
-            lang={t.langSwitch.to}
             aria-label={t.langSwitch.title}
             title={t.langSwitch.title}
           >
-            {t.langSwitch.to.toUpperCase()}
+            <span data-active={lang === 'en' || undefined}>EN</span>
+            <span className="lang-switch__sep" aria-hidden="true">
+              /
+            </span>
+            <span data-active={lang === 'vi' || undefined}>VI</span>
           </button>
           <button
             type="button"

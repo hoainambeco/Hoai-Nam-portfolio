@@ -20,6 +20,8 @@ export function useTheme() {
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
+    const cs = document.querySelector('meta[name="color-scheme"]');
+    if (cs) cs.setAttribute('content', theme);
     try {
       localStorage.setItem(THEME_KEY, theme);
     } catch {

@@ -1,73 +1,62 @@
-# Hoai Nam — portfolio
+# Hoai Nam — Portfolio & CV
 
-A single-page portfolio in a plain, professional style: about, experience
-timeline, selected work with an architecture diagram of the CareerViet
-migration, skills, education and contact — plus a printable CV page.
+Bilingual (`EN` / `VI`) single-page engineering portfolio and print-first 2-page A4 CV for **Nguyen Hoai Nam — Software & AI Platform Engineer**.
 
-This is the `feature/professional-portfolio` branch, published as **v3**.
+This is the `feature/professional-portfolio` branch, published as the **default root site** and at `/v3/`.
 
-| Version | Branch                           | URL                                                   |
-| ------- | -------------------------------- | ----------------------------------------------------- |
-| v1      | `master` (code editor)           | <https://hoainambeco.github.io/Hoai-Nam-portfolio/>    |
-| v2      | `feature/new-portfolio-3d`       | <https://hoainambeco.github.io/Hoai-Nam-portfolio/v2/> |
-| v3      | `feature/professional-portfolio` | <https://hoainambeco.github.io/Hoai-Nam-portfolio/v3/> |
+| Version       | Branch                           | URL                                                   |
+| ------------- | -------------------------------- | ----------------------------------------------------- |
+| Default (v3)  | `feature/professional-portfolio` | <https://hoainambeco.github.io/Hoai-Nam-portfolio/>    |
+| v1            | `master` (code editor)           | <https://hoainambeco.github.io/Hoai-Nam-portfolio/v1/> |
+| v2            | `feature/new-portfolio-3d`       | <https://hoainambeco.github.io/Hoai-Nam-portfolio/v2/> |
+| v3            | `feature/professional-portfolio` | <https://hoainambeco.github.io/Hoai-Nam-portfolio/v3/> |
+| v4            | `feature/portfolio-v4`           | <https://hoainambeco.github.io/Hoai-Nam-portfolio/v4/> |
 
 ## Stack
 
-React 19 · Vite · plain CSS (custom properties, no UI framework) · Be Vietnam
-Pro from Google Fonts · deployed to GitHub Pages.
+React 19 · Vite 8 · plain CSS (custom properties, no UI framework) · `Be Vietnam Pro` & `JetBrains Mono` · automated headless Chromium PDF generation (`cv-pdf-plugin.js`) · deployed to GitHub Pages.
 
-## Run it
+## Run locally
 
 ```bash
 npm install
 npm run dev      # http://localhost:5173/Hoai-Nam-portfolio/
-npm run build    # builds index.html + cv.html into dist/
+npm run build    # builds index.html + cv.html + cv-vi.html and exports EN/VI PDFs into dist/
 npm run preview
 npm run lint
 ```
 
-## How it is put together
+## Project structure
 
-```
+```text
 src/
-  App.jsx                    page order
-  index.css                  tokens (light + dark), layout, every section's styles
-  data/profile.js            single source of truth (portfolio *and* CV read from it)
-  lib/hooks.js               theme, active-section tracking, scroll state, clipboard
+  App.jsx                    page section order
+  index.css                  design tokens (light + dark), layout, responsive rules
+  data/
+    profile.js               single source of truth (English) for portfolio & CV
+    profile.vi.js            Vietnamese translations keyed by id
+    localize.js              merges localized profile + CV asset links
+    ui.js                    bilingual UI labels and diagram captions
+  lib/
+    hooks.js                 theme, active-section observer, scroll state, clipboard, SVG motion
+    i18n.js                  persisted EN/VI state synced with ?lang= and <html lang>
   components/
-    Header.jsx               sticky header, section nav, theme toggle, CV download
-    Hero.jsx                 name, intro, actions, quick facts
-    Section.jsx              title-in-the-rail section layout
-    About.jsx · Experience.jsx · Work.jsx · Skills.jsx · Education.jsx · Contact.jsx
-    ArchitectureDiagram.jsx  SVG of CareerViet after the migration
-    Icons.jsx                inline stroke icons
-  pages/cv/                  the standalone, print-first CV at /cv.html (own stylesheet)
+    Header.jsx · Hero.jsx · Section.jsx · About.jsx · Experience.jsx · Work.jsx
+    Skills.jsx · Education.jsx · Contact.jsx · Footer.jsx · Icons.jsx
+    SotaAgentsDiagram.jsx    bilingual SVG architecture of SotaAgents
+    LlmGatewayDiagram.jsx    bilingual SVG architecture of LLM Gateway Proxy
+    CareerVietDiagram.jsx    bilingual SVG architecture of the CareerViet migration
+  pages/cv/                  standalone, ATS-clean 2-page A4 CV (/cv.html & /cv-vi.html)
 ```
 
-Edit `src/data/profile.js` to change any content.
+Edit `src/data/profile.js` (and `src/data/profile.vi.js` for Vietnamese) to update both the portfolio and the downloadable PDF CVs.
 
-## Things worth knowing
+## Key details
 
-- **Deep links**: `#about`, `#experience`, `#work`, `#skills`, `#contact`.
-- **Theme**: light by default, dark when the OS prefers it; the toggle is
-  remembered per visitor in `localStorage` under `portfolio-pro:theme` (not
-  the key v1 uses, since all versions share one origin) and applied before
-  first paint from a small inline script in `index.html`.
-- **Motion**: the only animation is one pass of events through the Kafka bus
-  in the architecture diagram, played when it scrolls into view. It is skipped
-  when the visitor prefers reduced motion.
-- **CV**: `/cv.html` is styled as paper and tuned to print on two A4 pages;
-  the downloadable `cv.pdf` is printed from it by headless Chrome on every
-  `vite build` (`cv-pdf-plugin.js`), so only the HTML/data ever needs editing.
+- **Multilingual (`EN` / `VI`)**: shareable via `?lang=vi` / `?lang=en` and remembered in `localStorage` (`portfolio-pro:lang`).
+- **Theme**: light by default; user choice persisted in `localStorage` (`portfolio-pro:theme`) and applied before first paint in `index.html`.
+- **ATS-ready CV PDFs**: `/cv.html` and `/cv-vi.html` avoid CSS positioning tricks that scramble PDF text streams, load `Be Vietnam Pro` with `display=block` for crisp Vietnamese diacritics, and export tagged PDFs (`--export-tagged-pdf`) automatically on every `vite build`.
 
 ## Deploy
 
-A push to `master`, `feature/new-portfolio-3d` or
-`feature/professional-portfolio` runs `.github/workflows/deploy.yml`, which
-checks out all three branches, builds each under its own base path (`/`,
-`/v2/`, `/v3/`) and publishes the combined site to the `gh-pages` branch.
-
-Keep that workflow file identical on all three branches: the copy on the
-branch that was pushed is the one that runs, and an older copy would wipe the
-versions it does not know about.
+Pushing to `master`, `feature/new-portfolio-3d`, `feature/professional-portfolio`, or `feature/portfolio-v4` triggers `.github/workflows/deploy.yml`, which builds all four versions side-by-side (with `v3` at `/` and `/v3/`) and publishes to `gh-pages`. Keep `.github/workflows/deploy.yml` identical across all four branches.

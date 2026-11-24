@@ -12,8 +12,9 @@ export default function CV({ lang }) {
   const name = lang === 'vi' ? PROFILE.nameNative : PROFILE.name;
   const home = lang === 'vi' ? `${BASE}?lang=vi` : `${BASE}?lang=en`;
 
-  // Omit spoken languages on the compact 2-page CV; full list remains on the web portfolio.
+  const cvProjects = PROJECTS.filter((p) => p.cvFeatured !== false);
   const cvSkillGroups = SKILL_GROUPS.filter((g) => g.key !== 'languages');
+  const languageGroup = SKILL_GROUPS.find((g) => g.key === 'languages');
 
   const contacts = [
     { key: 'phone', value: PROFILE.phone, href: `tel:${PROFILE.phone.replace(/\s+/g, '')}` },
@@ -87,93 +88,94 @@ export default function CV({ lang }) {
           <p className="sheet__prose">{PROFILE.bio.join(' ')}</p>
         </Section>
 
-        <div className="sheet__grid">
-          <div className="sheet__main">
-            <Section title={t.experience}>
-              {EXPERIENCE.map((e) => (
-                <Entry
-                  key={e.id}
-                  title={e.role}
-                  org={e.company}
-                  badge={e.note}
-                  period={e.period}
-                  bullets={e.bullets}
-                  tech={e.tech}
-                />
-              ))}
-            </Section>
+        <Section title={t.experience}>
+          {EXPERIENCE.map((e) => (
+            <Entry
+              key={e.id}
+              title={e.role}
+              org={e.company}
+              badge={e.note}
+              period={e.period}
+              bullets={e.bullets}
+            />
+          ))}
+        </Section>
 
-            <Section title={t.projects}>
-              {PROJECTS.map((p) => (
-                <Entry
-                  key={p.id}
-                  title={p.name}
-                  org={p.sub}
-                  period={p.period}
-                  link={p.link}
-                  note={p.award}
-                  noteHref={p.awardLink}
-                  bullets={p.bullets}
-                  tech={p.tech}
-                />
-              ))}
-            </Section>
-          </div>
+        <Section title={t.projects}>
+          {cvProjects.map((p) => (
+            <Entry
+              key={p.id}
+              title={p.name}
+              org={p.sub}
+              period={p.period}
+              link={p.link}
+              note={p.award}
+              noteHref={p.awardLink}
+              bullets={p.bullets}
+              tech={p.tech}
+            />
+          ))}
+        </Section>
 
-          <aside className="sheet__aside">
-            <Section title={t.skills}>
-              <div className="sheet__skills-grid">
-                {cvSkillGroups.map((g) => (
-                  <div className="sheet__block" key={g.key}>
-                    <h4 className="sheet__label">{g.label}</h4>
-                    <ul className="chips">
-                      {g.items.map((i) => (
-                        <li className="chip" key={i}>
-                          {i}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-            </Section>
-
-            <div className="sheet__bottom-meta">
-              <Section title={t.education}>
-                <div className="sheet__edu-list">
-                  {EDUCATION.map((e) => (
-                    <div className="sheet__block" key={e.id}>
-                      <div className="sheet__period">{e.period}</div>
-                      <h4 className="sheet__entry-title">{e.school}</h4>
-                      <div className="sheet__muted">{e.degree}</div>
-                      <div className="sheet__muted">{e.note}</div>
-                    </div>
+        <Section title={t.skills}>
+          <div className="sheet__skills-grid">
+            {cvSkillGroups.map((g) => (
+              <div className="sheet__block" key={g.key}>
+                <h3 className="sheet__label">{g.label}</h3>
+                <ul className="chips">
+                  {g.items.map((i) => (
+                    <li className="chip" key={i}>
+                      {i}
+                    </li>
                   ))}
-                </div>
-              </Section>
+                </ul>
+              </div>
+            ))}
+          </div>
+        </Section>
 
-              <Section title={t.awards}>
-                {AWARDS.map((a) => (
-                  <div className="sheet__block" key={a.id}>
-                    <div className="sheet__period">{a.year}</div>
-                    {a.href ? (
-                      <a
-                        className="sheet__entry-title"
-                        href={a.href}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        {a.title}
-                      </a>
-                    ) : (
-                      <h4 className="sheet__entry-title">{a.title}</h4>
-                    )}
-                    {a.subtitle && <div className="sheet__muted">{a.subtitle}</div>}
-                  </div>
-                ))}
-              </Section>
+        <div className="sheet__bottom-meta">
+          <Section title={t.education}>
+            <div className="sheet__edu-list">
+              {EDUCATION.map((e) => (
+                <div className="sheet__block" key={e.id}>
+                  <div className="sheet__period">{e.period}</div>
+                  <h3 className="sheet__entry-title">{e.school}</h3>
+                  <div className="sheet__muted">{e.degree}</div>
+                  <div className="sheet__muted">{e.note}</div>
+                </div>
+              ))}
             </div>
-          </aside>
+          </Section>
+
+          <div>
+            <Section title={t.awards}>
+              {AWARDS.map((a) => (
+                <div className="sheet__block" key={a.id}>
+                  <div className="sheet__period">{a.year}</div>
+                  {a.href ? (
+                    <a
+                      className="sheet__entry-title"
+                      href={a.href}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {a.title}
+                    </a>
+                  ) : (
+                    <h3 className="sheet__entry-title">{a.title}</h3>
+                  )}
+                  {a.subtitle && <div className="sheet__muted">{a.subtitle}</div>}
+                </div>
+              ))}
+            </Section>
+
+            {languageGroup && (
+              <Section title={t.languages}>
+                <p className="sheet__muted">{languageGroup.items.join(' · ')}</p>
+              </Section>
+            )}
+          </div>
         </div>
 
         <footer className="sheet__foot">
@@ -206,19 +208,23 @@ function Entry({ title, org, badge, period, link, note, noteHref, bullets, tech 
         <span className="entry__period">{period}</span>
       </div>
 
-      {link && (
-        <a className="entry__link" href={link} target="_blank" rel="noreferrer">
-          {link.replace(/^https?:\/\//, '').replace(/\/$/, '')}
-        </a>
+      {(link || note) && (
+        <div className="entry__submeta">
+          {link && (
+            <a className="entry__link" href={link} target="_blank" rel="noreferrer">
+              {link.replace(/^https?:\/\//, '').replace(/\/$/, '')}
+            </a>
+          )}
+          {note &&
+            (noteHref ? (
+              <a className="entry__note" href={noteHref} target="_blank" rel="noreferrer">
+                {note}
+              </a>
+            ) : (
+              <span className="entry__note">{note}</span>
+            ))}
+        </div>
       )}
-      {note &&
-        (noteHref ? (
-          <a className="entry__note" href={noteHref} target="_blank" rel="noreferrer">
-            🏆 {note}
-          </a>
-        ) : (
-          <div className="entry__note">🏆 {note}</div>
-        ))}
 
       <ul className="entry__bullets">
         {bullets.map((b) => (
@@ -226,13 +232,15 @@ function Entry({ title, org, badge, period, link, note, noteHref, bullets, tech 
         ))}
       </ul>
 
-      <ul className="chips">
-        {tech.map((t) => (
-          <li className="chip" key={t}>
-            {t}
-          </li>
-        ))}
-      </ul>
+      {tech && tech.length > 0 && (
+        <ul className="chips">
+          {tech.map((t) => (
+            <li className="chip" key={t}>
+              {t}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }

@@ -63,6 +63,7 @@ export default function cvPdf() {
               '--headless',
               '--disable-gpu',
               '--no-pdf-header-footer',
+              '--export-tagged-pdf',
               // own profile, so a running desktop Chrome doesn't swallow the call
               `--user-data-dir=${profile}`,
               ...(process.env.CI ? ['--no-sandbox'] : []),

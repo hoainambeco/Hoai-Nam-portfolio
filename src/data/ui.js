@@ -13,7 +13,7 @@ export const UI = {
     },
     navLabel: 'Sections',
     themeTo: { light: 'Switch to light theme', dark: 'Switch to dark theme' },
-    langSwitch: { label: 'Tiếng Việt', title: 'Xem bằng tiếng Việt', to: 'vi' },
+    langSwitch: { label: 'Tiếng Việt', title: 'Switch language to Tiếng Việt', to: 'vi' },
     download: 'Download',
     facts: {
       based: 'Based in',
@@ -46,6 +46,8 @@ export const UI = {
     captions: {
       sotaagents:
         'Simplified view of SotaAgents. The gateway owns identity, guardrails, credits and audit; each app owns its domain logic behind its own backend, reached only through signed, manifest-declared tool calls.',
+      'llm-gateway':
+        'Simplified view of LLM Gateway Proxy. Clients speak standard OpenAI, Anthropic, or Gemini schemas; the gateway validates RBAC keys in sub-millisecond memory, matches regex routes, and rotates across upstream credentials with automatic 429 failover.',
       careerviet:
         'Simplified view of CareerViet after the migration. Requests enter through Kong, 12+ NestJS services coordinate over Kafka (Saga), and Elasticsearch stays in sync with three databases in real time.',
     },
@@ -80,6 +82,7 @@ export const UI = {
       skills: 'Technical Skills',
       education: 'Education',
       awards: 'Awards',
+      languages: 'Languages',
     },
   },
 
@@ -98,7 +101,7 @@ export const UI = {
       light: 'Chuyển sang giao diện sáng',
       dark: 'Chuyển sang giao diện tối',
     },
-    langSwitch: { label: 'English', title: 'View in English', to: 'en' },
+    langSwitch: { label: 'English', title: 'Chuyển sang tiếng Anh (English)', to: 'en' },
     download: 'Tải',
     facts: {
       based: 'Nơi ở',
@@ -130,6 +133,8 @@ export const UI = {
     captions: {
       sotaagents:
         'Sơ đồ rút gọn của SotaAgents. Gateway nắm định danh, guardrails, credit và audit; mỗi app giữ nghiệp vụ riêng trên backend của mình và chỉ được gọi qua các tool call đã khai báo trong manifest, có ký xác thực.',
+      'llm-gateway':
+        'Sơ đồ rút gọn của LLM Gateway Proxy. Client gọi chuẩn API OpenAI, Anthropic hoặc Gemini; gateway xác thực RBAC key trên RAM (<1ms), khớp định tuyến regex và xoay vòng tập tài khoản upstream kèm cơ chế tự động failover khi gặp 429.',
       careerviet:
         'Sơ đồ rút gọn của CareerViet sau khi chuyển đổi. Request đi qua Kong, hơn 12 service NestJS phối hợp qua Kafka (Saga), Elasticsearch đồng bộ với ba cơ sở dữ liệu theo thời gian thực.',
     },
@@ -164,6 +169,7 @@ export const UI = {
       skills: 'Kỹ năng chuyên môn',
       education: 'Học vấn',
       awards: 'Giải thưởng',
+      languages: 'Ngoại ngữ',
     },
   },
 };

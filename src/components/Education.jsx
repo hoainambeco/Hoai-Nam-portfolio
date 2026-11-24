@@ -13,7 +13,7 @@ export default function Education() {
             <div>
               <h3 className="record__title">{e.school}</h3>
               <p className="record__detail">
-                {e.degree}, {e.note.toLowerCase()}
+                {e.degree} · {e.note}
               </p>
             </div>
             <p className="record__period">{e.period}</p>
@@ -21,16 +21,19 @@ export default function Education() {
         ))}
         {data.AWARDS.map((a) => (
           <li key={a.id} className="record">
-            <h3 className="record__title">
-              {a.href ? (
-                <a href={a.href} target="_blank" rel="noreferrer">
-                  {a.title}
-                  <ExternalIcon />
-                </a>
-              ) : (
-                a.title
-              )}
-            </h3>
+            <div>
+              <h3 className="record__title">
+                {a.href ? (
+                  <a href={a.href} target="_blank" rel="noreferrer">
+                    {a.title}
+                    <ExternalIcon />
+                  </a>
+                ) : (
+                  a.title
+                )}
+              </h3>
+              {a.subtitle && <p className="record__detail">{a.subtitle}</p>}
+            </div>
             <p className="record__period">{a.year}</p>
           </li>
         ))}

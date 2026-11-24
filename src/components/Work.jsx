@@ -1,10 +1,15 @@
 import CareerVietDiagram from './CareerVietDiagram';
 import { AwardIcon, ExternalIcon, GithubIcon } from './Icons';
+import LlmGatewayDiagram from './LlmGatewayDiagram';
 import Section from './Section';
 import { useI18n } from '../lib/i18n';
 import SotaAgentsDiagram from './SotaAgentsDiagram';
 
-const DIAGRAMS = { sotaagents: SotaAgentsDiagram, careerviet: CareerVietDiagram };
+const DIAGRAMS = {
+  sotaagents: SotaAgentsDiagram,
+  'llm-gateway': LlmGatewayDiagram,
+  careerviet: CareerVietDiagram,
+};
 
 
 const GITHUB = /^https?:\/\/github\.com\//;
