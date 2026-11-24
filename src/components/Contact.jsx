@@ -41,7 +41,7 @@ export default function Contact() {
           <div>
             <dt>{t.phone}</dt>
             <dd>
-              <a href={`tel:${PROFILE.phone}`}>{PROFILE.phone}</a>
+              <a href={`tel:${PROFILE.phone.replace(/\s+/g, '')}`}>{PROFILE.phone}</a>
             </dd>
           </div>
           {SOCIALS.filter((s) => s.id !== 'email').map((s) => (

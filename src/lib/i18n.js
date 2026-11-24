@@ -14,7 +14,7 @@ function readLang() {
   } catch {
     /* storage blocked — fall through to the browser language */
   }
-  return navigator.language?.toLowerCase().startsWith('vi') ? 'vi' : 'en';
+  return 'en';
 }
 
 /** Language state for the portfolio: persisted, mirrored to <html lang> and ?lang=. */

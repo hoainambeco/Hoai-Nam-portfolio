@@ -5,14 +5,16 @@
 export const VI = {
   profile: {
     intro:
-      'Tôi là Kỹ sư full-stack tại Hà Nội. Phần lớn thời gian tôi dành cho kiến trúc backend: phân tách service, luồng event-driven với Kafka, caching và tìm kiếm. Và tôi cũng xây dựng phần nằm phía trên backend: giao diện React và smart contract on-chain.',
-    role: 'Kỹ sư Full-Stack',
+      'Software & AI Platform Engineer tại Hà Nội. Tôi thiết kế các hệ thống phân tán chịu tải cao với NestJS microservices, Kafka, Redis Cluster và Elasticsearch, đồng thời xây dựng hạ tầng AI Agent thực chiến — MCP server, LLM gateway đa nhà cung cấp và hybrid RAG — làm chủ sản phẩm đầu cuối qua React/Next.js và AWS.',
+    focus: 'Hệ thống phân tán, AI Agent & Microservices',
+    role: 'Software & AI Platform Engineer',
+    tagline: 'Software Engineering · Hệ thống phân tán · Hạ tầng AI Agent · Full-Stack',
     location: 'Hà Nội, Việt Nam',
-    availability: 'Sẵn sàng cho những bài toán thú vị',
+    availability: 'Sẵn sàng cho các vị trí Software & AI Platform Engineer',
     bio: [
-      'Tôi là kỹ sư Full-Stack, xây dựng sản phẩm từ đầu đến cuối — API và cơ sở dữ liệu ở backend, giao diện responsive ở frontend và smart contract on-chain.',
-      'Trong hơn 4 năm tại 4 công ty, tôi đã xây dựng nhiều sản phẩm ở các mảng nghiệp vụ khác nhau — nền tảng tuyển dụng, hệ thống bỏ phiếu thời gian thực, ứng dụng SocialFi và công cụ quản trị nội bộ. Phần lớn thời gian tôi tập trung vào kiến trúc backend: phân tách service, luồng event-driven với Kafka, caching và tìm kiếm.',
-      'Hiện tôi làm việc tại SotaTek JSC, phát triển nền tảng AI SotaAgents và các dự án outsourcing cho doanh nghiệp Nhật Bản.',
+      'Software & AI Platform Engineer với hơn 4 năm kinh nghiệm thiết kế hệ thống phân tán chịu tải cao bằng NestJS microservices, Kafka (Saga/CQRS), Redis Cluster và Elasticsearch.',
+      'Thực chiến xây dựng hạ tầng AI Agent production: MCP server đa tenant, LLM gateway đa nhà cung cấp tự động failover, đo đếm credit theo lượt và Qdrant hybrid RAG.',
+      'Làm chủ sản phẩm đầu cuối (Full-Stack Capable) với React/Next.js, TypeScript và Docker/AWS CI/CD từ thiết kế kiến trúc đến vận hành ổn định.',
     ],
   },
 
@@ -31,44 +33,49 @@ export const VI = {
 
   skills: {
     backend: {
+      label: 'Backend & Hệ thống phân tán',
       summary:
-        'Hơn 3 năm xây dựng API production và hệ thống phân tán với Node.js. Microservices có ranh giới rõ ràng, luồng event-driven qua Kafka (Saga, CQRS), realtime qua WebSocket, xử lý nền với Bull.',
-    },
-    frontend: {
-      summary:
-        'Giao diện SPA và SSR với React và Next.js, type-safe từ đầu đến cuối. Kết nối ví và đọc/ghi on-chain qua Ethers.js và Web3.js.',
-    },
-    blockchain: {
-      summary:
-        'Viết, kiểm thử và triển khai smart contract trên BNB Chain và Aptos/Movement, tích hợp vào web app production.',
+        'Hơn 4 năm xây dựng API production và hệ thống phân tán với Node.js và TypeScript. NestJS microservices tách biệt theo miền nghiệp vụ, luồng event-driven qua Kafka (Saga, CQRS), realtime qua WebSocket và xử lý nền tải cao với BullMQ.',
     },
     ai: {
+      label: 'Hạ tầng AI / LLM & Agent',
       summary:
-        'Đưa tính năng LLM vào backend: gọi API model sau NestJS, truy xuất embedding trong vector store, tool calling và MCP server. AI coding agent là một phần trong quy trình làm việc hằng ngày.',
+        'Kỹ thuật nền tảng AI trên production: MCP server đa tenant, LLM gateway tự host đa nhà cung cấp kèm failover và xoay vòng tài khoản, hybrid RAG (vector + full-text), đo đếm credit theo lượt và lớp kiểm duyệt an toàn (guardrails).',
     },
     data: {
-      label: 'Dữ liệu & lưu trữ',
+      label: 'Dữ liệu, Caching & Tìm kiếm',
       summary:
-        'Thiết kế schema cho cả cơ sở dữ liệu quan hệ và NoSQL, Redis Cluster cho cache sẵn sàng cao, chuyển tìm kiếm từ Solr sang Elasticsearch với đồng bộ đa cơ sở dữ liệu.',
+        'Thiết kế lưu trữ đa cơ sở dữ liệu (quan hệ & NoSQL), Redis Cluster sẵn sàng cao, và đồng bộ tìm kiếm thời gian thực đa nguồn với Elasticsearch và OpenSearch.',
     },
     devops: {
+      label: 'DevOps & Đám mây',
       summary:
-        'Container hoá service, CI/CD qua GitHub Actions và GitLab Runner, triển khai và giám sát trên AWS, Nginx và Kong ở phía trước.',
+        'Container hoá dịch vụ, tự động hoá CI/CD qua GitHub Actions và GitLab Runner, triển khai và giám sát trên AWS, vận hành Nginx và API Gateway.',
+    },
+    frontend: {
+      label: 'Frontend & Web',
+      summary:
+        'Phát triển giao diện SPA và SSR type-safe đầu cuối với React và Next.js — trang quản trị, dashboard giám sát lưu lượng, Embed SDK và tích hợp ví Web3.',
+    },
+    blockchain: {
+      label: 'Blockchain / Web3',
+      summary:
+        'Thiết kế và triển khai smart contract tối ưu phí gas trên BNB Chain và Aptos/Movement, xác thực nhận thưởng bằng Merkle-proof kết hợp worker xử lý đồng thời cao.',
     },
     languages: {
-      label: 'Ngoại ngữ',
+      label: 'Ngôn ngữ',
       summary:
-        'Tiếng Việt là tiếng mẹ đẻ. Tiếng Anh chứng chỉ B1 — đọc tài liệu kỹ thuật, review code và trao đổi bằng văn bản thoải mái.',
-      items: ['Tiếng Việt (bản ngữ)', 'Tiếng Anh (B1)'],
+        'Tiếng Việt bản ngữ; sử dụng tiếng Anh chuyên nghiệp trong đọc hiểu tài liệu kiến trúc, code review và phối hợp kỹ thuật bằng văn bản.',
+      items: ['Tiếng Việt (Bản ngữ)', 'Tiếng Anh (Sử dụng chuyên nghiệp trong công việc)'],
     },
   },
 
   projects: {
     sotaagents: {
-      sub: 'Nền tảng AI workspace cho doanh nghiệp',
-      role: 'Kỹ sư Full-Stack',
+      sub: 'Nền tảng AI Workspace đa tenant cho doanh nghiệp',
+      role: 'Software & AI Platform Engineer',
       summary:
-        'AI workspace đa tenant: chat với Claude, GPT và Gemini, trả lời dựa trên tài liệu của doanh nghiệp, mở rộng bằng app cài thêm và công cụ MCP.',
+        'Nền tảng AI workspace đa tenant phục vụ hơn 10 doanh nghiệp — hợp nhất Claude, GPT và Gemini với hybrid RAG, hệ sinh thái app cài thêm trên backend riêng và hạ tầng công cụ MCP hai chiều.',
       highlights: [
         {
           title: 'Chat đa model',
@@ -104,112 +111,108 @@ export const VI = {
         },
       ],
       bullets: [
-        'Xây dựng MCP server cung cấp Knowledge Base và các bộ tool lõi cho agent bên ngoài, kèm định giá theo từng tool, đo đếm credit và cho phép admin ghi đè giá.',
-        'Mở rộng sổ cái credit để ghi lại model trả lời, workspace và thống kê tài liệu theo từng lượt, kèm backfill dữ liệu cũ, xuất CSV và panel chi tiết trong console.',
-        'Tăng cường bảo mật nền tảng app: thông tin định danh người dùng chỉ được cấp khi manifest khai báo quyền rõ ràng, và manifest được kiểm tra theo danh mục tool lõi.',
-        'Triển khai xoá tổ chức theo cơ chế xoá dây chuyền trên workspace, hội thoại, MCP server và dữ liệu thanh toán, có audit log và test kiểm tra không bỏ sót dữ liệu.',
-        'Bổ sung phân quyền cho giao diện app Knowledge Base: admin được ghi, thành viên chỉ đọc, xử lý lỗi 403 trên mọi thao tác ghi.',
-      ],
-    },
-    careerviet: {
-      sub: 'Nền tảng tuyển dụng',
-      role: 'Kỹ sư Backend',
-      summary:
-        'Chuyển hệ thống PHP monolith quy mô lớn sang nền tảng microservices NestJS.',
-      bullets: [
-        'Thiết kế và dẫn dắt việc chuyển PHP monolith sang microservices NestJS, giúp các service tách biệt và triển khai độc lập.',
-        'Triển khai kiến trúc event-driven với Kafka + Saga pattern để giữ nhất quán giao dịch phân tán giữa PostgreSQL, MongoDB và Oracle PL/SQL.',
-        'Chuyển hệ thống tìm kiếm từ Solr sang Elasticsearch, đồng bộ đa cơ sở dữ liệu theo thời gian thực.',
-        'Thiết lập Redis Cluster cho cache sẵn sàng cao và Kong Gateway để quản lý tập trung lưu lượng API.',
+        'Thiết kế MCP server đa tenant cung cấp Knowledge Base (Qdrant hybrid RAG) và danh mục tool động từ các app cho 10+ doanh nghiệp, tích hợp định giá theo tool, đo đếm credit và ghi đè giá cho admin.',
+        'Xây dựng sổ cái credit theo lượt ghi nhận model trả lời, workspace và thống kê tài liệu, hỗ trợ backfill lịch sử, xuất đối soát CSV và tra cứu trực tiếp trên console.',
+        'Siết chặt biên bảo mật app bằng kiểm tra quyền định danh người dùng theo manifest tường minh và xác thực schema đối chiếu danh mục tool lõi.',
+        'Triển khai xoá tổ chức dây chuyền (cascading purge) qua workspace, hội thoại, MCP và thanh toán kèm audit log bất biến, test rà soát dữ liệu và phân quyền RBAC.',
       ],
     },
     'llm-gateway': {
-      sub: 'LLM gateway mã nguồn mở',
-      role: 'Dự án cá nhân',
+      sub: 'LLM Gateway đa nhà cung cấp mã nguồn mở',
+      role: 'Tác giả & Maintainer (Open-Source)',
       summary:
-        'Gateway tự host: một endpoint tương thích OpenAI, Anthropic và Gemini đứng trước nhiều nhà cung cấp LLM, có định tuyến, failover và xoay vòng nhiều tài khoản.',
+        'Gateway NestJS + Fastify tự host cung cấp endpoint chuẩn OpenAI, Anthropic và Gemini đứng trước nhiều nhà cung cấp LLM, tích hợp định tuyến regex, tự động failover và xoay vòng hạn mức đa tài khoản.',
       bullets: [
-        'Tách một lõi proxy mã nguồn mở có sẵn thành service NestJS + Fastify độc lập, triển khai được trên VPS hoặc Docker.',
-        'Bổ sung upstream GitHub Copilot, OpenAI, Claude và ChatGPT, quy tắc định tuyến bằng regex để đặt chuỗi failover cho từng model, và tự phát hiện model từ các nhà cung cấp.',
-        'Triển khai account pool phía sau các route đó — chọn round-robin, sticky và cache-first, tự động refresh OAuth token, cooldown khi bị 429 và failover giữa các tài khoản — kèm khôi phục thought-signature trong bộ nhớ cho các model reasoning.',
-        'Xây dựng quản lý API key trên SQLite và TypeORM: key được hash, phân quyền theo vai trò, cache xác thực trong bộ nhớ và migration tự chạy khi khởi động.',
-        'Xây dựng dashboard quản trị tích hợp (React, Vite, Tailwind, EN/VI) cho tài khoản và quota, định tuyến, danh mục model, API key và log lưu lượng.',
-        'Tăng cường bảo mật xác thực, OAuth và request ra ngoài; CI kiểm tra type, build, kiểm tra migration và đẩy Docker image lên GHCR.',
+        'Kiến trúc hoá proxy gateway trên NestJS + Fastify hợp nhất 4 upstream (OpenAI, Claude, GitHub Copilot, ChatGPT) sau chuẩn API OpenAI, Anthropic, Gemini kèm tự động phát hiện model.',
+        'Xây dựng account pool chịu lỗi: điều phối round-robin, sticky, cache-first, tự động làm mới OAuth token, cooldown khi bị 429, failover liên tài khoản và khôi phục thought-signature trên RAM.',
+        'Phát triển quản lý API key băm có phân quyền RBAC trên SQLite/TypeORM với cache xác thực <1ms, tự chạy migration khi khởi động và dashboard quản trị React/Vite nhúng sẵn.',
+        'Chuẩn hoá bảo mật OAuth và outbound request kèm GitHub Actions CI tự động kiểm tra type, xác thực migration và phát hành Docker image lên GHCR.',
+      ],
+    },
+    careerviet: {
+      sub: 'Nền tảng tuyển dụng — Chuyển đổi Microservices',
+      role: 'Backend Engineer',
+      summary:
+        'Phân rã hệ thống PHP monolith lưu lượng lớn sang hơn 12 NestJS microservices hướng sự kiện, phục vụ hơn 5 triệu ứng viên, 25.000+ doanh nghiệp và 2 triệu+ tin tuyển dụng & lượt ứng tuyển mỗi năm.',
+      bullets: [
+        'Thiết kế và dẫn dắt việc tách PHP monolith sang 12+ NestJS microservices độc lập sau Kong Gateway (5M+ ứng viên, 25K+ doanh nghiệp, 2M+ tin & lượt ứng tuyển/năm), giúp triển khai độc lập từng dịch vụ.',
+        'Điều phối giao dịch phân tán bằng Kafka + Saga pattern qua PostgreSQL, MongoDB và Oracle PL/SQL, giữ nhất quán dữ liệu ở mức ghi đồng thời cao không gây khoá chéo DB.',
+        'Chuyển đổi tìm kiếm từ Solr sang Elasticsearch đồng bộ thời gian thực từ ba hệ cơ sở dữ liệu, giảm ~35% độ trễ tìm kiếm việc làm (p95).',
+        'Triển khai Redis Cluster sẵn sàng cao và giới hạn lưu lượng tập trung tại Kong Gateway, giảm ~40% tải truy vấn đọc lặp lại lên DB chính.',
       ],
     },
     acanet: {
-      role: 'Lập trình viên Fullstack & Blockchain',
+      sub: 'SocialFi & Telegram MiniApp',
+      role: 'Full-Stack & Blockchain Engineer',
       award: 'Á quân — Movement Olympus Hackathon',
       summary:
-        'Siêu ứng dụng đầu tư SocialFi và Telegram mini-app vận hành các chiến dịch airdrop ACN lưu lượng lớn — quest, referral và nhận thưởng on-chain trên BNB Chain và Aptos/Movement.',
+        'Siêu ứng dụng SocialFi và Telegram MiniApp chịu tải cao vận hành các chiến dịch airdrop ACN — hệ thống nhiệm vụ, giới thiệu đa tầng và nhận thưởng on-chain bằng Merkle-proof trên BNB Chain và Aptos/Movement.',
       bullets: [
-        'Xây dựng lớp SocialFi — hồ sơ thành viên, bài đăng, đồ thị follow và activity feed — trên NestJS, Next.js và PostgreSQL, với OpenSearch cho tìm kiếm và khám phá nội dung.',
-        'Triển khai Telegram Mini App từ đầu đến cuối: xác thực chữ ký initData, kết nối ví, quest engine (follow, join, điểm danh, quiz learn-to-earn) và hệ thống referral nhiều tầng.',
-        'Tự động hoá phân phối airdrop bằng Bull worker — chia lô payout, idempotency key và retry — kèm kiểm tra anti-sybil và sổ cái quy đổi điểm sang ACN.',
-        'Thiết kế và triển khai smart contract Solidity trên BNB Chain và module Move trên Aptos/Movement cho token ACN và nhận thưởng, dùng Merkle-proof để giảm gas cho từng người nhận.',
-        'Đẩy leaderboard, thông báo và trạng thái claim qua WebSocket; vận hành hệ thống trên AWS (EC2, ECR, S3) với Docker và GitHub Actions.',
+        'Kiến trúc hoá backend SocialFi và Telegram MiniApp (NestJS, Next.js, PostgreSQL, OpenSearch) với xác thực chữ ký initData, bảng tin đồ thị xã hội, bộ máy nhiệm vụ và hệ thống giới thiệu đa tầng.',
+        'Xây dựng hàng đợi Bull/Redis chịu lỗi để trả thưởng theo lô kèm khoá chống trùng lặp (idempotency keys), bộ lọc anti-sybil và sổ cái quy đổi điểm, cập nhật trạng thái nhận thưởng trực tiếp qua WebSocket.',
+        'Thiết kế và triển khai smart contract Solidity (BNB Chain) và Move (Aptos/Movement) ứng dụng chứng minh Merkle-proof nhằm tối ưu chi phí gas cho từng người nhận thưởng.',
       ],
     },
     boffice: {
-      sub: 'Bộ phần mềm quản trị doanh nghiệp',
-      role: 'Kỹ sư Backend',
+      sub: 'Bộ phần mềm quản trị vận hành doanh nghiệp',
+      role: 'Backend Engineer',
       summary:
-        'Các module tuyển dụng, chấm công và thư viện cho thị trường trong nước và quốc tế.',
+        'Hệ thống backend ERP đa phân hệ (tuyển dụng, chấm công, quản lý tài liệu) cho doanh nghiệp trong nước và quốc tế.',
       bullets: [
-        'Phát triển các module lõi: tuyển dụng, chấm công và quản lý thư viện.',
-        'Triển khai cập nhật realtime qua WebSocket và tài liệu hoá API bằng Swagger.',
-        'Quản lý triển khai và hạ tầng máy chủ với Docker, Nginx và GitLab Runner.',
+        'Phát triển các phân hệ backend cốt lõi bằng NestJS, MySQL và Redis cho nghiệp vụ tuyển dụng, chấm công và quản lý tài liệu, hỗ trợ thông báo realtime qua WebSocket và chuẩn hoá tài liệu OpenAPI/Swagger.',
+        'Tự động hoá đóng gói container và định tuyến reverse-proxy trên máy chủ Linux bằng Docker, Nginx và GitLab CI/CD.',
       ],
     },
     bvote: {
-      sub: 'Nền tảng bỏ phiếu trực tuyến',
-      role: 'Kỹ sư Fullstack',
+      sub: 'Nền tảng bỏ phiếu cổ đông trực tuyến thời gian thực',
+      role: 'Full-Stack Engineer',
       summary:
-        'Nền tảng Đại hội đồng cổ đông trực tuyến bảo mật, xây dựng trên MERN stack.',
+        'Nền tảng tổ chức và kiểm phiếu Đại hội đồng cổ đông (ĐHĐCĐ) trực tuyến sẵn sàng cao theo thời gian thực.',
       bullets: [
-        'Xây dựng nền tảng ĐHĐCĐ trực tuyến bảo mật trên MERN stack cho các phiên bỏ phiếu minh bạch, sẵn sàng cao.',
-        'Thiết kế hệ thống phân quyền theo vai trò và các module quản trị dữ liệu cổ đông và nội dung bầu cử.',
-        'Cập nhật kết quả bỏ phiếu trực tiếp bằng Socket.io cho lượng lớn người dùng đồng thời.',
-        'Tự động hoá triển khai trên máy chủ riêng với Docker, Nginx và GitLab Runner.',
+        'Xây dựng nền tảng bỏ phiếu ĐHĐCĐ trực tuyến bảo mật trên Node.js, Express, MongoDB và React với phân quyền RBAC chặt chẽ và luồng kiểm phiếu minh bạch.',
+        'Triển khai tổng hợp phiếu bầu trực tiếp đồng thời cao qua Socket.io + Redis và tự động hoá phát hành bằng Docker, Nginx và GitLab Runner.',
       ],
     },
   },
 
   experience: {
     sotatek: {
-      role: 'Kỹ sư phần mềm',
+      role: 'Software & AI Platform Engineer',
       bullets: [
-        'Phát triển SotaAgents, nền tảng AI workspace doanh nghiệp của công ty: MCP server, đo đếm credit, phân quyền nền tảng app và các tính năng admin console.',
-        'Cung cấp giải pháp phần mềm outsourcing cho doanh nghiệp Nhật Bản.',
-        'Phát triển và quản lý các dự án outsourcing theo tiêu chuẩn chất lượng khắt khe của khách hàng.',
+        'Thiết kế backend và hạ tầng agent cho SotaAgents — AI workspace đa tenant phục vụ 10+ doanh nghiệp, cung cấp MCP server hai chiều, danh mục tool động và đo đếm credit theo lượt.',
+        'Xây dựng kiểm duyệt quyền theo manifest (zero-trust), phân quyền RBAC và pipeline xoá dữ liệu tổ chức dây chuyền có kiểm chứng tự động đáp ứng chuẩn kiểm toán doanh nghiệp.',
+        'Thiết kế và bàn giao các hệ thống phân tán trên NestJS, React/Next.js, Docker và AWS cho khách hàng doanh nghiệp Nhật Bản với độ tin cậy phát hành cao.',
       ],
     },
     igbsoft: {
-      role: 'Kỹ sư Backend',
+      role: 'Backend Engineer',
       note: 'Hợp đồng dự án',
       bullets: [
-        'Chuyển hệ thống PHP cũ sang kiến trúc microservices với NestJS, Kafka và Redis.',
-        'Tối ưu hiệu năng API và độ ổn định hệ thống cho nền tảng tuyển dụng quy mô lớn.',
+        'Chủ trì tách PHP monolith sang 12+ NestJS microservices sau Kong Gateway cho CareerViet (5M+ ứng viên, 25K+ doanh nghiệp, 2M+ tin & lượt ứng tuyển/năm), giúp triển khai độc lập từng dịch vụ.',
+        'Điều phối giao dịch phân tán qua Kafka (Saga) giữa PostgreSQL, MongoDB, Oracle PL/SQL cùng Elasticsearch và Redis Cluster, giảm ~35% độ trễ tìm kiếm p95 và ~40% tải đọc DB chính.',
       ],
     },
     dath: {
-      role: 'Lập trình viên Fullstack & Blockchain',
+      role: 'Full-Stack & Blockchain Engineer',
       note: 'Hợp đồng dự án',
       bullets: [
-        'Phát triển nền tảng SocialFi và Telegram MiniApp với tính năng realtime.',
-        'Xây dựng và triển khai smart contract trên BNB Chain và Aptos/Movement.',
+        'Kiến trúc hoá siêu ứng dụng SocialFi và Telegram MiniApp trên NestJS, Next.js, PostgreSQL, OpenSearch cùng worker Bull/Redis chống trùng lặp, đạt giải Á quân Movement Olympus Hackathon.',
+        'Phát triển và triển khai smart contract Solidity (BNB Chain) và Move (Aptos/Movement) xác thực bằng Merkle-proof, giảm mạnh chi phí gas phân phối token.',
       ],
     },
     bytesoft: {
-      role: 'Kỹ sư Backend',
+      role: 'Backend Engineer',
       bullets: [
-        'Phát triển phần mềm vận hành doanh nghiệp (BOffice), tập trung vào module tuyển dụng và chấm công.',
-        'Triển khai REST API, GraphQL và WebSocket cho thị trường quốc tế.',
+        'Phát triển backend ERP đa phân hệ (BOffice) và nền tảng bỏ phiếu cổ đông trực tuyến (Bvote) bằng NestJS, Node.js, MySQL, MongoDB và Redis cho khách hàng trong nước và quốc tế.',
+        'Xây dựng API REST, GraphQL, WebSocket độ trễ thấp và chuẩn hoá CI/CD với Docker, Nginx, GitLab Runner giúp tăng tốc độ phát hành và độ ổn định hệ thống.',
       ],
     },
   },
 
   awards: {
-    olympus: { title: 'Á quân — Movement Olympus Hackathon' },
+    olympus: {
+      title: 'Á quân — Movement Olympus Hackathon',
+      subtitle: 'Movement Labs · Hệ sinh thái Web3 & Move toàn cầu',
+    },
   },
 };

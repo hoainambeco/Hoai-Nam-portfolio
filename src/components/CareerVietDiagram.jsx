@@ -57,7 +57,7 @@ export default function CareerVietDiagram({ caption }) {
           <rect className="arch-tile" x="459" y="32" width="284" height="80" rx="10" />
           <rect className="arch-group" x="451" y="40" width="300" height="80" rx="10" />
           <text className="arch-title" x="471" y="71">
-            NestJS services
+            12+ NestJS services
           </text>
           <text className="arch-sub" x="471" y="93">
             replaced the PHP monolith

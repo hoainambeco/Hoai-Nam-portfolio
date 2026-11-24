@@ -11,8 +11,8 @@ import { join, resolve } from 'node:path';
 import { preview } from 'vite';
 
 const PAGES = [
-  ['cv.html', 'cv.pdf'],
-  ['cv-vi.html', 'cv-vi.pdf'],
+  ['cv.html', 'Nguyen-Hoai-Nam_Software-AI-Platform-Engineer.pdf'],
+  ['cv-vi.html', 'Nguyen-Hoai-Nam_Software-AI-Platform-Engineer_VI.pdf'],
 ];
 
 const CHROME_CANDIDATES = [
@@ -22,6 +22,9 @@ const CHROME_CANDIDATES = [
   '/usr/bin/chromium',
   '/usr/bin/chromium-browser',
   '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+  '/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge',
+  '/Applications/Brave Browser.app/Contents/MacOS/Brave Browser',
+  '/Applications/Chromium.app/Contents/MacOS/Chromium',
 ];
 
 export default function cvPdf() {

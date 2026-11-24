@@ -6,8 +6,16 @@ export const LANGS = ['en', 'vi'];
 const BASE = import.meta.env.BASE_URL;
 
 const CV = {
-  en: { cvUrl: `${BASE}cv.html`, cvPdf: `${BASE}cv.pdf`, cvPdfName: 'Nguyen-Hoai-Nam-CV.pdf' },
-  vi: { cvUrl: `${BASE}cv-vi.html`, cvPdf: `${BASE}cv-vi.pdf`, cvPdfName: 'Nguyen-Hoai-Nam-CV-VI.pdf' },
+  en: {
+    cvUrl: `${BASE}cv.html`,
+    cvPdf: `${BASE}Nguyen-Hoai-Nam_Software-AI-Platform-Engineer.pdf`,
+    cvPdfName: 'Nguyen-Hoai-Nam_Software-AI-Platform-Engineer.pdf',
+  },
+  vi: {
+    cvUrl: `${BASE}cv-vi.html`,
+    cvPdf: `${BASE}Nguyen-Hoai-Nam_Software-AI-Platform-Engineer_VI.pdf`,
+    cvPdfName: 'Nguyen-Hoai-Nam_Software-AI-Platform-Engineer_VI.pdf',
+  },
 };
 
 const vnPeriod = (period) => period.replace('Present', 'nay');

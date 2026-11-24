@@ -2,7 +2,7 @@
 
 export const UI = {
   en: {
-    title: 'Nguyen Hoai Nam — Full-Stack Engineer',
+    title: 'Nguyen Hoai Nam — Software & AI Platform Engineer',
     skip: 'Skip to content',
     nav: {
       about: 'About',
@@ -33,21 +33,21 @@ export const UI = {
     },
     // One line per item, so unrelated projects don't read as one story.
     workIntro: [
-      'SotaAgents — the enterprise AI platform I build at SotaTek.',
-      'CareerViet — the platform migration I designed and led.',
-      'Four more products below, including an open-source LLM gateway I maintain.',
+      'SotaAgents — the multi-tenant enterprise AI & MCP platform I architect at SotaTek.',
+      'LLM Gateway Proxy — an open-source multi-provider LLM gateway with automated failover.',
+      'CareerViet — a 12+ service NestJS & Kafka migration I designed and led, plus three earlier production systems below.',
     ],
     experienceNote:
-      'Four years of continuous employment — two years at Bytesoft, then project-based roles that each added a domain: Web3 and SocialFi, high-scale backend, then AI.',
+      '4+ years of progressive backend and platform engineering — scaling from enterprise ERP systems and high-concurrency Web3 backends to large-scale NestJS microservices and production AI agent infrastructure.',
     platform: 'The platform',
     built: 'What I built',
-    moreProjects: 'More projects',
+    moreProjects: 'Additional production systems',
     technologies: 'Technologies',
     captions: {
       sotaagents:
         'Simplified view of SotaAgents. The gateway owns identity, guardrails, credits and audit; each app owns its domain logic behind its own backend, reached only through signed, manifest-declared tool calls.',
       careerviet:
-        'Simplified view of CareerViet after the migration. Requests enter through Kong, NestJS services coordinate over Kafka, and Elasticsearch stays in sync with three databases in real time.',
+        'Simplified view of CareerViet after the migration. Requests enter through Kong, 12+ NestJS services coordinate over Kafka (Saga), and Elasticsearch stays in sync with three databases in real time.',
     },
     contactLead: (loc, tz) =>
       `Email is the best way to reach me. I work from ${loc}, on ${tz}.`,
@@ -62,8 +62,8 @@ export const UI = {
     downloadPdf: 'download PDF',
     backToTop: 'Back to top',
     cv: {
-      title: 'CV | Nguyen Hoai Nam — Full-Stack Engineer',
-      file: 'curriculum vitae — nguyen-hoai-nam.pdf',
+      title: 'CV | Nguyen Hoai Nam — Software & AI Platform Engineer',
+      file: 'Nguyen-Hoai-Nam_Software-AI-Platform-Engineer.pdf',
       downloadPdf: 'Download PDF',
       print: 'Print',
       other: { label: 'Tiếng Việt', href: 'cv-vi.html' },
@@ -76,15 +76,15 @@ export const UI = {
       },
       profile: 'Profile',
       experience: 'Experience',
-      projects: 'Projects',
-      skills: 'Skills',
+      projects: 'Selected Projects',
+      skills: 'Technical Skills',
       education: 'Education',
       awards: 'Awards',
     },
   },
 
   vi: {
-    title: 'Nguyễn Hoài Nam — Kỹ sư Full-Stack',
+    title: 'Nguyễn Hoài Nam — Software & AI Platform Engineer',
     skip: 'Bỏ qua tới nội dung',
     nav: {
       about: 'Giới thiệu',
@@ -117,21 +117,21 @@ export const UI = {
       contact: 'Liên hệ',
     },
     workIntro: [
-      'SotaAgents — nền tảng AI doanh nghiệp tôi đang phát triển tại SotaTek.',
-      'CareerViet — dự án chuyển đổi hệ thống do tôi thiết kế và dẫn dắt.',
-      'Bốn sản phẩm khác bên dưới, trong đó có một LLM gateway mã nguồn mở do tôi duy trì và phát triển.',
+      'SotaAgents — nền tảng AI & MCP đa tenant cho doanh nghiệp tôi đang kiến trúc tại SotaTek.',
+      'LLM Gateway Proxy — LLM gateway đa nhà cung cấp mã nguồn mở có tự động failover.',
+      'CareerViet — dự án chuyển đổi sang 12+ NestJS microservices & Kafka do tôi dẫn dắt, cùng ba hệ thống production bên dưới.',
     ],
     experienceNote:
-      'Hơn bốn năm làm việc liên tục — hai năm tại Bytesoft, sau đó là các vai trò theo hợp đồng dự án, mỗi chặng đường tôi được đảm nhận một nhiệm vụ mới và một nền tảng mới: Web3/SocialFi, hệ thống microservices quy mô lớn và hiện tại đang làm việc với AI/Agent.',
+      'Hơn 4 năm phát triển chuyên sâu về Backend và kiến trúc nền tảng — từ hệ thống ERP doanh nghiệp, backend Web3 chịu tải cao đến kiến trúc NestJS microservices quy mô lớn và hạ tầng AI Agent.',
     platform: 'Nền tảng',
     built: 'Phần tôi xây dựng',
-    moreProjects: 'Dự án khác',
+    moreProjects: 'Các hệ thống production khác',
     technologies: 'Công nghệ',
     captions: {
       sotaagents:
         'Sơ đồ rút gọn của SotaAgents. Gateway nắm định danh, guardrails, credit và audit; mỗi app giữ nghiệp vụ riêng trên backend của mình và chỉ được gọi qua các tool call đã khai báo trong manifest, có ký xác thực.',
       careerviet:
-        'Sơ đồ rút gọn của CareerViet sau khi chuyển đổi. Request đi qua Kong, các service NestJS phối hợp qua Kafka, Elasticsearch đồng bộ với ba cơ sở dữ liệu theo thời gian thực.',
+        'Sơ đồ rút gọn của CareerViet sau khi chuyển đổi. Request đi qua Kong, hơn 12 service NestJS phối hợp qua Kafka (Saga), Elasticsearch đồng bộ với ba cơ sở dữ liệu theo thời gian thực.',
     },
     contactLead: (loc, tz) =>
       `Email là cách liên hệ nhanh nhất. Tôi làm việc tại ${loc}, múi giờ ${tz}.`,
@@ -146,8 +146,8 @@ export const UI = {
     downloadPdf: 'tải PDF',
     backToTop: 'Lên đầu trang',
     cv: {
-      title: 'CV | Nguyễn Hoài Nam — Kỹ sư Full-Stack',
-      file: 'sơ yếu lý lịch — nguyen-hoai-nam.pdf',
+      title: 'CV | Nguyễn Hoài Nam — Software & AI Platform Engineer',
+      file: 'Nguyen-Hoai-Nam_Software-AI-Platform-Engineer_VI.pdf',
       downloadPdf: 'Tải PDF',
       print: 'In',
       other: { label: 'English', href: 'cv.html' },
@@ -160,8 +160,8 @@ export const UI = {
       },
       profile: 'Giới thiệu',
       experience: 'Kinh nghiệm làm việc',
-      projects: 'Dự án',
-      skills: 'Kỹ năng',
+      projects: 'Dự án tiêu biểu',
+      skills: 'Kỹ năng chuyên môn',
       education: 'Học vấn',
       awards: 'Giải thưởng',
     },

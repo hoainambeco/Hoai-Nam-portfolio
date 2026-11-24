@@ -12,8 +12,11 @@ export default function CV({ lang }) {
   const name = lang === 'vi' ? PROFILE.nameNative : PROFILE.name;
   const home = lang === 'vi' ? `${BASE}?lang=vi` : `${BASE}?lang=en`;
 
+  // Omit spoken languages on the compact 2-page CV; full list remains on the web portfolio.
+  const cvSkillGroups = SKILL_GROUPS.filter((g) => g.key !== 'languages');
+
   const contacts = [
-    { key: 'phone', value: PROFILE.phone, href: `tel:${PROFILE.phone}` },
+    { key: 'phone', value: PROFILE.phone, href: `tel:${PROFILE.phone.replace(/\s+/g, '')}` },
     { key: 'email', value: PROFILE.email, href: `mailto:${PROFILE.email}` },
     ...SOCIALS.filter((s) => s.id !== 'email').map((s) => ({
       key: s.id,
@@ -45,11 +48,20 @@ export default function CV({ lang }) {
 
       <article className="sheet">
         <header className="sheet__head">
-          <div>
+          <div className="sheet__identity">
             <h1 className="sheet__name">{name}</h1>
-            <p className="sheet__role">
-              {PROFILE.role} · {PROFILE.location}
-            </p>
+            <p className="sheet__role">{PROFILE.role}</p>
+            {PROFILE.tagline && <p className="sheet__tagline">{PROFILE.tagline}</p>}
+            {PROFILE.portfolioUrl && (
+              <a
+                className="sheet__portfolio"
+                href={lang === 'vi' ? `${PROFILE.portfolioUrl}?lang=vi` : PROFILE.portfolioUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {PROFILE.portfolioUrl.replace(/^https?:\/\//, '').replace(/\/$/, '')}
+              </a>
+            )}
           </div>
           <ul className="sheet__contacts">
             {contacts.map((c) => (
@@ -72,11 +84,7 @@ export default function CV({ lang }) {
         </header>
 
         <Section title={t.profile}>
-          {PROFILE.bio.map((p) => (
-            <p className="sheet__prose" key={p.slice(0, 24)}>
-              {p}
-            </p>
-          ))}
+          <p className="sheet__prose">{PROFILE.bio.join(' ')}</p>
         </Section>
 
         <div className="sheet__grid">
@@ -87,6 +95,7 @@ export default function CV({ lang }) {
                   key={e.id}
                   title={e.role}
                   org={e.company}
+                  badge={e.note}
                   period={e.period}
                   bullets={e.bullets}
                   tech={e.tech}
@@ -103,6 +112,7 @@ export default function CV({ lang }) {
                   period={p.period}
                   link={p.link}
                   note={p.award}
+                  noteHref={p.awardLink}
                   bullets={p.bullets}
                   tech={p.tech}
                 />
@@ -112,50 +122,57 @@ export default function CV({ lang }) {
 
           <aside className="sheet__aside">
             <Section title={t.skills}>
-              {SKILL_GROUPS.map((g) => (
-                <div className="sheet__block" key={g.key}>
-                  <h4 className="sheet__label">{g.label}</h4>
-                  <ul className="chips">
-                    {g.items.map((i) => (
-                      <li className="chip" key={i}>
-                        {i}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
+              <div className="sheet__skills-grid">
+                {cvSkillGroups.map((g) => (
+                  <div className="sheet__block" key={g.key}>
+                    <h4 className="sheet__label">{g.label}</h4>
+                    <ul className="chips">
+                      {g.items.map((i) => (
+                        <li className="chip" key={i}>
+                          {i}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
             </Section>
 
-            <Section title={t.education}>
-              {EDUCATION.map((e) => (
-                <div className="sheet__block" key={e.id}>
-                  <div className="sheet__period">{e.period}</div>
-                  <h4 className="sheet__entry-title">{e.school}</h4>
-                  <div className="sheet__muted">{e.degree}</div>
-                  <div className="sheet__muted">{e.note}</div>
+            <div className="sheet__bottom-meta">
+              <Section title={t.education}>
+                <div className="sheet__edu-list">
+                  {EDUCATION.map((e) => (
+                    <div className="sheet__block" key={e.id}>
+                      <div className="sheet__period">{e.period}</div>
+                      <h4 className="sheet__entry-title">{e.school}</h4>
+                      <div className="sheet__muted">{e.degree}</div>
+                      <div className="sheet__muted">{e.note}</div>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </Section>
+              </Section>
 
-            <Section title={t.awards}>
-              {AWARDS.map((a) => (
-                <div className="sheet__block" key={a.id}>
-                  <div className="sheet__period">{a.year}</div>
-                  {a.href ? (
-                    <a
-                      className="sheet__entry-title"
-                      href={a.href}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      {a.title}
-                    </a>
-                  ) : (
-                    <h4 className="sheet__entry-title">{a.title}</h4>
-                  )}
-                </div>
-              ))}
-            </Section>
+              <Section title={t.awards}>
+                {AWARDS.map((a) => (
+                  <div className="sheet__block" key={a.id}>
+                    <div className="sheet__period">{a.year}</div>
+                    {a.href ? (
+                      <a
+                        className="sheet__entry-title"
+                        href={a.href}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        {a.title}
+                      </a>
+                    ) : (
+                      <h4 className="sheet__entry-title">{a.title}</h4>
+                    )}
+                    {a.subtitle && <div className="sheet__muted">{a.subtitle}</div>}
+                  </div>
+                ))}
+              </Section>
+            </div>
           </aside>
         </div>
 
@@ -177,13 +194,14 @@ function Section({ title, children }) {
   );
 }
 
-function Entry({ title, org, period, link, note, bullets, tech }) {
+function Entry({ title, org, badge, period, link, note, noteHref, bullets, tech }) {
   return (
     <div className="entry">
       <div className="entry__head">
         <h3 className="entry__title">
           {title}
           {org && <span className="entry__org"> · {org}</span>}
+          {badge && <span className="entry__badge">({badge})</span>}
         </h3>
         <span className="entry__period">{period}</span>
       </div>
@@ -193,7 +211,14 @@ function Entry({ title, org, period, link, note, bullets, tech }) {
           {link.replace(/^https?:\/\//, '').replace(/\/$/, '')}
         </a>
       )}
-      {note && <div className="entry__note">🏆 {note}</div>}
+      {note &&
+        (noteHref ? (
+          <a className="entry__note" href={noteHref} target="_blank" rel="noreferrer">
+            🏆 {note}
+          </a>
+        ) : (
+          <div className="entry__note">🏆 {note}</div>
+        ))}
 
       <ul className="entry__bullets">
         {bullets.map((b) => (
